@@ -11,9 +11,9 @@ import java.time.LocalDateTime;
 @Getter
 @ToString
 @Table(name = "tb_userdest")
-public class UserDest {
+public class MemberDest {
     @Id
-    private String userId;
+    private String memberId;
     private Long destinationId;
     private LocalDateTime startTime;
     private LocalDateTime endTime;

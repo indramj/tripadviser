@@ -3,7 +3,6 @@ package com.first.tripadviser.dto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
@@ -11,11 +10,11 @@ import java.time.LocalDateTime;
 @Builder
 @AllArgsConstructor
 
-public class UserDTO {
+public class MemberDTO {
 
-    private String userId;
-    private String userPw;
-    private String userEmail;
+    private String memberId;
+    private String memberPw;
+    private String memberEmail;
     private LocalDateTime regDate;
     private LocalDateTime updateDate;
 

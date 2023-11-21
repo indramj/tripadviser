@@ -11,15 +11,25 @@
     <script>
         $(document).ready(function() {
             $("#btnJoinComp").on("click" , function() {
-                var userId = $("#inputId").val();
-                var userEmail = $("#inputEmail").val();
-                var userPw = $("#inputPw").val();
-                var userPwCfm = $("#inputPwCfm").val();
-                console.log("가입완료");
-                console.log(userId);
-                console.log(userEmail);
-                console.log(userPw);
-                console.log(userPwCfm);
+                var memberId = $("#inputId").val();
+                var memberEmail = $("#inputEmail").val();
+                var memberPw = $("#inputPw").val();
+
+                var member = {
+                    memberId : memberId,
+                    memberEmail : memberEmail,
+                    memberPw : memberPw
+                }
+
+                console.log(member);
+
+                $.ajax({
+                    url : "/member/join",
+                    type : 'POST',
+                    data : JSON.stringify(member)
+                })
+
+
             })
         })
     </script>
