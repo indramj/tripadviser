@@ -26,7 +26,8 @@
                 $.ajax({
                     url : "/member/join",
                     type : 'POST',
-                    data : JSON.stringify(member)
+                    data : JSON.stringify(member),
+                    contentType : 'application/json; charset=utf-8'
                 })
 
 
