@@ -18,7 +18,7 @@ public class Destination {
     private Long destinationId;
     private String name;
     private String cityName;
-    private String desc;
+    private String dest;
     private Point position;
 
 }
