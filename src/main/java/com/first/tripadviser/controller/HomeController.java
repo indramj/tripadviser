@@ -14,8 +14,12 @@ public class HomeController {
     }
 
     @GetMapping("/map")
-    public void opemMap(){
+    public void openMap(){
 
     }
 
+    @GetMapping("/join")
+    public void openJoin() {
+
+    }
 }
