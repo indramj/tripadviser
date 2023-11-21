@@ -6,6 +6,24 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <meta charset="UTF-8">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $("#btnJoinComp").on("click" , function() {
+                var userId = $("#inputId").val();
+                var userEmail = $("#inputEmail").val();
+                var userPw = $("#inputPw").val();
+                var userPwCfm = $("#inputPwCfm").val();
+                console.log("가입완료");
+                console.log(userId);
+                console.log(userEmail);
+                console.log(userPw);
+                console.log(userPwCfm);
+            })
+        })
+    </script>
+
 </head>
 <body>
 <form method="post" action="/join">
@@ -27,7 +45,7 @@
             <label for="inputPwCfm">비밀번호 확인</label>
             <input type="password" class="form-control" id="inputPwCfm" name="userPw" placeholder="비밀번호 확인">
         </div>
-        <button type="submit" class="btn btn-primary">가입 완료</button>
+        <button type="button" class="btn btn-primary" id="btnJoinComp">가입 완료</button>
     </div>
 </form>
 </body>
