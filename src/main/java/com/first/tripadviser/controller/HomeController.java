@@ -15,4 +15,9 @@ public class HomeController {
     public void openMap() {
 
     }
+
+    @GetMapping("/join")
+    public void openJoin() {
+
+    }
 }
