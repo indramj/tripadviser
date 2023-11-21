@@ -11,10 +11,10 @@ import javax.persistence.*;
 @Getter
 @ToString
 @Table(name = "tb_user")
-public class User extends BaseEntity{
+public class Member extends BaseEntity{
     @Id
-    private String userId;
-    private String userPw;
-    private String userEmail;
+    private String memberId;
+    private String memberPw;
+    private String memberEmail;
 }
 
