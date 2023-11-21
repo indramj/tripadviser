@@ -13,7 +13,6 @@ import javax.persistence.*;
 @Table(name = "tb_user")
 public class User extends BaseEntity{
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private String userId;
     private String userPw;
     private String userEmail;
