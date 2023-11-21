@@ -2,9 +2,8 @@ package com.first.tripadviser.entity;
 
 import lombok.*;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 @Builder
@@ -15,7 +14,10 @@ import javax.persistence.Table;
 public class UserDest {
     @Id
     private String userId;
-    private Long destId;
+    private Long destinationId;
+    private LocalDateTime startTime;
+    private LocalDateTime endTime;
+
 
 
 
