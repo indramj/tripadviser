@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<html xmlns:th="thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>member_list</title>
+</head>
+<body>
+<div class="container">
+    <table border="1">
+        <h1>회원 정보 조회</h1>
+        <thead>
+        <tr bgcolor = "#ECF6CE">
+            <th>아이디</th>
+            <th>이름</th>
+            <th>이메일</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="member : ${members}">
+            <td th:text="${member.memberId}"></td>
+            <td th:text="${member.memberName}"></td>
+            <td th:text="${member.memberEmail}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+</body>
+</html>
