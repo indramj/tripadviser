@@ -2,7 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-<link rel="stylesheet" type="text/css" href="/static/css/main.css">
+    <link th:href="@{/css/main.css}" rel="stylesheet">
+    <!--<link rel="stylesheet" type="text/css" href="static/css/main.css">-->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script><title>main</title>
     <script>
         $(document).ready(function() {
@@ -87,7 +88,7 @@
             <ul class="icons">
                 <li>
                     <div class="icon_img">
-                        <img src="static/images/icon0.svg">
+                        <img src="/resources/static/images/icon0.svg">
                     </div>
                     <div class="contents1_bold">치밀한 계획</div>
                     <div class="contents4">
@@ -101,7 +102,7 @@
                 </li>
                 <li>
                     <div class="icon_img">
-                    <img src="images/icon1.svg">
+                    <img src="/resources/static/images/icon1.svg">
                 </div>
                     <div class="contents1_bold">여행 유튜버와의 협업</div>
                     <div class="contents4">
