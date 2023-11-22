@@ -14,6 +14,7 @@ import javax.persistence.*;
 public class Member extends BaseEntity{
     @Id
     private String memberId;
+    private String memberName;
     private String memberPw;
     private String memberEmail;
 }
