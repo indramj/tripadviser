@@ -1,33 +1,72 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th = "http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>map</title>
+    <title>Destination</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script type="text/javascript" src="https://oapi.map.naver.com/openapi/v3/maps.js?ncpClientId=holygrail7"></script>
+    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=46af6e8836cba1d901d65e50cffe28a5"></script>
+    <script>
+
+    </script>
+
     <script th:inline = "javascript">
         $(document).ready(function() {
+
+            var mapContainer = document.getElementById('map');
+            var options = {
+                center: new kakao.maps.LatLng(37.5642135, 127.0016985),
+                level: 14
+            };
+             var map = new kakao.maps.Map(mapContainer, options);
+
+            // 지도 확대 축소를 제어할 수 있는  줌 컨트롤을 생성합니다
+            var zoomControl = new kakao.maps.ZoomControl();
+            map.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT);
+
+            kakao.maps.event.addListener(map, 'dragend', function() {
+
+            // 지도 중심좌표를 얻어옵니다
+            var latlng = map.getCenter();
+            var positionY = latlng.getLat();
+            var positionX = latlng.getLng();
+
+            var level = map.getLevel();
+            console.log(positionX +','+positionY+','+level);
+
+            if(level <= 10)
+            {
+            $.getJSON('https://apis.data.go.kr/B551011/KorService1/locationBasedList1?numOfRows=10&pageNo=1&MobileOS=ETC&MobileApp=triADV&_type=json&listYN=Y&arrange=A&mapX='+positionX+'&mapY='+positionY+'&radius=20000&contentTypeId=12&serviceKey=jGOpKG0LpnP41D9F4KNPAZ0bOMHcHq%2FFwfl9xjjMbAOo%2Bv%2BEajfqKWA2qzJ95g3F8%2Bn05xV1REJGbyi0tkh1fg%3D%3D'
+                    ,  function(data){
+                    console.log(data);
+                    var html = [];
+                    $(".dest").children().remove()
+
+                    $.each(data.response.body.items.item, function(i , item){
+                        console.log(item.title);
+                        html.push("<div id = 'destList'>");
+                        html.push('<h2>'+item.title+'</h2>');
+                        html.push('</div>');
+                    })
+                    $(".dest").append(html);
+                })
+
+            }
+
+
+            });
+
 
             var locName = $(".locName").val();
             $("#btnSearch").on("click" , function(){
 
-                $.getJSON('https://apis.data.go.kr/B551011/KorService1/areaBasedList1?numOfRows=10&pageNo=1&MobileOS=ETC&MobileApp=tripADV&_type=json&listYN=Y&arrange=A&areaCode=1&serviceKey=jGOpKG0LpnP41D9F4KNPAZ0bOMHcHq%2FFwfl9xjjMbAOo%2Bv%2BEajfqKWA2qzJ95g3F8%2Bn05xV1REJGbyi0tkh1fg%3D%3D'
-                    ,  function(data){
-                    console.log(data);
-                    var html = [];
-                    $.each(data.response.body.items.item, function(i , item){
-                        console.log(item.title);
-                        html.push('<div>');
-                        html.push('<h2>'+item.title+'</h2>');
-                    })
-                    $(".dest").append(html);
-                })
+
             })
         })
 
 
     </script>
+
 
 </head>
 <body>
@@ -35,15 +74,10 @@
 <button type ="button" id = "btnSearch">검색</button>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
 
-<div id="map" style="width:100%;height:400px;"></div>
-<script>
-    var mapOptions = {
-        center: new naver.maps.LatLng(37.3595704, 127.105399),
-        zoom: 10
-    };
+<div id="map" style="width:700px;height:700px;"></div>
+<div class = "dest">
 
-    var map = new naver.maps.Map('map', mapOptions);
-</script>
+</div>
 
 
 </body>
