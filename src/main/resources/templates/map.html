@@ -36,18 +36,32 @@
 
             if(level <= 10)
             {
-            $.getJSON('https://apis.data.go.kr/B551011/KorService1/locationBasedList1?numOfRows=10&pageNo=1&MobileOS=ETC&MobileApp=triADV&_type=json&listYN=Y&arrange=A&mapX='+positionX+'&mapY='+positionY+'&radius=20000&contentTypeId=12&serviceKey=jGOpKG0LpnP41D9F4KNPAZ0bOMHcHq%2FFwfl9xjjMbAOo%2Bv%2BEajfqKWA2qzJ95g3F8%2Bn05xV1REJGbyi0tkh1fg%3D%3D'
+            $.getJSON('https://apis.data.go.kr/B551011/KorService1/locationBasedList1?numOfRows=10&pageNo=1&MobileOS=ETC&MobileApp=triADV&_type=json&listYN=Y&arrange=A&mapX='+positionX+'&mapY='+positionY+'&radius=5000&contentTypeId=12&serviceKey=jGOpKG0LpnP41D9F4KNPAZ0bOMHcHq%2FFwfl9xjjMbAOo%2Bv%2BEajfqKWA2qzJ95g3F8%2Bn05xV1REJGbyi0tkh1fg%3D%3D'
                     ,  function(data){
                     console.log(data);
                     var html = [];
+                    var totalCount = data.response.body.totalCount
+                    console.log(totalCount);
                     $(".dest").children().remove()
-
+                    var positions = [];
                     $.each(data.response.body.items.item, function(i , item){
-                        console.log(item.title);
                         html.push("<div id = 'destList'>");
                         html.push('<h2>'+item.title+'</h2>');
                         html.push('</div>');
+                        var position = {
+                            title : item.title,
+                            latlng : new kakao.maps.LatLng(item.mapy, item.mapx)
+                        }
+                        console.log("position : " + position);
+                        positions.push(position);
                     })
+                    for ( var i = 0; i < positions.length; i++){
+                        var marker = new kakao.maps.Marker({
+                            map : map,
+                            position : positions[i].latlng,
+                            title : positions[i].title
+                        });
+                    }
                     $(".dest").append(html);
                 })
 
