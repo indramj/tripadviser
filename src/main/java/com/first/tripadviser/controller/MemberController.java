@@ -1,31 +1,49 @@
 package com.first.tripadviser.controller;
 
 import com.first.tripadviser.dto.MemberDTO;
+import com.first.tripadviser.dto.MemberDestDTO;
+import com.first.tripadviser.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 
-@RestController
+@Controller
 @RequiredArgsConstructor
 @RequestMapping("/member")
 @Log4j2
 public class MemberController {
 
-    //private final UserService userService;
+    private final MemberService memberService;
 
     @PostMapping("/join")
-    public void joinConfirm(@RequestBody MemberDTO member){
-        log.info("memberDTO : " + member);
+    public void joinConfirm(@RequestBody MemberDTO memberDTO){
+        log.info("memberDTO : " + memberDTO);
+        memberService.registMember(memberDTO);
+    }
 
+    @GetMapping("/list")
+    public void getMemberList(Model model)
+    {
+        log.info("memberList");
+        model.addAttribute("members" , memberService.getMemberList());
+    }
 
-
+    @GetMapping("/delete")
+    public void deleteMember(@RequestBody MemberDTO memberDTO)
+    {
 
     }
+
+
+
 
 
 }

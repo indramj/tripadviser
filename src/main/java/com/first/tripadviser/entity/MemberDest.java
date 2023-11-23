@@ -10,7 +10,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @Getter
 @ToString
-@Table(name = "tb_userdest")
+@Table(name = "tb_memberdest")
 public class MemberDest {
     @Id
     private String memberId;
