@@ -10,7 +10,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Getter
 @ToString
-@Table(name = "tb_user")
+@Table(name = "tb_member")
 public class Member extends BaseEntity{
     @Id
     private String memberId;
