@@ -35,19 +35,17 @@
 
      <div class="wrap">
          <div class="intro_bg">
-             <div class="title">
-                 <h1></h1>
-             </div>
+<div class="top">
              <button class= button_join type="button" id="btnJoin">join</button>
-             <div class="header" id="link_header">
+             <a th:href="@{/member/list}"/>MemberLIST
+         </div>
 
+             <div class="header" id="link_header">
                  <ul class="nav">
                      <li><a href="#link_header">HOME</a></li>
                      <li><a href="#link_main_text0">ABOUT</a></li>
                      <li><a href="#link_main_text1">SERVICE</a></li>
                      <li><a href="#link_main_text2">CONTACT</a></li>
-                     <li><a th:href="@{/member/list}"/>MemberLIST</li>
-
                  </ul>
              </div>
 
@@ -154,11 +152,9 @@
                            </div>
                                <div class="contents1_bold">제가 다녀오겠습니다</div>
                                <div class="contents4">
-                                   <br><br>
-                                   유저분들의 소개와, 운영진들의 탐색으로<br>
                                    여러 여행지및 맛집을 확인 후<br>
                                    유저분들에게 소개해드릴만한 곳인지<br>
-                                   저희가 직접 다녀옵니다.aaaaaa
+                                   저희가 직접 다녀옵니다.
                                </div>
                            </li>
                        </ul>
