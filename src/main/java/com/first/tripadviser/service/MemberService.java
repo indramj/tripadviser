@@ -17,6 +17,9 @@ public interface MemberService {
 
     public void modifyMember(MemberDTO memberDTO);
 
+    List<Member> searchMembers(String keyword);
+
+
     default Member dtoToEntity(MemberDTO memberDTO){
         return Member.builder()
                 .memberId(memberDTO.getMemberId())

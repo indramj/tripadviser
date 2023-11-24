@@ -4,7 +4,6 @@ import com.first.tripadviser.dto.MemberDTO;
 import com.first.tripadviser.entity.Member;
 import com.first.tripadviser.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
-import org.hibernate.criterion.Order;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
@@ -50,4 +49,8 @@ public class MemberServiceImpl implements MemberService {
 
     }
 
+    @Override
+    public List<Member> searchMembers(String keyword) {
+        return memberRepository.searchMembers(keyword);
+    }
 }
