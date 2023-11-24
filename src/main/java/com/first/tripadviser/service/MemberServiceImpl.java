@@ -4,6 +4,7 @@ import com.first.tripadviser.dto.MemberDTO;
 import com.first.tripadviser.entity.Member;
 import com.first.tripadviser.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 import org.hibernate.criterion.Order;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -13,6 +14,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
+@Log4j2
 @RequiredArgsConstructor
 public class MemberServiceImpl implements MemberService {
 
