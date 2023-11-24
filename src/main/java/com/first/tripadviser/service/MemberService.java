@@ -17,6 +17,8 @@ public interface MemberService {
 
     public void modifyMember(MemberDTO memberDTO);
 
+    public boolean checkPassword(MemberDTO memberDTO);
+
     default Member dtoToEntity(MemberDTO memberDTO){
         return Member.builder()
                 .memberId(memberDTO.getMemberId())

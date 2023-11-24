@@ -46,8 +46,22 @@ public class MemberServiceImpl implements MemberService {
         Optional<Member> entity = memberRepository.findById(memberDTO.getMemberId());
         Member member = entity.get();
         member.changeEmail(memberDTO.getMemberEmail());
+        if(!memberDTO.getMemberPw().isEmpty()) {
+            member.changePw(memberDTO.getMemberPw());
+        }
         memberRepository.save(member);
 
+    }
+
+
+    public boolean checkPassword(MemberDTO memberDTO){
+        Optional<Member> entity = memberRepository.findById(memberDTO.getMemberId());
+        Member member = entity.get();
+        if(member.getMemberPw().equals(memberDTO.getMemberPw())){
+            return true;
+        }
+        else
+            return false;
     }
 
 }

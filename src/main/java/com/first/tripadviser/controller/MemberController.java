@@ -47,7 +47,6 @@ public class MemberController {
             }
         }
         return "redirect:/member/list";
-
     }
 
     @GetMapping("/modify")
@@ -58,9 +57,23 @@ public class MemberController {
     }
 
     @PostMapping("/modify")
-    public void confirmMemberModify(@RequestBody MemberDTO memberDTO){
+    public ResponseEntity<String> confirmMemberModify(@RequestBody MemberDTO memberDTO){
         memberService.modifyMember(memberDTO);
+        return new ResponseEntity<>("result" , HttpStatus.OK);
+    }
 
+    @PostMapping("/passwordCheck")
+    public ResponseEntity<Boolean> checkPassword(@RequestBody MemberDTO memberDTO){
+        log.info("memberDTO : " + memberDTO);
+        boolean result = memberService.checkPassword(memberDTO);
+
+        return new ResponseEntity<>(result , HttpStatus.OK);
+    }
+
+    @GetMapping("/deleteById")
+    public String deleteById(@RequestParam String memberId){
+        memberService.deleteMemberById(memberId);
+        return "redirect:/member/list";
     }
 
 
