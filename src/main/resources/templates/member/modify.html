@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns:th="thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            var modifyForm = $("form");
+
+            $(".btnModify").on("click" , function(){
+                var modified = {
+                    memberId : '[[${member.memberId}]]',
+                    memberEmail : $("#email").val()
+                }
+
+                    $.ajax({
+                    url : "/member/modify",
+                    type : "POST",
+                    data : JSON.stringify(modified),
+                    contentType : 'application/json; charset=utf-8',
+                    success : function(result){
+                        alert("수정되었습니다.");
+                    }
+
+                });//ajax
+
+
+            })//btnModify
+
+        })//ready
+
+
+
+    </script>
+</head>
+<body>
+    <h1>Modify</h1>
+    <form action = "/member/modify" method = "post">
+        <div class="form-group">
+            <label>ID</label>
+            <input type="text" class="form-control" name="title" th:value="${member.memberId}" readonly>
+        </div>
+        <div class="form-group">
+            <label>Name</label>
+            <input type="text" class="form-control" th:value="${member.memberName}" readonly>
+        </div>
+        <div class="form-group">
+            <label>Password</label>
+            <input type="text" class="form-control" id = "password">
+        </div>
+        <div class="form-group">
+            <label>New Password</label>
+            <input type="text" class="form-control" id = "newPw">
+        </div>
+        <div class="form-group">
+            <label>Password Confirm</label>
+            <input type="text" class="form-control" id = "newPwConfirm">
+        </div>
+
+        <div class="form-group">
+            <label>Email</label>
+            <input type="text" class="form-control" id = "email" th:value="${member.memberEmail}" >
+        </div>
+        <button type = "button" class = "btnModify">회원정보 수정</button>
+    </form>
+</body>
+</html>
