@@ -11,6 +11,8 @@ public interface MemberService {
 
     public List<MemberDTO> getMemberList();
 
+    public void deleteMemberById(String memberId);
+
     default Member dtoToEntity(MemberDTO memberDTO){
         return Member.builder()
                 .memberId(memberDTO.getMemberId())

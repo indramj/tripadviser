@@ -37,8 +37,11 @@ public class MemberController {
     }
 
     @GetMapping("/delete")
-    public void deleteMember(@RequestBody MemberDTO memberDTO)
+    public void deleteMember(List<String> memberList)
     {
+        log.info("DeleteMember");
+
+
 
     }
 
