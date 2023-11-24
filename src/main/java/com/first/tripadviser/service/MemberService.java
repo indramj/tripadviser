@@ -11,7 +11,11 @@ public interface MemberService {
 
     public List<MemberDTO> getMemberList();
 
+    public MemberDTO getMemberById(String memberId);
+
     public void deleteMemberById(String memberId);
+
+    public void modifyMember(MemberDTO memberDTO);
 
     default Member dtoToEntity(MemberDTO memberDTO){
         return Member.builder()

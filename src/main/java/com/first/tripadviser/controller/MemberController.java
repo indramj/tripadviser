@@ -2,6 +2,7 @@ package com.first.tripadviser.controller;
 
 import com.first.tripadviser.dto.MemberDTO;
 import com.first.tripadviser.dto.MemberDestDTO;
+import com.first.tripadviser.entity.Member;
 import com.first.tripadviser.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
@@ -36,14 +37,32 @@ public class MemberController {
         model.addAttribute("members" , memberService.getMemberList());
     }
 
-    @GetMapping("/delete")
-    public void deleteMember(List<String> memberList)
+    @PostMapping("/delete")
+    public String deleteMember(@RequestParam(value = "checkList" , required=false) List<String> checkList  )
     {
         log.info("DeleteMember");
-
-
+        if ( checkList != null) {
+            for (int i = 0; i < checkList.size(); i++) {
+                memberService.deleteMemberById(checkList.get(i));
+            }
+        }
+        return "redirect:/member/list";
 
     }
+
+    @GetMapping("/modify")
+    public void modifyMemberInfo(@RequestParam String memberId , Model model)
+    {
+        MemberDTO dto = memberService.getMemberById(memberId);
+        model.addAttribute("member" , dto);
+    }
+
+    @PostMapping("/modify")
+    public void confirmMemberModify(@RequestBody MemberDTO memberDTO){
+        memberService.modifyMember(memberDTO);
+
+    }
+
 
 
 

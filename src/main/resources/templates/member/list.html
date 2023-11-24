@@ -9,6 +9,17 @@
     <title>member_list</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script>
+        $(document).ready(function(){
+            var memberForm = $("#memberForm");
+            $(".btnDelete").on("click" , function(){
+
+                memberForm.submit();
+
+            });//btnDelete
+
+
+        })//ready
+
 
 
     </script>
@@ -16,32 +27,31 @@
 </head>
 <body>
 <div class="container">
-    <table border="1" class="table">
-        <h1>member list</h1>
+    <form id = "memberForm" action = "/member/delete" method = "post">
+        <table border="1" class="table">
+            <h1>member list</h1>
+            <div class="admin-button">
+                <button type="button" class="btn btn-secondary btnDelete">회원 삭제</button>
 
-        <div class="admin-button">
-            <button type="button" class="btn btn-secondary">회원 삭제</button>
-        </div>
-
-
-        <thead>
-        <tr>
-            <th scope="col">#</th>
-            <th scope="col">id</th>
-            <th scope="col">name</th>
-            <th scope="col">e-mail</th>
-        </tr>
-        </thead>
-        <tbody>
-        <tr th:each="member : ${members}">
-            <td><input type="checkbox" name="checkList"></td>
-            <td th:text="${member.memberId}"></td>
-            <td th:text="${member.memberName}"></td>
-            <td th:text="${member.memberEmail}"></td>
-        </tr>
-    </tbody>
-    </table>
-
+            </div>
+            <thead>
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">id</th>
+                <th scope="col">name</th>
+                <th scope="col">e-mail</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="member : ${members}">
+                <td><input type="checkbox" name="checkList" th:value = "${member.memberId}"/> </td>
+                <td><a th:href ="@{/member/modify(memberId = ${member.memberId})}" th:text="${member.memberId}"/></td>
+                <a href = "#"><td th:text="${member.memberName}"></td></a>
+                <td th:text="${member.memberEmail}"></td>
+            </tr>
+        </tbody>
+        </table>
+    </form>
 </div>
 
 

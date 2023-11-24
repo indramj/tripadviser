@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -29,11 +30,24 @@ public class MemberServiceImpl implements MemberService {
         return dtoList;
     }
 
+    public MemberDTO getMemberById(String memberId){
+        Optional<Member> entity = memberRepository.findById(memberId);
+        return entity.isPresent()? entityToDTO(entity.get()) : null;
+
+    }
+
+
     public void deleteMemberById(String memberId) {
         memberRepository.deleteById(memberId);
 
     }
 
+    public void modifyMember(MemberDTO memberDTO){
+        Optional<Member> entity = memberRepository.findById(memberDTO.getMemberId());
+        Member member = entity.get();
+        member.changeEmail(memberDTO.getMemberEmail());
+        memberRepository.save(member);
 
+    }
 
 }
