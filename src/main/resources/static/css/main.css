@@ -111,6 +111,7 @@ margin-left:20px;
 
 .top > a:hover{
 text-decoration-line: none;
+color:none;
 }
 
 .search{
@@ -167,6 +168,8 @@ margin-top: -132px;
 .main_text0 > h1{
 padding-top:116px;
 text-align:center;
+font-size: 48px;
+font-weight:100px;
 }
 
 .main_text0 > .contents1 {
@@ -231,6 +234,8 @@ height:659px;
 .main_text1 > h1 {
 padding-top : 50px;
 text-align:center;
+font-size: 48px;
+font-weight:100px;
 }
 
 .main_text1 > .contents1 {
@@ -274,7 +279,10 @@ text-align: center;
 color:white;
 }
 
-
+.main_text2 > ul >li >h1 {
+font-size: 48px;
+font-weight:100px;
+}
 
 
 #link_header{
