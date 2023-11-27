@@ -2,67 +2,276 @@
 <html xmlns:th="thymeleaf.org" lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>회원 정보 수정</title>
+    <link th:href="@{/css/modify.css?ver=1/}" rel="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script>
         $(document).ready(function(){
             var modifyForm = $("form");
+            var memberId = $("input[name = memberId]").val();
+            var pwConfirmed = false;
 
-            $(".btnModify").on("click" , function(){
-                var modified = {
-                    memberId : '[[${member.memberId}]]',
-                    memberEmail : $("#email").val()
+
+            $(".pwCheck").on("click" , function(){
+                 pwConfirmed = false;
+                 var password = $("input[name = memberPw]").val();
+                 var member = {
+                    memberId : memberId,
+                    memberPw : password
                 }
 
-                    $.ajax({
+                $.ajax({
+                    url : "/member/passwordCheck",
+                    type : "POST",
+                    data : JSON.stringify(member),
+                    contentType : 'application/json; charset=utf-8',
+                    dataType : "text",
+                    success : function(result){
+                        console.log(result);
+                        if(result == 'true'){
+                            pwConfirmed = true;
+                            alert("비밀번호가 확인되었습니다.");
+                        }
+                        else{
+                            alert("비밀번호가 틀렸습니다.");
+                        }
+                  }
+                });
+            })
+
+
+
+
+            $(".btnModify").on("click" , function(){
+                console.log(pwConfirmed);
+                if(!pwConfirmed){
+                    alert("비밀번호를 확인해주세요")
+                    return;
+                }
+                console.log(typeof(memberId));
+                var modified = {
+                    memberId : memberId,
+                    memberPw :  $("input[name = newPw]").val(),
+                    memberEmail : $("input[name = memberEmail]").val()
+                }
+
+                console.log(modified);
+
+                $.ajax({
                     url : "/member/modify",
                     type : "POST",
                     data : JSON.stringify(modified),
-                    contentType : 'application/json; charset=utf-8',
-                    success : function(result){
-                        alert("수정되었습니다.");
-                    }
-
-                });//ajax
-
+                    contentType : 'application/json; charset=utf-8'
+                });
 
             })//btnModify
+
+           $("#newPw , #newPwConfirm").change( function(){
+                var newPw = $("input[name = newPw]").val();
+                var confirm = $("input[name = newPwConfirm]").val();
+                if( newPw != confirm){
+                    $(".confirm").text("비밀번호가 일치하지 않습니다");
+                }
+                else{
+                    $(".confirm").text("비밀번호가 일치 합니다.");
+                }
+          });
+
+           $(".btnQuit").on("click" , function(){
+                modifyForm.attr("action" , "/member/deleteById");
+                modifyForm.attr("method" , "get");
+                modifyForm.submit();
+           })
+
+
 
         })//ready
 
 
 
     </script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+
 </head>
 <body>
+<div class="title_name">
     <h1>Modify</h1>
+</div>
+<div class="box">
     <form action = "/member/modify" method = "post">
-        <div class="form-group">
-            <label>ID</label>
-            <input type="text" class="form-control" name="title" th:value="${member.memberId}" readonly>
-        </div>
-        <div class="form-group">
-            <label>Name</label>
-            <input type="text" class="form-control" th:value="${member.memberName}" readonly>
-        </div>
-        <div class="form-group">
-            <label>Password</label>
-            <input type="text" class="form-control" id = "password">
-        </div>
-        <div class="form-group">
-            <label>New Password</label>
-            <input type="text" class="form-control" id = "newPw">
-        </div>
-        <div class="form-group">
-            <label>Password Confirm</label>
-            <input type="text" class="form-control" id = "newPwConfirm">
+       <div class="form-group">
+<ul class="list">
+           <li>
+                <div class="form_section_title">
+                    <label>ID</label>
+                </div>
+           </li>
+
+            <li>
+                 <div class="form_section_content">
+                    <label>
+                        <input type="text" class="form-control" placeholder="아이디" name="memberId" th:value="${member.memberId}" readonly/>
+                    </label>
+                </div>
+            </li>
+</ul>
         </div>
 
         <div class="form-group">
-            <label>Email</label>
-            <input type="text" class="form-control" id = "email" th:value="${member.memberEmail}" >
+            <ul class="list">
+                <li>
+                    <div class="form_section_title">
+                        <label>Name</label>
+                    </div>
+                </li>
+
+                <li>
+                    <div class="form_section_content">
+                        <input type="text" class="form-control" placeholder="이름" name = "memberName" th:value="${member.memberName}" readonly/>
+                    </div>
+                </li>
+            </ul>
         </div>
-        <button type = "button" class = "btnModify">회원정보 수정</button>
+
+
+        <div class="form-group">
+            <ul class="list">
+                <li>
+                    <div class="form_section_title">
+                        <label>Password</label>
+                    </div>
+                </li>
+
+                <li>
+                    <div class="form_section_content">
+                        <input type="password" class="form-control" placeholder="비밀번호" name = "memberPw"/>
+                        <button type = "button" class = "btn btn-secondary pwCheck">비밀번호 확인</button>
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+
+        <div class="form-group">
+            <ul class="list">
+                <li>
+                    <div class="form_section_title">
+                        <label>New Password</label>
+                    </div>
+                </li>
+                <li>
+                    <div class="form_section_content">
+                        <input type="password" class="form-control" placeholder="새 비밀번호" name = "newPw" id = "newPw"/>
+                    </div>
+                </li>
+            </ul>
+        </div>
+
+        <div class="form-group">
+            <ul class="list">
+                <li>
+                    <div class="form_section_title">
+                        <label>Password Confirm</label>
+                    </div>
+                </li>
+                <li>
+                    <div class="form_section_content">
+                        <input type="password" class="form-control" placeholder="비밀번호 확인" name = "newPwConfirm" id = "newPwConfirm">
+                        <span class = "confirm"></span>
+                </li>
+            </ul>
+        </div>
+
+
+
+        <div class="form-group">
+            <ul class="list">
+                <li>
+                    <div class="form_section_title">
+                        <label>Email</label>
+                    </div>
+                </li>
+                <li>
+                    <div class="form_section_content">
+                        <input type="text" class="form-control" placeholder="E-mail" name = "memberEmail" th:value="${member.memberEmail}" />
+                    </div>
+                </li>
+                <div class="button_section">
+                    <button type = "button" class = "btn btn-secondary btnModify">수정</button>
+                    <button type = "button" class = "btn btn-secondary btnQuit">회원 탈퇴</button>
+                </div>
+            </ul>
+        </div>
+</div>
+
+
     </form>
+</div>
+
+
+
+
+<style>
+    .form-group{
+font-size:24px;
+width:800px;
+display:flex;
+margin: 0 auto;
+margin-top:5px;
+
+}
+
+
+    .title_name{
+    text-align:center;
+    margin-top:50px;
+    padding-top:50px;
+    padding-bottom:20px;
+    width:1000px;
+    margin: 0 auto;
+    }
+
+    .box{
+    background-color:white;
+    margin-top:30px;
+    width:800px;
+    margin: 0 auto;
+    padding-top:10px;
+    padding-bottom:10px;
+    border: 1px solid black;
+    border-radius:20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+
+.letf-side{
+    background-color:red;
+    float:left;
+
+    }
+
+    .button-section{
+   font-size:24px;
+width:800px;
+display:flex;
+margin: 0 auto;
+margin-top:10px;
+
+    }
+
+    .list{
+    list-style-type: none;
+    }
+
+    .form_section_content{
+    width:500px;
+    font-size:24px;
+    }
+
+
+
+
+</style>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+
 </body>
 </html>

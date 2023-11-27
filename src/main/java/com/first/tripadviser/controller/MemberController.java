@@ -1,15 +1,22 @@
 package com.first.tripadviser.controller;
 
 import com.first.tripadviser.dto.MemberDTO;
+import com.first.tripadviser.dto.MemberDestDTO;
+import com.first.tripadviser.dto.PageRequestDTO;
 import com.first.tripadviser.entity.Member;
 import com.first.tripadviser.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 
+
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
 
 import java.util.List;
 
@@ -45,7 +52,6 @@ public class MemberController {
             }
         }
         return "redirect:/member/list";
-
     }
 
     @GetMapping("/modify")
@@ -56,9 +62,31 @@ public class MemberController {
     }
 
     @PostMapping("/modify")
-    public void confirmMemberModify(@RequestBody MemberDTO memberDTO){
+    public ResponseEntity<String> confirmMemberModify(@RequestBody MemberDTO memberDTO){
         memberService.modifyMember(memberDTO);
+        return new ResponseEntity<>("result" , HttpStatus.OK);
+    }
 
+
+
+    @GetMapping("/find")
+    public void findMemberByIdPart(@RequestParam("IdPart") String str, Model model, PageRequestDTO requestDTO) {
+        log.info("findMemberList");
+        model.addAttribute("members", memberService.findMemberByStr(str, requestDTO));
+    };
+
+    @PostMapping("/passwordCheck")
+    public ResponseEntity<Boolean> checkPassword(@RequestBody MemberDTO memberDTO){
+        log.info("memberDTO : " + memberDTO);
+        boolean result = memberService.checkPassword(memberDTO);
+
+        return new ResponseEntity<>(result , HttpStatus.OK);
+    }
+
+    @GetMapping("/deleteById")
+    public String deleteById(@RequestParam String memberId){
+        memberService.deleteMemberById(memberId);
+        return "redirect:/member/list";
     }
 
     @GetMapping("/search")
