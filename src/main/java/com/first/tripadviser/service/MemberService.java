@@ -1,7 +1,10 @@
 package com.first.tripadviser.service;
 
 import com.first.tripadviser.dto.MemberDTO;
+import com.first.tripadviser.dto.PageRequestDTO;
+import com.first.tripadviser.dto.PageResultDTO;
 import com.first.tripadviser.entity.Member;
+import org.springframework.data.domain.Pageable;
 
 import java.util.List;
 
@@ -18,6 +21,8 @@ public interface MemberService {
     public void modifyMember(MemberDTO memberDTO);
 
     public boolean checkPassword(MemberDTO memberDTO);
+
+    public PageResultDTO<MemberDTO, Member> findMemberByStr(String str, PageRequestDTO dto);
 
     default Member dtoToEntity(MemberDTO memberDTO){
         return Member.builder()
