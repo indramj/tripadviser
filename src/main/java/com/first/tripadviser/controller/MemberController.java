@@ -8,6 +8,7 @@ import com.first.tripadviser.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 
+
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
@@ -88,6 +89,11 @@ public class MemberController {
         return "redirect:/member/list";
     }
 
+    @GetMapping("/search")
+    public ResponseEntity<List<Member>> searchMembers(@RequestParam String keyword) {
+        List<Member> searchResult = memberService.searchMembers(keyword);
+        return ResponseEntity.ok(searchResult);
+    }
 
 
 

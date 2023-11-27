@@ -6,10 +6,12 @@ import com.first.tripadviser.dto.PageResultDTO;
 import com.first.tripadviser.entity.Member;
 import com.first.tripadviser.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
+
 import lombok.extern.log4j.Log4j2;
 import org.hibernate.criterion.Order;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
@@ -62,6 +64,12 @@ public class MemberServiceImpl implements MemberService {
     }
 
 
+    @Override
+    public List<Member> searchMembers(String keyword) {
+        return memberRepository.searchMembers(keyword);
+    }
+
+
     public boolean checkPassword(MemberDTO memberDTO){
         Optional<Member> entity = memberRepository.findById(memberDTO.getMemberId());
         Member member = entity.get();
@@ -78,5 +86,6 @@ public class MemberServiceImpl implements MemberService {
         Function<Member, MemberDTO> fn = (entity -> entityToDTO(entity));
         return new PageResultDTO(result, fn);
     };
+
 
 }

@@ -20,9 +20,13 @@ public interface MemberService {
 
     public void modifyMember(MemberDTO memberDTO);
 
+
+    List<Member> searchMembers(String keyword);
+
     public boolean checkPassword(MemberDTO memberDTO);
 
     public PageResultDTO<MemberDTO, Member> findMemberByStr(String str, PageRequestDTO dto);
+
 
     default Member dtoToEntity(MemberDTO memberDTO){
         return Member.builder()
