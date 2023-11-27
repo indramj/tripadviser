@@ -27,6 +27,11 @@
 </head>
 <body>
 <div class="container">
+    <form action="/member/find" method="get">
+        <label>찾고자 하는 아이디의 일부분을 입력:</label>
+        <input type="text" name="IdPart">
+        <input type="submit">
+    </form>
     <form id = "memberForm" action = "/member/delete" method = "post">
         <table border="1" class="table">
             <h1>member list</h1>
