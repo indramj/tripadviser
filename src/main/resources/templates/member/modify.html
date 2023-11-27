@@ -94,7 +94,6 @@
 
 </head>
 <body>
-
 <div class="title_name">
     <h1>Modify</h1>
 </div>
@@ -111,7 +110,7 @@
             <li>
                  <div class="form_section_content">
                     <label>
-                        <input type="text" class="form-control" name="memberId" th:value="${member.memberId}" readonly/>
+                        <input type="text" class="form-control" placeholder="아이디" name="memberId" th:value="${member.memberId}" readonly/>
                     </label>
                 </div>
             </li>
@@ -128,7 +127,7 @@
 
                 <li>
                     <div class="form_section_content">
-                        <input type="text" class="form-control" name = "memberName" th:value="${member.memberName}" readonly/>
+                        <input type="text" class="form-control" placeholder="이름" name = "memberName" th:value="${member.memberName}" readonly/>
                     </div>
                 </li>
             </ul>
@@ -145,7 +144,7 @@
 
                 <li>
                     <div class="form_section_content">
-                        <input type="password" class="form-control" name = "memberPw"/>
+                        <input type="password" class="form-control" placeholder="비밀번호" name = "memberPw"/>
                         <button type = "button" class = "btn btn-secondary pwCheck">비밀번호 확인</button>
                     </div>
                 </li>
@@ -162,7 +161,7 @@
                 </li>
                 <li>
                     <div class="form_section_content">
-                        <input type="password" class="form-control" name = "newPw" id = "newPw"/>
+                        <input type="password" class="form-control" placeholder="새 비밀번호" name = "newPw" id = "newPw"/>
                     </div>
                 </li>
             </ul>
@@ -177,7 +176,7 @@
                 </li>
                 <li>
                     <div class="form_section_content">
-                        <input type="password" class="form-control" name = "newPwConfirm" id = "newPwConfirm">
+                        <input type="password" class="form-control" placeholder="비밀번호 확인" name = "newPwConfirm" id = "newPwConfirm">
                         <span class = "confirm"></span>
                 </li>
             </ul>
@@ -194,7 +193,7 @@
                 </li>
                 <li>
                     <div class="form_section_content">
-                        <input type="text" class="form-control" name = "memberEmail" th:value="${member.memberEmail}" />
+                        <input type="text" class="form-control" placeholder="E-mail" name = "memberEmail" th:value="${member.memberEmail}" />
                     </div>
                 </li>
                 <div class="button_section">
@@ -204,10 +203,10 @@
             </ul>
         </div>
 </div>
-</div>
+
 
     </form>
-
+</div>
 
 
 
@@ -218,13 +217,14 @@ font-size:24px;
 width:800px;
 display:flex;
 margin: 0 auto;
-margin-top:10px;
+margin-top:5px;
 
 }
 
+
     .title_name{
-    text-align:left;
-    margin-top:30px;
+    text-align:center;
+    margin-top:50px;
     padding-top:50px;
     padding-bottom:20px;
     width:1000px;
@@ -234,12 +234,13 @@ margin-top:10px;
     .box{
     background-color:white;
     margin-top:30px;
-    width:1200px;
+    width:800px;
     margin: 0 auto;
-    padding-top:50px;
-    padding-bottom:30px;
+    padding-top:10px;
+    padding-bottom:10px;
     border: 1px solid black;
     border-radius:20px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     }
 
 .letf-side{
@@ -265,6 +266,8 @@ margin-top:10px;
     width:500px;
     font-size:24px;
     }
+
+
 
 
 </style>
