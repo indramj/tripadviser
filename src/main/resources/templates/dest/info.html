@@ -28,6 +28,10 @@
                 if(storagedDates !== null){
                     var destinations = JSON.parse(storagedDates);
                 }
+                if(destinations.includes(item[0].title)){
+                    alert("이미 추가된 일정입니다.");
+                    return;
+                }
                 destinations.push(item[0].title);
                 sessionStorage.setItem('destinations' , JSON.stringify(destinations));
 
