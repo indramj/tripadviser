@@ -197,17 +197,52 @@
                     </div>
                 </li>
                 <div class="button_section">
-                    <button type = "button" class = "btn btn-secondary btnModify">수정</button>
-                    <button type = "button" class = "btn btn-secondary btnQuit">회원 탈퇴</button>
+                    <button type = "button" class = "btn btn-secondary" data-bs-toggle="modal" data-bs-target="#modifyModal">수정</button>
+                    <button type = "button" class = "btn btn-secondary" data-bs-toggle="modal" data-bs-target="#exampleModal">회원 탈퇴</button>
                 </div>
             </ul>
         </div>
 </div>
-
-
     </form>
 </div>
 
+<!--회원 탈퇴 모달-->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">삭제하시겠습니까?</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                삭제 후 변경사항이 저장됩니다.
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary btnQuit">삭제</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--회원 수정 모달-->
+<div class="modal fade" id="modifyModal" tabindex="-1" aria-labelledby="modifyModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modifyModalLabel">수정하시겠습니까?</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                수정 후 변경사항이 저장됩니다.
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary btnModify">수정</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 
 
@@ -268,10 +303,12 @@ margin-top:10px;
     }
 
 
-
-
 </style>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
 
+
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
 </body>
 </html>
