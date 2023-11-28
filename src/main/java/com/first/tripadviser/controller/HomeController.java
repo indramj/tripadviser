@@ -18,13 +18,18 @@ public class HomeController {
 
     }
 
-    @GetMapping("/map")
+    @GetMapping("/dest")
     public void openMap(){
 
     }
 
     @GetMapping("/join")
     public void openJoinPage() {
+
+    }
+
+    @GetMapping("/mytrip")
+    public void openMyTrip(){
 
     }
 

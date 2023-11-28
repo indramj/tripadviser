@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script th:inline = "javascript">
+        $(document).ready(function(){
+            var storagedDestinations = sessionStorage.getItem('destinations');
+            var storagedDates = sessionStorage.getItem('dates');
+
+            var destinations = JSON.parse(storagedDestinations);
+            var dates = JSON.parse(storagedDates);
+            console.log(destinations);
+            console.log(dates);
+
+            var str = "출발일 : ";
+            str += ''+dates.startDate+''
+            str +=  '</br>';
+            str += "종료일 : ";
+            str += ''+dates.endDate+''
+            $(".dates").html(str);
+
+            str = "";
+            str += "여행지 목록</br>";
+            $.each(destinations , function(i , dest){
+                str += ''+dest+'';
+                str += '</br>';
+            })
+            $(".destination").html(str);
+
+
+        })
+    </script>
+</head>
+<body>
+    <div class = "dates"></div>
+    <div class = "destination"> </div>
+
+</body>
+</html>

@@ -36,12 +36,11 @@ public class MemberController {
     }
 
     @GetMapping("/list")
-    public void getMemberList(@RequestParam("memberId") Model model, String str, PageRequestDTO requestDTO)
-    {
-        log.info("memberList");
-        model.addAttribute("members" , memberService.listMemberByStr(str, requestDTO));
-        model.addAttribute("memberId", str);
+    public void getMemberList(Model  model){
+        model.addAttribute("members" , memberService.getMemberList());
+
     }
+
 
     @PostMapping("/delete")
     public String deleteMember(@RequestParam(value = "checkList" , required=false) List<String> checkList  )
