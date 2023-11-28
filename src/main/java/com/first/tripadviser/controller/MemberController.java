@@ -2,16 +2,21 @@ package com.first.tripadviser.controller;
 
 import com.first.tripadviser.dto.MemberDTO;
 import com.first.tripadviser.dto.MemberDestDTO;
+import com.first.tripadviser.dto.PageRequestDTO;
 import com.first.tripadviser.entity.Member;
 import com.first.tripadviser.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 
+
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
 
 import java.util.List;
 
@@ -31,10 +36,11 @@ public class MemberController {
     }
 
     @GetMapping("/list")
-    public void getMemberList(Model model)
+    public void getMemberList(@RequestParam("memberId") Model model, String str, PageRequestDTO requestDTO)
     {
         log.info("memberList");
-        model.addAttribute("members" , memberService.getMemberList());
+        model.addAttribute("members" , memberService.listMemberByStr(str, requestDTO));
+        model.addAttribute("memberId", str);
     }
 
     @PostMapping("/delete")
@@ -62,6 +68,15 @@ public class MemberController {
         return new ResponseEntity<>("result" , HttpStatus.OK);
     }
 
+
+
+    @GetMapping("/find")
+    public void findMemberByIdPart(@RequestParam("IdPart") String str, Model model, PageRequestDTO requestDTO) {
+        log.info("findMemberList");
+        model.addAttribute("members", memberService.findMemberByStr(str, requestDTO));
+        model.addAttribute("IdPart", str);
+    };
+
     @PostMapping("/passwordCheck")
     public ResponseEntity<Boolean> checkPassword(@RequestBody MemberDTO memberDTO){
         log.info("memberDTO : " + memberDTO);
@@ -76,6 +91,11 @@ public class MemberController {
         return "redirect:/member/list";
     }
 
+    @GetMapping("/search")
+    public ResponseEntity<List<Member>> searchMembers(@RequestParam String keyword) {
+        List<Member> searchResult = memberService.searchMembers(keyword);
+        return ResponseEntity.ok(searchResult);
+    }
 
 
 

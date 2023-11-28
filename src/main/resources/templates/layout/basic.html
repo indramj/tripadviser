@@ -1,0 +1,56 @@
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<th:block th:fragment="setContent(content)">
+
+    <head>
+
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="description" content="">
+        <meta name="author" content="">
+
+        <title>Trip Advisor</title>
+
+        <!-- Bootstrap core CSS -->
+        <link th:href="@{/vendor/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
+
+        <!-- Custom styles for this template -->
+        <link th:href="@{/css/simple-sidebar.css}" rel="stylesheet">
+
+        <!-- Bootstrap core JavaScript -->
+        <script th:src="@{/vendor/jquery/jquery.min.js}"></script>
+        <script th:src="@{/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
+    </head>
+
+    <body>
+    <header id="header" class="top-bar h-[50px]">
+        <div class="cont mx-auto">
+            <nav class="menu-box-1 h-[50px]" >
+                <ul class="flex h-full">
+                    <li class="member_button flex items-center h-full px-3"><a th:href="@{/}"/>LOGO</li>
+                    <li class="member_button flex items-center h-full px-3"><a th:href="@{/join}"/>join</li>
+                    <li class="member_button flex items-center h-full px-3"><a th:href="@{/member/list}"/>MemberLIST</li>
+                </ul>
+
+                <style>
+                    .mx-auto{
+                    background-color:white;
+                    }
+
+                    .member_button{
+                    magin-left:50px;
+                    justify-content: flex-end;
+                    color:black;
+                    font-size:24px;
+                    }
+
+
+
+                </style>
+
+
+
+
+            </nav>
+        </div>
+    </header>
+    </body>

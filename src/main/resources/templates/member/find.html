@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+<html xmlns:th="thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <!--<link th:href="@{/static/css/list.css?ver=1/}" rel="stylesheet">-->
+    <link rel="stylesheet" type="text/css" href="/static/css/list.css"/>
+    <!-- <link rel="stylesheet" type="text/css" href="/static/css/list.css"/>-->
+    <title>member_list</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+
+
+    </script>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+</head>
+<body>
+
+<div class="container">
+    <table border="1" class="table">
+        <h1>member list</h1>
+
+        <div class="admin-button">
+            <button type="button" class="btn btn-secondary">회원 삭제</button>
+        </div>
+
+
+        <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">id</th>
+            <th scope="col">name</th>
+            <th scope="col">e-mail</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="member : ${members.dtoList}">
+            <td><input type="checkbox" name="checkList"></td>
+            <td th:text="${member.memberId}"></td>
+            <td th:text="${member.memberName}"></td>
+            <td th:text="${member.memberEmail}"></td>
+        </tr>
+        </tbody>
+    </table>
+    <ul class="pagination h-100 justify-content-center align-times-center">
+        <li class="page-item " th:if="${members.prev}">
+            <a class="page-link" th:href="@{/member/find(IdPart = ${IdPart}, page=${members.start-1})}" tabindex="-1">Previous</a>
+        </li>
+        <li th:class=" 'page-item ' + ${members.page == page?'active':''} " th:each="page: ${members.pageList}">
+            <a class="page-link" th:href="@{/member/find(IdPart = ${IdPart}, page=${page})}">
+                [[${page}]]
+            </a>
+        </li>
+        <li class="page-item" th:if="${members.next}">
+            <a class="page-link" th:href="@{/member/find(IdPart = ${IdPart}, page=${members.end+1})}">Next</a>
+        </li>
+    </ul>
+
+</div>
+
+<Style>
+
+    .btn {
+        font-size:13px;
+        border-radius:5px;
+        }
+
+
+</Style>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script>
+</body>
+</html>
