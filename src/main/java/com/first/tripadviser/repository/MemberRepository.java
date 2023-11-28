@@ -15,5 +15,10 @@ public interface MemberRepository extends JpaRepository<Member, String> {
     @Query("SELECT m FROM Member m WHERE m.memberId LIKE %:keyword%")
     List<Member> searchMembers(@Param("keyword") String keyword);
 
+    @Query("select m from Member m where m.memberId like concat('%',:str, '%')")
+    Page<Member> findMemberByStr(@Param("str") String str, Pageable pageable);
+
+    @Query("select m from Member m where m.memberId like concat('%',:str, '%')")
+    Page<Member> listMemberByStr(@Param("str") String str, Pageable pageable);
 
 }

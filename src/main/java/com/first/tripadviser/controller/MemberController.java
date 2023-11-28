@@ -36,10 +36,11 @@ public class MemberController {
     }
 
     @GetMapping("/list")
-    public void getMemberList(Model model)
+    public void getMemberList(@RequestParam("memberId") Model model, String str, PageRequestDTO requestDTO)
     {
         log.info("memberList");
-        model.addAttribute("members" , memberService.getMemberList());
+        model.addAttribute("members" , memberService.listMemberByStr(str, requestDTO));
+        model.addAttribute("memberId", str);
     }
 
     @PostMapping("/delete")
@@ -73,6 +74,7 @@ public class MemberController {
     public void findMemberByIdPart(@RequestParam("IdPart") String str, Model model, PageRequestDTO requestDTO) {
         log.info("findMemberList");
         model.addAttribute("members", memberService.findMemberByStr(str, requestDTO));
+        model.addAttribute("IdPart", str);
     };
 
     @PostMapping("/passwordCheck")

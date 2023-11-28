@@ -44,15 +44,15 @@
     </table>
     <ul class="pagination h-100 justify-content-center align-times-center">
         <li class="page-item " th:if="${members.prev}">
-            <a class="page-link" th.href="@{/member/find(page=${members.start-1})}" tabindex="-1">Previous</a>
+            <a class="page-link" th:href="@{/member/find(IdPart = ${IdPart}, page=${members.start-1})}" tabindex="-1">Previous</a>
         </li>
         <li th:class=" 'page-item ' + ${members.page == page?'active':''} " th:each="page: ${members.pageList}">
-            <a class="page-link" th.href="${/member/find(page=${page})}">
+            <a class="page-link" th:href="@{/member/find(IdPart = ${IdPart}, page=${page})}">
                 [[${page}]]
             </a>
         </li>
         <li class="page-item" th:if="${members.next}">
-            <a class="page-link" th.href="@{/member/find(page=${members.end+1})}">Next</a>
+            <a class="page-link" th:href="@{/member/find(IdPart = ${IdPart}, page=${members.end+1})}">Next</a>
         </li>
     </ul>
 
