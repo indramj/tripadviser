@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Destination</title>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script defer src="/static/script/script.js"></script>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=46af6e8836cba1d901d65e50cffe28a5"></script>
+
+
+    <script th:inline = "javascript">
+        $(document).ready(function() {
+            var storagedDates = sessionStorage.getItem("dates");
+            if(storagedDates !== null){
+                var dates = JSON.parse(storagedDates);
+            }
+            var str = "출발일 : ";
+            str += ''+dates.startDate+''
+            str +=  '</br>';
+            str += "종료일 : ";
+            str += ''+dates.endDate+''
+            $(".dates").html(str);
+
+
+
+            var mapContainer = document.getElementById('map');
+            var options = {
+                center: new kakao.maps.LatLng(37.5642135, 127.0016985),
+                level: 7
+            };
+            var map = new kakao.maps.Map(mapContainer, options);
+            var positions = [];
+            function setMarkers(map) {
+               for (var i = 0; i < positions.length; i++) {
+                 positions[i].setMap(map);
+               }
+            }
+            $(".hide").on("click" , function(){
+                removeMarkers();
+            })
+
+            function showMarkers() {
+                setMarkers(map);
+            }
+
+            // "마커 감추기" 버튼을 클릭하면 호출되어 배열에 추가된 마커를 지도에서 삭제하는 함수입니다
+            function removeMarkers() {
+                setMarkers(null);
+            }
+
+            // 지도 확대 축소를 제어할 수 있는  줌 컨트롤을 생성합니다
+            var zoomControl = new kakao.maps.ZoomControl();
+            map.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT);
+
+            kakao.maps.event.addListener(map, 'dragend', function() {
+                removeMarkers();
+                positions = [];
+                console.log(positions.length)
+
+
+                // 지도 중심좌표를 얻어옵니다
+                var latlng = map.getCenter();
+                var positionY = latlng.getLat();
+                var positionX = latlng.getLng();
+
+                var level = map.getLevel();
+
+                if(level <= 10)
+                {
+                $.getJSON('https://apis.data.go.kr/B551011/KorService1/locationBasedList1?numOfRows=20&pageNo=1&MobileOS=ETC&MobileApp=triADV&_type=json&listYN=Y&arrange=A&mapX='+positionX+'&mapY='+positionY+'&radius=1000&contentTypeId=12&serviceKey=jGOpKG0LpnP41D9F4KNPAZ0bOMHcHq%2FFwfl9xjjMbAOo%2Bv%2BEajfqKWA2qzJ95g3F8%2Bn05xV1REJGbyi0tkh1fg%3D%3D'
+                        ,  function(data){
+                        var str = "";
+                        var totalCount = data.response.body.totalCount
+                        $(".dest").children().remove()
+
+                        $.each(data.response.body.items.item, function(i , item){
+                            if(item.cat2 == "a0102" ||item.cat3 == "A01011000" || item.cat3 == "A02020700"){
+                                return;
+                            }
+                            console.log(item);
+                            str += "<div id = 'destList'>";
+                            str += '<a href = "/dest/info?contentid='+item.contentid+'">'+item.title+'</a>';
+                            str += '</div>';
+                            if(item.cat2 == 'a0208'){
+                                console.log(item.title);
+                            }
+
+                            var latlng = new kakao.maps.LatLng(item.mapy, item.mapx);
+                            var position = new kakao.maps.Marker({
+                                position : latlng,
+                                title : item.title
+                            })
+
+                            positions.push(position);
+                        })
+                        console.log("position : " + positions.length);
+                        showMarkers();
+
+                        $(".dest").append(str);
+                    })
+                }
+            });
+
+
+
+
+            var locName = $(".locName").val();
+            $("#btnSearch").on("click" , function(){
+
+
+            })
+
+
+
+
+        })
+
+
+    </script>
+
+
+</head>
+<body>
+
+<div class="sort">
+    <ul>
+        <li><div id="map" style="width:700px;height:700px;"></div></li>
+        <li><div class = "dates"></div>
+            <div class = "dest"></div>
+        </div></li>
+    </ul>
+</div>
+
+<div>
+
+</div>
+<style>
+    .sort{
+    width:100%;
+    }
+
+    .sort > ul {
+    display:flex;
+    }
+
+    .sort > ul > li{
+    flex:1;
+    text-align:center;
+    list-style:none;
+    }
+
+ul{
+   list-style:none;
+   }
+
+</style>
+<div id="footer"></div>
+</body>
+</html>

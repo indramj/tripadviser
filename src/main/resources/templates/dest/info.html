@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script th:inline = "javascript">
+        $(document).ready(function(){
+            var contentid = [[${contentid}]];
+            console.log(contentid);
+            var item;
+            $.getJSON('https://apis.data.go.kr/B551011/KorService1/detailCommon1?MobileOS=ETF&MobileApp=tripADV&_type=json&contentId='+contentid+'&defaultYN=Y&firstImageYN=Y&catcodeYN=N&addrinfoYN=Y&mapinfoYN=Y&overviewYN=Y&serviceKey=jGOpKG0LpnP41D9F4KNPAZ0bOMHcHq%2FFwfl9xjjMbAOo%2Bv%2BEajfqKWA2qzJ95g3F8%2Bn05xV1REJGbyi0tkh1fg%3D%3D' ,
+
+                function(data){
+                item = data.response.body.items.item;
+
+
+                console.log(item[0]);
+                $(".title").text(item[0].title);
+                $(".img").attr("src" , item[0].firstimage);
+                $(".details").html(item[0].overview);
+                $(".address").text(item[0].addr1);
+
+            }); //getJSON
+
+            $(".addDest").on("click" , function(){
+                var storagedDates = sessionStorage.getItem("destinations");
+                if(storagedDates !== null){
+                    var destinations = JSON.parse(storagedDates);
+                }
+                destinations.push(item[0].title);
+                sessionStorage.setItem('destinations' , JSON.stringify(destinations));
+
+
+            })
+
+
+        })
+
+    </script>
+</head>
+<body>
+<div>
+    <span class = "title"></span>
+</div>
+<div>
+    <img class = "img">
+
+</div>
+<div>
+    주소지 :
+    <span class = "address"></span>
+</div>
+<div class = "info">
+    <h2>여행지 정보</h2>
+    <div class = "details">
+
+</div>
+
+
+
+</div>
+<div>
+    <button type = "button" class = "addDest">일정에 추가</button>
+</div>
+
+
+</body>
+</html>

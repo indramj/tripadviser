@@ -87,5 +87,12 @@ public class MemberServiceImpl implements MemberService {
         return new PageResultDTO(result, fn);
     };
 
+    public PageResultDTO<MemberDTO, Member> listMemberByStr(String str, PageRequestDTO requestDTO) {
+        Pageable pageable = requestDTO.getPageable(Sort.by("memberId"));
+        Page<Member> result = memberRepository.listMemberByStr(str, pageable);
+        Function<Member, MemberDTO> fn = (entity -> entityToDTO(entity));
+        return new PageResultDTO(result, fn);
+    };
+
 
 }

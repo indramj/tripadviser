@@ -78,6 +78,19 @@
             </tr>
         </tbody>
         </table>
+        <ul class="pagination h-100 justify-content-center align-times-center">
+            <li class="page-item " th:if="${members.prev}">
+                <a class="page-link" th:href="@{/member/list(memberId = ${memberId}, page=${members.start-1})}" tabindex="-1">Previous</a>
+            </li>
+            <li th:class=" 'page-item ' + ${members.page == page?'active':''} " th:each="page: ${members.pageList}">
+                <a class="page-link" th:href="@{/member/list(memberId = ${memberId}, page=${page})}">
+                    [[${page}]]
+                </a>
+            </li>
+            <li class="page-item" th:if="${members.next}">
+                <a class="page-link" th:href="@{/member/list(memberId = ${memberId}, page=${members.end+1})}">Next</a>
+            </li>
+        </ul>
     </form>
 </div>
 
