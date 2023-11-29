@@ -81,6 +81,7 @@
 <div class="title_page">
     Info
 </div>
+
 <div class="box">
 <ul>
     <li class="left-side">
@@ -100,20 +101,25 @@
             Addr :
             <span class = "address"></span>
         </div>
-    </li>
-    <li class="right-side">
         <div class = "info">
             <h2><i class="fa-regular fa-comments"></i>Dest Info</h2>
             <div class = "details"></div>
         </div>
 
-        <div class="container">
-            <input id="datepicker" width="450" readonly/>
-            <button type="button" class="btn btn-secondary" id="addDest">일정추가
-    </button>
-</div>
+    </li>
+    <li class="right-side">
+        <div class="map_api">
+            지도 api자리
+        </div>
+        <div class="comment">
+            댓글 구현자리
+        </div>
     </li>
 </ul>
+</div>
+<div class="container">
+    <input id="datepicker" width="450" readonly/>
+    <button type="button" class="btn btn-secondary" id="addDest">일정추가</button>
 </div>
 <style>
 
@@ -155,7 +161,7 @@ text-align:center;
     width:85%;
     display:flex;
     margin:auto;
-    margin-top:100px;
+    margin-top:20px;
     margin:bottom:100px;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
@@ -176,7 +182,9 @@ text-align:center;
 margin-right:30px;
 }
 
-
+.right-side{
+background-color:yellow;
+}
 
 
 
@@ -187,7 +195,7 @@ margin-right:30px;
 
 .info{
 font-size:20px;
-margin-top:20px;
+margin-top:50px;
 margin-right:25px;
 
 }
@@ -216,6 +224,9 @@ box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
 
 .container{
     margin-top:25px;
+    text-align:right;
+  position:absolute;
+  left:10%;
 }
 </style>
 
