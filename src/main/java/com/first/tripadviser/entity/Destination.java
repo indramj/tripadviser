@@ -4,6 +4,7 @@ import lombok.*;
 import org.springframework.data.geo.Point;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 @Builder
@@ -14,11 +15,11 @@ import javax.persistence.*;
 @Table(name = "tb_destination")
 public class Destination {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long destinationId;
+    private String memberId;
+    private String contentId;
     private String name;
     private String cityName;
-    private String dest;
     private Point position;
+    private LocalDateTime date;
 
 }

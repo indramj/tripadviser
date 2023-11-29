@@ -27,7 +27,7 @@ public interface MemberService {
 
     public PageResultDTO<MemberDTO, Member> findMemberByStr(String str, PageRequestDTO dto);
 
-    public PageResultDTO<MemberDTO, Member> listMemberByStr(String str, PageRequestDTO dto);
+    public PageResultDTO<MemberDTO, Member> getMemberListWithPaging(PageRequestDTO pageDTO);
 
 
     default Member dtoToEntity(MemberDTO memberDTO){
