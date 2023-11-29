@@ -114,11 +114,18 @@
 
 </head>
 <body>
-
+<div class="title">
+<h1>Destination</h1>
+</div>
 <div class="sort">
     <ul>
-        <li><div id="map" style="width:700px;height:700px;"></div></li>
-        <li><div class = "dates"></div>
+        <li><div class="subject">Map</div>
+            <div class="map" id="map"></div>
+        </li>
+        <li>
+            <div class="subject">Dates</div>
+            <div class = "dates"></div>
+            <div class="subject">Dest</div>
             <div class = "dest"></div>
         </li>
     </ul>
@@ -128,8 +135,26 @@
 
 </div>
 <style>
+
+    .title{
+        margin:100px auto 30px auto;
+        font-size:45px;
+        width:85%;
+        margin-left:300px;
+    }
+
+.subject{
+ margin-top:25px;
+ font-size:26px;
+}
+
     .sort{
-    width:100%;
+    width:85%;
+    border: 1px solid black;
+    border-radius: 8px;
+    margin:50px auto 0px auto;
+     font-family: Arial, sans-serif;
+     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
     }
 
     .sort > ul {
@@ -140,13 +165,44 @@
     flex:1;
     text-align:center;
     list-style:none;
+    font-size:18px;
     }
+
+.map{
+width:600px;
+margin:25px;
+margin-left:50px;
+height:600px;
+}
+
+
+.dates{
+margin:20px;
+font-size:18px;
+font-weight:100;
+font-family: Arial, sans-serif;
+     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+
+}
+
+.dest{
+margin:20px;
+font-size:20px;
+font-family: Arial, sans-serif;
+     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+}
+
+
+
+
 
 ul{
    list-style:none;
    }
 
 </style>
-<div id="footer"></div>
+<div id="footer">eeeee</div>
 </body>
 </html>
