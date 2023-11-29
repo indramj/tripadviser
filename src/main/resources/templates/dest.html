@@ -7,7 +7,7 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <script defer src="/static/script/script.js"></script>
-
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=46af6e8836cba1d901d65e50cffe28a5"></script>
@@ -119,13 +119,14 @@
 </div>
 <div class="sort">
     <ul>
-        <li><div class="subject">Map</div>
+        <li>
+            <div class="subject"><i class="fa-solid fa-map"></i>Map</div>
             <div class="map" id="map"></div>
         </li>
         <li>
-            <div class="subject">Dates</div>
+            <div class="subject"><i class="fa-regular fa-calendar-days"></i>Dates</div>
             <div class = "dates"></div>
-            <div class="subject">Dest</div>
+            <div class="subject"><i class="fa-solid fa-location-dot"></i>Dest</div>
             <div class = "dest"></div>
         </li>
     </ul>
@@ -135,6 +136,16 @@
 
 </div>
 <style>
+.fa-solid{
+margin-right:10px;
+}
+.fa-regular{
+margin-right:10px;
+}
+.fa-duotone{
+margin-right:10px;
+}
+
 
     .title{
         margin:100px auto 30px auto;
@@ -150,7 +161,6 @@
 
     .sort{
     width:85%;
-    border: 1px solid black;
     border-radius: 8px;
     margin:50px auto 0px auto;
      font-family: Arial, sans-serif;
@@ -183,6 +193,7 @@ font-weight:100;
 font-family: Arial, sans-serif;
      box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
     border-radius: 8px;
+    background-color:snow;
 
 }
 
@@ -192,6 +203,7 @@ font-size:20px;
 font-family: Arial, sans-serif;
      box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
     border-radius: 8px;
+    background-color:snow;
 }
 
 
