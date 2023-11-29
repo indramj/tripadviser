@@ -3,6 +3,7 @@ package com.first.tripadviser.controller;
 import com.first.tripadviser.dto.MemberDTO;
 import com.first.tripadviser.dto.MemberDestDTO;
 import com.first.tripadviser.dto.PageRequestDTO;
+import com.first.tripadviser.dto.PageResultDTO;
 import com.first.tripadviser.entity.Member;
 import com.first.tripadviser.service.MemberService;
 import lombok.RequiredArgsConstructor;
@@ -36,8 +37,8 @@ public class MemberController {
     }
 
     @GetMapping("/list")
-    public void getMemberList(Model  model){
-        model.addAttribute("members" , memberService.getMemberList());
+    public void getMemberList(Model  model , PageRequestDTO requestDTO){
+        model.addAttribute("members" , memberService.getMemberListWithPaging(requestDTO));
 
     }
 
