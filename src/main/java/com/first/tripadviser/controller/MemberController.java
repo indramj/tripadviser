@@ -3,6 +3,7 @@ package com.first.tripadviser.controller;
 import com.first.tripadviser.dto.MemberDTO;
 import com.first.tripadviser.dto.MemberDestDTO;
 import com.first.tripadviser.dto.PageRequestDTO;
+import com.first.tripadviser.dto.PageResultDTO;
 import com.first.tripadviser.entity.Member;
 import com.first.tripadviser.service.MemberService;
 import lombok.RequiredArgsConstructor;
@@ -36,12 +37,18 @@ public class MemberController {
     }
 
     @GetMapping("/list")
-    public void getMemberList(@RequestParam("memberId") Model model, String str, PageRequestDTO requestDTO)
-    {
-        log.info("memberList");
-        model.addAttribute("members" , memberService.listMemberByStr(str, requestDTO));
-        model.addAttribute("memberId", str);
+    public void getMemberList(PageRequestDTO pageRequestDTO, Model model) {
+        log.info("pageRequestDTO: " + pageRequestDTO);
+        model.addAttribute("members", memberService.getMemberListWithPaging(pageRequestDTO));
+        model.addAttribute("memb");
     }
+
+//    @PostMapping("/list")
+//    public String ResponseEntity(@RequestBody PageRequestDTO pageDTO) {
+//        log.info("GetMemberListWithPaging");
+//        memberService.getMemberListWithPaging(pageDTO);
+//        return new ResponseEntity<>(memberId);
+//    }
 
     @PostMapping("/delete")
     public String deleteMember(@RequestParam(value = "checkList" , required=false) List<String> checkList  )
