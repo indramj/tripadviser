@@ -70,7 +70,7 @@
             </tr>
             </thead>
             <tbody>
-            <tr th:each="member : ${members}">
+            <tr th:each="member : ${members.dtoList}">
                 <td><input type="checkbox" name="checkList" th:value = "${member.memberId}"/> </td>
                 <td><a th:href ="@{/member/modify(memberId = ${member.memberId})}" th:text="${member.memberId}"/></td>
                 <a href = "#"><td th:text="${member.memberName}"></td></a>
@@ -80,15 +80,15 @@
         </table>
         <ul class="pagination h-100 justify-content-center align-times-center">
             <li class="page-item " th:if="${members.prev}">
-                <a class="page-link" th:href="@{/member/list(memberId = ${memberId}, page=${members.start-1})}" tabindex="-1">Previous</a>
+                <a class="page-link" th:href="@{/member/list(page=${members.start-1})}" tabindex="-1">Previous</a>
             </li>
             <li th:class=" 'page-item ' + ${members.page == page?'active':''} " th:each="page: ${members.pageList}">
-                <a class="page-link" th:href="@{/member/list(memberId = ${memberId}, page=${page})}">
+                <a class="page-link" th:href="@{/member/list(page=${page})}">
                     [[${page}]]
                 </a>
             </li>
             <li class="page-item" th:if="${members.next}">
-                <a class="page-link" th:href="@{/member/list(memberId = ${memberId}, page=${members.end+1})}">Next</a>
+                <a class="page-link" th:href="@{/member/list(page=${members.end+1})}">Next</a>
             </li>
         </ul>
     </form>

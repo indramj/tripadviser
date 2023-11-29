@@ -83,6 +83,7 @@ public class MemberServiceImpl implements MemberService {
     public PageResultDTO<MemberDTO, Member> findMemberByStr(String str, PageRequestDTO requestDTO) {
         Pageable pageable = requestDTO.getPageable(Sort.by("memberId"));
         Page<Member> result = memberRepository.findMemberByStr(str, pageable);
+
         Function<Member, MemberDTO> fn = (entity -> entityToDTO(entity));
         return new PageResultDTO(result, fn);
     };
@@ -90,9 +91,17 @@ public class MemberServiceImpl implements MemberService {
     public PageResultDTO<MemberDTO, Member> listMemberByStr(String str, PageRequestDTO requestDTO) {
         Pageable pageable = requestDTO.getPageable(Sort.by("memberId"));
         Page<Member> result = memberRepository.listMemberByStr(str, pageable);
+
         Function<Member, MemberDTO> fn = (entity -> entityToDTO(entity));
         return new PageResultDTO(result, fn);
     };
+
+    public PageResultDTO<MemberDTO, Member> getMemberListWithPaging(PageRequestDTO pageDTO) {
+        Pageable pageable = pageDTO.getPageable(Sort.by("memberId"));
+        Page<Member> result = memberRepository.findAll(pageable);
+        Function<Member, MemberDTO> fn = (entity -> entityToDTO(entity));
+        return new PageResultDTO(result, fn);
+    }
 
 
 }
