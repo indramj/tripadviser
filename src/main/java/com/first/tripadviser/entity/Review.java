@@ -17,7 +17,14 @@ public class Review extends BaseEntity{
     private Long reviewNum;
     private Long contentId;
     private String review;
-    private String name;
     private String password;
+    @ManyToOne(fetch = FetchType.LAZY )
+    @JoinColumn(name = "memberId")
+    private Member member;
+
+
+    public void changeReview(String review){
+        this.review = review;
+    }
 
 }
