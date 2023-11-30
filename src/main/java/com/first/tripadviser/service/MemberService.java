@@ -25,6 +25,8 @@ public interface MemberService {
 
     public boolean checkPassword(MemberDTO memberDTO);
 
+    public void deleteAllReviewsByMemberId(String memberId);
+
     public PageResultDTO<MemberDTO, Member> findMemberByStr(String str, PageRequestDTO dto);
 
     public PageResultDTO<MemberDTO, Member> getMemberListWithPaging(PageRequestDTO pageDTO);

@@ -1,7 +1,9 @@
 package com.first.tripadviser;
 
 import com.first.tripadviser.dto.MemberDTO;
+import com.first.tripadviser.dto.ReviewDTO;
 import com.first.tripadviser.service.MemberService;
+import com.first.tripadviser.service.ReviewService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -10,6 +12,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 class TripadviserApplicationTests {
 	@Autowired
 	MemberService memberService;
+	@Autowired
+	ReviewService reviewService;
 
 
 	@Test
@@ -38,4 +42,26 @@ class TripadviserApplicationTests {
 		memberService.deleteMemberById(memberId);
 	}
 
+	@Test
+	void modifyReview(){
+		ReviewDTO reviewDTO = new ReviewDTO();
+		reviewDTO.setReviewNum(2L);
+		reviewDTO.setName("test1");
+		reviewDTO.setPassword("test1");
+		reviewDTO.setContentId(754003L);
+		reviewDTO.setReview("비밀번호 체크함");
+		boolean result = reviewService.checkPassword(reviewDTO);
+		if(result){
+			reviewService.modifyReview(reviewDTO);
+		}
+	}
+
+	@Test
+	void deleteReview(){
+		Long reviewNum = 2L;
+		reviewService.deleteReview(reviewNum);
+	}
+
+
 }
+

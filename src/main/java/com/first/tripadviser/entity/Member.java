@@ -3,6 +3,7 @@ package com.first.tripadviser.entity;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Builder
@@ -17,6 +18,7 @@ public class Member extends BaseEntity{
     private String memberName;
     private String memberPw;
     private String memberEmail;
+
 
     public void changeEmail(String email){
         memberEmail = email;

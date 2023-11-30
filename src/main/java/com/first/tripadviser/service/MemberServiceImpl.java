@@ -5,6 +5,7 @@ import com.first.tripadviser.dto.PageRequestDTO;
 import com.first.tripadviser.dto.PageResultDTO;
 import com.first.tripadviser.entity.Member;
 import com.first.tripadviser.repository.MemberRepository;
+import com.first.tripadviser.repository.ReviewRepository;
 import lombok.RequiredArgsConstructor;
 
 import lombok.extern.log4j.Log4j2;
@@ -14,6 +15,7 @@ import org.springframework.data.domain.Pageable;
 
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -26,6 +28,8 @@ import java.util.function.Function;
 public class MemberServiceImpl implements MemberService {
 
     private final MemberRepository memberRepository;
+
+    private final ReviewRepository reviewRepository;
 
     public void registMember(MemberDTO memberDTO){
         memberRepository.save(dtoToEntity(memberDTO));
@@ -46,23 +50,35 @@ public class MemberServiceImpl implements MemberService {
 
     }
 
+    @Override
+    public void deleteAllReviewsByMemberId(String memberId){
+//        Optional<Member> result = memberRepository.findById(memberId);
+//        if(result.isPresent()) {
+//            Member member = result.get();
+//            member.getReviews().clear();
+//            memberRepository.save(member);
+//        }
+    }
 
+
+    @Override
+    @Transactional
     public void deleteMemberById(String memberId) {
+        deleteAllReviewsByMemberId(memberId);
         memberRepository.deleteById(memberId);
-
     }
 
     public void modifyMember(MemberDTO memberDTO){
         Optional<Member> entity = memberRepository.findById(memberDTO.getMemberId());
-        Member member = entity.get();
-        member.changeEmail(memberDTO.getMemberEmail());
-        if(!memberDTO.getMemberPw().isEmpty()) {
-            member.changePw(memberDTO.getMemberPw());
+        if(entity.isPresent()){
+            Member member = entity.get();
+            member.changeEmail(memberDTO.getMemberEmail());
+            if(!memberDTO.getMemberPw().isEmpty()) {
+                member.changePw(memberDTO.getMemberPw());
+            }
+            memberRepository.save(member);
         }
-        memberRepository.save(member);
-
     }
-
 
     @Override
     public List<Member> searchMembers(String keyword) {

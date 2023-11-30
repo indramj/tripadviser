@@ -31,21 +31,29 @@
             $('#datepicker').datepicker('setDate', dates.startDate);
 
             //readReviews
+
+            var reviews = $("#reviews");
+
             function readReviews(){
+                reviews.empty();
                 $.getJSON('/review/read?contentId='+ contentid , function(arr){
                     console.log(arr);
+                    var str = "";
                     $.each(arr , function(i , review){
-
+                        str += review.review;
+                        str += '</br>';
 
                     })
+                    reviews.append(str);
                 })
             } //readReviews
+            readReviews();
 
 
             //registReview
             $("#regist").on("click" , function(){
                 var review = {
-                    name : $("#name").val(),
+                    memberId : $("#name").val(),
                     password : $("#password").val(),
                     review : $("#review").val(),
                     contentId : contentid
@@ -56,19 +64,13 @@
                     type : 'post',
                     data : JSON.stringify(review),
                     contentType : 'application/json; charset=utf-8',
-                    success : readReviews()
+                    success : function(result){
+                        readReviews();
+                    }
+
                 })
 
             })//registReview
-
-
-
-
-
-
-
-
-
 
 
             $.getJSON('https://apis.data.go.kr/B551011/KorService1/detailCommon1?MobileOS=ETF&MobileApp=tripADV&_type=json&contentId='+contentid+'&defaultYN=Y&firstImageYN=Y&catcodeYN=N&addrinfoYN=Y&mapinfoYN=Y&overviewYN=Y&serviceKey=jGOpKG0LpnP41D9F4KNPAZ0bOMHcHq%2FFwfl9xjjMbAOo%2Bv%2BEajfqKWA2qzJ95g3F8%2Bn05xV1REJGbyi0tkh1fg%3D%3D' ,
