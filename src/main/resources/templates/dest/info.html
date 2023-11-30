@@ -22,7 +22,6 @@
                 var dates = JSON.parse(storagedDates);
             }
 
-
             $('#datepicker').datepicker({
                 minDate: dates.startDate,
                 dateFormat: 'yy-mm-dd',
@@ -30,6 +29,11 @@
 
             });
             $('#datepicker').datepicker('setDate', dates.startDate);
+
+
+
+
+
 
 
 
@@ -148,7 +152,15 @@
             지도 api자리
         </div>
         <div class="comment">
-            댓글 구현자리
+            <div>
+                <input type = "text" id = "reply_name"/>
+            </div>
+            <div>
+                <textarea id = "reply_text" value = "hahaha"></textarea>
+            </div>
+
+
+
         </div>
     </li>
 </ul>
