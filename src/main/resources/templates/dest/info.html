@@ -30,19 +30,21 @@
             });
             $('#datepicker').datepicker('setDate', dates.startDate);
 
+
+
             //readReviews
+            readReviews();
 
             var reviews = $("#reviews");
 
             function readReviews(){
                 reviews.empty();
+
                 $.getJSON('/review/read?contentId='+ contentid , function(arr){
                     console.log(arr);
                     var str = "";
                     $.each(arr , function(i , review){
-                        str += review.review;
-                        str += '</br>';
-
+                    reviews.append('<li>'+i+'번째 '+review.name+' '+review.review+'</li>');
                     })
                     reviews.append(str);
                 })
@@ -64,9 +66,10 @@
                     type : 'post',
                     data : JSON.stringify(review),
                     contentType : 'application/json; charset=utf-8',
-                    success : function(result){
-                        readReviews();
+                    success : function(){
+                    readReviews()
                     }
+
 
                 })
 
@@ -162,14 +165,14 @@
 <ul>
     <li class="left-side">
         <div class="dest_name">
-            <i class="fa-solid fa-map"></i>Dest Name
+            <i class="fa-solid fa-map"></i>
         </div>
         <div class="title_name">
             <span class = "title"></span>
         </div>
 
         <div class="image">
-            <img class = "img">
+            <img class = "img" style="width:500px;height:500px;">
         </div>
 
         <div>
@@ -178,15 +181,22 @@
             <span class = "address"></span>
         </div>
         <div class = "info">
-            <h2><i class="fa-regular fa-comments"></i>Dest Info</h2>
+            <h2><i class="fa-regular fa-comments"></i></h2>
             <div class = "details"></div>
         </div>
 
     </li>
     <li class="right-side">
-        <div class="map_api">
-            지도 api자리
+        <div class="dest_name">
+            <i class="fa-solid fa-location-dot"></i>
         </div>
+        <div class="map_part">
+        <div class="map_api">
+                <div class="map" id="map" style="width:330px;height:330px;"></div>
+        </div>
+
+        </div>
+
         <div class="comment">
             <div>
                 <input placeholder="닉네임" type = "text" id = "name"/>
@@ -199,23 +209,12 @@
             <div>
                 <button type = "button" id = "regist">등록</button>
             </div>
-            <div id = "reviews">
-
+            <div class="review" id = "reviews">
             </div>
         </div>
+
     </li>
 </ul>
-</div>
-<div>
-    <div id="map" style="width:600px;height:350px;"></div>
-</div>
-<div>
-    주소지 :
-    <span class = "address"></span>
-</div>
-<div class = "info">
-    <h2>여행지 정보</h2>
-    <div class = "details"></div>
 </div>
 <div class="container">
     <input id="datepicker" width="450" readonly/>
@@ -230,6 +229,21 @@
         margin-left:300px;
 
     }
+
+.map_api{
+width:400px;
+height:400px;
+  display : flex;
+  justify-content: center;
+  align-items : center;
+}
+
+.map_part{
+ display : flex;
+  justify-content: center;
+  align-items : center;
+}
+
 
 
 .title_name{
@@ -250,7 +264,6 @@ height:50px;
 font-size:24px;
 margin-top:25px;
 margin-bottom:25px;
-
 text-align:center;
 }
 
@@ -329,6 +342,21 @@ box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
   position:absolute;
   left:10%;
 }
+
+    .comment{
+    background-color:skyblue;
+
+    }
+
+.review{
+    background-color:white;
+    }
+
+
+
+
+
+
 </style>
 
 
