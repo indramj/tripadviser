@@ -13,10 +13,11 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class ReviewDTO {
 
-    private Long rno;
+    private Long reviewNum;
+    private Long contentId;
     private String name;
     private String password;
-    private String content;
+    private String review;
     private LocalDateTime regDate;
     private LocalDateTime updateDate;
 

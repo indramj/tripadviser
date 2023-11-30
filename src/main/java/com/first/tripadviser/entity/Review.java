@@ -10,7 +10,7 @@ import javax.persistence.*;
 @NoArgsConstructor
 @Getter
 @ToString
-@Table(name = "tb_reply")
+@Table(name = "tb_review")
 public class Review extends BaseEntity{
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
