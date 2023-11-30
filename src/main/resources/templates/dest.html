@@ -55,6 +55,18 @@
             var zoomControl = new kakao.maps.ZoomControl();
             map.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT);
 
+
+            var keyword = ""; // 여기에 검색할 키워드값을 넣을것
+
+            $.getJSON('https://apis.data.go.kr/B551011/KorService1/searchKeyword1?MobileOS=ETC&MobileApp=tripADV&_type=json&listYN=Y&arrange=A&keyword='+keyword+'&contentTypeId=12&serviceKey=jGOpKG0LpnP41D9F4KNPAZ0bOMHcHq%2FFwfl9xjjMbAOo%2Bv%2BEajfqKWA2qzJ95g3F8%2Bn05xV1REJGbyi0tkh1fg%3D%3D')
+            // 키워드로 검색한 결과값들
+
+
+
+
+
+
+
             kakao.maps.event.addListener(map, 'dragend', function() {
                 removeMarkers();
                 positions = [];

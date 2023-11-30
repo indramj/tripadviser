@@ -22,7 +22,6 @@
                 var dates = JSON.parse(storagedDates);
             }
 
-
             $('#datepicker').datepicker({
                 minDate: dates.startDate,
                 dateFormat: 'yy-mm-dd',
@@ -30,6 +29,45 @@
 
             });
             $('#datepicker').datepicker('setDate', dates.startDate);
+
+            //readReviews
+            function readReviews(){
+                $.getJSON('/review/read?contentId='+ contentid , function(arr){
+                    console.log(arr);
+                    $.each(arr , function(i , review){
+
+
+                    })
+                })
+            } //readReviews
+
+
+            //registReview
+            $("#regist").on("click" , function(){
+                var review = {
+                    name : $("#name").val(),
+                    password : $("#password").val(),
+                    review : $("#review").val(),
+                    contentId : contentid
+                }
+
+                $.ajax({
+                    url : '/review/regist',
+                    type : 'post',
+                    data : JSON.stringify(review),
+                    contentType : 'application/json; charset=utf-8',
+                    success : readReviews()
+                })
+
+            })//registReview
+
+
+
+
+
+
+
+
 
 
 
@@ -148,7 +186,20 @@
             지도 api자리
         </div>
         <div class="comment">
-            댓글 구현자리
+            <div>
+                <input placeholder="닉네임" type = "text" id = "name"/>
+                <input placeholder="비밀번호" type = "password" id = "password"/>
+             </div>
+
+            <div>
+                <textarea id = "review"></textarea>
+            </div>
+            <div>
+                <button type = "button" id = "regist">등록</button>
+            </div>
+            <div id = "reviews">
+
+            </div>
         </div>
     </li>
 </ul>
