@@ -33,4 +33,24 @@ public class ReviewController {
         return new ResponseEntity<>(dtoList , HttpStatus.OK);
     }
 
+    @GetMapping("/pwCheck")
+    public ResponseEntity<Boolean> checkPassword(@RequestBody ReviewDTO reviewDTO){
+        log.info("checkPassword");
+        Boolean result = reviewService.checkPassword(reviewDTO);
+        return new ResponseEntity<>(result , HttpStatus.OK);
+    }
+
+    @PutMapping("/modify")
+    public ResponseEntity<String> modifyReview(@RequestBody ReviewDTO reviewDTO){
+        log.info("modify Review");
+        reviewService.modifyReview(reviewDTO);
+        return new ResponseEntity<>("result" , HttpStatus.OK);
+    }
+
+    @DeleteMapping("/delete")
+    public ResponseEntity<String> deleteReview(@RequestParam("reviewNum") Long reviewNum) {
+        log.info("delete Review");
+        reviewService.deleteReview(reviewNum);
+        return new ResponseEntity<>("result", HttpStatus.OK);
+    }
 }
