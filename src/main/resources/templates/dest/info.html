@@ -30,6 +30,40 @@
             });
             $('#datepicker').datepicker('setDate', dates.startDate);
 
+            //readReviews
+            function readReviews(){
+                $.getJSON('/review/read?contentId='+ contentid , function(arr){
+                    console.log(arr);
+                    $.each(arr , function(i , review){
+
+
+                    })
+                })
+            } //readReviews
+
+
+            //registReview
+            $("#regist").on("click" , function(){
+                var review = {
+                    name : $("#name").val(),
+                    password : $("#password").val(),
+                    review : $("#review").val(),
+                    contentId : contentid
+                }
+
+                $.ajax({
+                    url : '/review/regist',
+                    type : 'post',
+                    data : JSON.stringify(review),
+                    contentType : 'application/json; charset=utf-8',
+                    success : readReviews()
+                })
+
+            })//registReview
+
+
+
+
 
 
 
@@ -153,14 +187,19 @@
         </div>
         <div class="comment">
             <div>
-                <input type = "text" id = "reply_name"/>
+                <input placeholder="닉네임" type = "text" id = "name"/>
+                <input placeholder="비밀번호" type = "password" id = "password"/>
+             </div>
+
+            <div>
+                <textarea id = "review"></textarea>
             </div>
             <div>
-                <textarea id = "reply_text" value = "hahaha"></textarea>
+                <button type = "button" id = "regist">등록</button>
             </div>
+            <div id = "reviews">
 
-
-
+            </div>
         </div>
     </li>
 </ul>
