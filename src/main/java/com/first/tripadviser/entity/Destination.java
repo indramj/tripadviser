@@ -15,11 +15,12 @@ import java.time.LocalDateTime;
 @Table(name = "tb_destination")
 public class Destination {
     @Id
-    private String memberId;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long destId;
     private String contentId;
-    private String name;
-    private String cityName;
-    private Point position;
     private LocalDateTime date;
+    @ManyToOne
+    private Member member;
+
 
 }

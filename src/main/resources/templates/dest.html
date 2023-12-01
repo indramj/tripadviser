@@ -25,7 +25,7 @@
             str += "종료일 : ";
             str += ''+dates.endDate+''
             $(".dates").html(str);
-
+console.log(dates);
 
 
             var mapContainer = document.getElementById('map');
@@ -56,15 +56,21 @@
             map.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT);
 
 
-            var keyword = ""; // 여기에 검색할 키워드값을 넣을것
-
-            $.getJSON('https://apis.data.go.kr/B551011/KorService1/searchKeyword1?MobileOS=ETC&MobileApp=tripADV&_type=json&listYN=Y&arrange=A&keyword='+keyword+'&contentTypeId=12&serviceKey=jGOpKG0LpnP41D9F4KNPAZ0bOMHcHq%2FFwfl9xjjMbAOo%2Bv%2BEajfqKWA2qzJ95g3F8%2Bn05xV1REJGbyi0tkh1fg%3D%3D')
+<!--            $.getJSON('https://apis.data.go.kr/B551011/KorService1/searchKeyword1?MobileOS=ETC&MobileApp=tripADV&_type=json&listYN=Y&arrange=A&keyword='+keyword+'&contentTypeId=12&serviceKey=jGOpKG0LpnP41D9F4KNPAZ0bOMHcHq%2FFwfl9xjjMbAOo%2Bv%2BEajfqKWA2qzJ95g3F8%2Bn05xV1REJGbyi0tkh1fg%3D%3D')-->
             // 키워드로 검색한 결과값들
-
-
-
-
-
+            $("#btnSearchMap").on("click", function() {
+                var keyword = $("#mapKeyword").val();
+                $.getJSON('https://apis.data.go.kr/B551011/KorService1/searchKeyword1?MobileOS=ETC&MobileApp=tripADV&_type=json&listYN=Y&arrange=A&keyword='+keyword+'&contentTypeId=12&serviceKey=jGOpKG0LpnP41D9F4KNPAZ0bOMHcHq%2FFwfl9xjjMbAOo%2Bv%2BEajfqKWA2qzJ95g3F8%2Bn05xV1REJGbyi0tkh1fg%3D%3D',
+                    function(data) {
+                    item = data.response.body.items.item;
+                    console.log(item[0]);
+                    console.log(item[0].mapx);
+                    console.log(item[0].mapy);
+                    var moveLatLon = new kakao.maps.LatLng(item[0].mapx, item[0].mapy);
+                    map.setCenter(moveLatLon);
+                });
+                console.log(keyword);
+            })
 
 
             kakao.maps.event.addListener(map, 'dragend', function() {
@@ -127,19 +133,22 @@
 </head>
 <body>
 <div class="title">
-<h1>Destination</h1>
+    <h1>Destination</h1>
 </div>
 <div class="sort">
     <ul>
         <li>
-            <div class="subject"><i class="fa-solid fa-map"></i>Map</div>
+            <div class="subject"><i class="fa-solid fa-map"></i></div>
             <div class="map" id="map"></div>
         </li>
         <li>
-            <div class="subject"><i class="fa-regular fa-calendar-days"></i>Dates</div>
+            <div class="subject"><i class="fa-regular fa-calendar-days"></i></div>
             <div class = "dates"></div>
-            <div class="subject"><i class="fa-solid fa-location-dot"></i>Dest</div>
+            <div class="subject"><i class="fa-solid fa-location-dot"></i></div>
             <div class = "dest"></div>
+            <label for="mapKeyword">키워드로 검색: </label>
+            <input type="text" id="mapKeyword" size="15">
+            <button type="button" id="btnSearchMap">검색</button>
         </li>
     </ul>
 </div>
@@ -148,83 +157,83 @@
 
 </div>
 <style>
-.fa-solid{
-margin-right:10px;
-}
-.fa-regular{
-margin-right:10px;
-}
-.fa-duotone{
-margin-right:10px;
-}
+    .fa-solid{
+    margin-right:10px;
+    }
+    .fa-regular{
+    margin-right:10px;
+    }
+    .fa-duotone{
+    margin-right:10px;
+    }
 
 
-    .title{
-        margin:100px auto 30px auto;
-        font-size:45px;
+        .title{
+            margin:100px auto 30px auto;
+            font-size:45px;
+            width:85%;
+            margin-left:300px;
+        }
+
+    .subject{
+     margin-top:25px;
+     font-size:26px;
+    }
+
+        .sort{
         width:85%;
-        margin-left:300px;
+        border-radius: 8px;
+        margin:50px auto 0px auto;
+         font-family: Arial, sans-serif;
+         box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .sort > ul {
+        display:flex;
+        }
+
+        .sort > ul > li{
+        flex:1;
+        text-align:center;
+        list-style:none;
+        font-size:18px;
+        }
+
+    .map{
+    width:600px;
+    margin:25px;
+    margin-left:50px;
+    height:600px;
     }
 
-.subject{
- margin-top:25px;
- font-size:26px;
-}
 
-    .sort{
-    width:85%;
-    border-radius: 8px;
-    margin:50px auto 0px auto;
-     font-family: Arial, sans-serif;
-     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-    }
-
-    .sort > ul {
-    display:flex;
-    }
-
-    .sort > ul > li{
-    flex:1;
-    text-align:center;
-    list-style:none;
+    .dates{
+    margin:20px;
     font-size:18px;
+    font-weight:100;
+    font-family: Arial, sans-serif;
+         box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        border-radius: 8px;
+        background-color:snow;
+
     }
 
-.map{
-width:600px;
-margin:25px;
-margin-left:50px;
-height:600px;
-}
-
-
-.dates{
-margin:20px;
-font-size:18px;
-font-weight:100;
-font-family: Arial, sans-serif;
-     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-    border-radius: 8px;
-    background-color:snow;
-
-}
-
-.dest{
-margin:20px;
-font-size:20px;
-font-family: Arial, sans-serif;
-     box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-    border-radius: 8px;
-    background-color:snow;
-}
+    .dest{
+    margin:20px;
+    font-size:20px;
+    font-family: Arial, sans-serif;
+         box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        border-radius: 8px;
+        background-color:snow;
+    }
 
 
 
 
 
-ul{
-   list-style:none;
-   }
+    ul{
+       list-style:none;
+       }
 
 </style>
 <div id="footer">eeeee</div>
