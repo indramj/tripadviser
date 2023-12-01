@@ -25,7 +25,7 @@
             str += "종료일 : ";
             str += ''+dates.endDate+''
             $(".dates").html(str);
-console.log(dates);
+            console.log(dates);
 
 
             var mapContainer = document.getElementById('map');
@@ -56,20 +56,18 @@ console.log(dates);
             map.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT);
 
 
-<!--            $.getJSON('https://apis.data.go.kr/B551011/KorService1/searchKeyword1?MobileOS=ETC&MobileApp=tripADV&_type=json&listYN=Y&arrange=A&keyword='+keyword+'&contentTypeId=12&serviceKey=jGOpKG0LpnP41D9F4KNPAZ0bOMHcHq%2FFwfl9xjjMbAOo%2Bv%2BEajfqKWA2qzJ95g3F8%2Bn05xV1REJGbyi0tkh1fg%3D%3D')-->
             // 키워드로 검색한 결과값들
             $("#btnSearchMap").on("click", function() {
                 var keyword = $("#mapKeyword").val();
+                var item;
                 $.getJSON('https://apis.data.go.kr/B551011/KorService1/searchKeyword1?MobileOS=ETC&MobileApp=tripADV&_type=json&listYN=Y&arrange=A&keyword='+keyword+'&contentTypeId=12&serviceKey=jGOpKG0LpnP41D9F4KNPAZ0bOMHcHq%2FFwfl9xjjMbAOo%2Bv%2BEajfqKWA2qzJ95g3F8%2Bn05xV1REJGbyi0tkh1fg%3D%3D',
                     function(data) {
-                    item = data.response.body.items.item;
-                    console.log(item[0]);
-                    console.log(item[0].mapx);
-                    console.log(item[0].mapy);
-                    var moveLatLon = new kakao.maps.LatLng(item[0].mapx, item[0].mapy);
-                    map.setCenter(moveLatLon);
+                    item = data.response.body.items.item
+                    console.log(item)
+                    var moveLatLng = new kakao.maps.LatLng(item[0].mapy , item[0].mapx);
+                    map.panTo(moveLatLng);
                 });
-                console.log(keyword);
+
             })
 
 

@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<th:block th:replace="~{layout/basic::setContent(~{this::content})}"></th:block>
+<th:block th:fragment="content"></th:block>
+<head>
+    <meta charset="UTF-8">
+    <title>로그인</title>
+    <link th:href="@{/css/main.css?ver=1/}" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script><title>main</title>
+    <script>
+        $(document).ready(function(){
+            var loginForm = $("#loginForm");
+            $("#btnLogin").on("click" , function(e){
+                e.preventDefault();
+                loginForm.submit();
+
+            })
+        })
+
+    </script>
+
+</head>
+<body>
+    <form id = "loginForm" action = "/login" method = "post">
+        <input placeholder="아이디" type = "text" name = "username">
+        <input placeholder="비밀번호" type = "password" name = "password">
+        <button type = "button" id = "btnLogin">로그인</button>
+    </form>
+</body>
+</html>
