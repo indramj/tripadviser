@@ -4,6 +4,7 @@ import com.first.tripadviser.dto.MemberDTO;
 import com.first.tripadviser.dto.PageRequestDTO;
 import com.first.tripadviser.dto.PageResultDTO;
 import com.first.tripadviser.entity.Member;
+import com.first.tripadviser.entity.MemberRole;
 import com.first.tripadviser.repository.MemberRepository;
 import com.first.tripadviser.repository.ReviewRepository;
 import lombok.RequiredArgsConstructor;
@@ -14,6 +15,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import org.springframework.data.domain.Sort;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -29,9 +31,15 @@ public class MemberServiceImpl implements MemberService {
 
     private final MemberRepository memberRepository;
 
+    private final PasswordEncoder passwordEncoder;
+
     private final ReviewRepository reviewRepository;
 
     public void registMember(MemberDTO memberDTO){
+        String encodedPw = passwordEncoder.encode(memberDTO.getMemberPw());
+        memberDTO.setMemberPw(encodedPw);
+        Member member = dtoToEntity(memberDTO);
+        member.addRole(MemberRole.MEMBER);
         memberRepository.save(dtoToEntity(memberDTO));
     }
 
