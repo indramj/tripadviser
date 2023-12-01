@@ -46,7 +46,7 @@ class TripadviserApplicationTests {
 	void modifyReview(){
 		ReviewDTO reviewDTO = new ReviewDTO();
 		reviewDTO.setReviewNum(2L);
-		reviewDTO.setName("test1");
+		reviewDTO.setMemberId("test1");
 		reviewDTO.setPassword("test1");
 		reviewDTO.setContentId(754003L);
 		reviewDTO.setReview("비밀번호 체크함");
