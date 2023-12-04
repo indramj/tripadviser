@@ -55,20 +55,71 @@
             var zoomControl = new kakao.maps.ZoomControl();
             map.addControl(zoomControl, kakao.maps.ControlPosition.RIGHT);
 
-
-            // 키워드로 검색한 결과값들
+          
             $("#btnSearchMap").on("click", function() {
-                var keyword = $("#mapKeyword").val();
-                var item;
-                $.getJSON('https://apis.data.go.kr/B551011/KorService1/searchKeyword1?MobileOS=ETC&MobileApp=tripADV&_type=json&listYN=Y&arrange=A&keyword='+keyword+'&contentTypeId=12&serviceKey=jGOpKG0LpnP41D9F4KNPAZ0bOMHcHq%2FFwfl9xjjMbAOo%2Bv%2BEajfqKWA2qzJ95g3F8%2Bn05xV1REJGbyi0tkh1fg%3D%3D',
-                    function(data) {
-                    item = data.response.body.items.item
-                    console.log(item)
-                    var moveLatLng = new kakao.maps.LatLng(item[0].mapy , item[0].mapx);
-                    map.panTo(moveLatLng);
-                });
 
-            })
+                var keyword = $("#mapKeyword").val();
+                console.log("keyword: " + keyword);
+
+                $.getJSON('https://apis.data.go.kr/B551011/KorService1/searchKeyword1?MobileOS=ETC&MobileApp=tripADV&_type=json&listYN=Y&arrange=A&keyword=' + keyword + '&contentTypeId=12&serviceKey=jGOpKG0LpnP41D9F4KNPAZ0bOMHcHq%2FFwfl9xjjMbAOo%2Bv%2BEajfqKWA2qzJ95g3F8%2Bn05xV1REJGbyi0tkh1fg%3D%3D',
+                    function(data) {
+
+                    var item = data.response.body.items.item;
+                    var moveLatLon = new kakao.maps.LatLng(item[0].mapy, item[0].mapx);
+                    map.panTo(moveLatLon);
+
+                    // Clear existing coordinates
+                    latitudes = [];
+                    longitudes = [];
+
+                    // Clear existing markers
+                    removeMarkers();
+                    positions = [];
+
+                    // Clear existing destination list
+                    $(".dest").empty();
+
+                    // Iterate through the search results and update coordinates and markers
+                    $.each(data.response.body.items.item, function(i, item) {
+                        var latlng = new kakao.maps.LatLng(item.mapy, item.mapx);
+
+                        // Store latitude and longitude values for averaging
+                        latitudes.push(latlng.getLat());
+                        longitudes.push(latlng.getLng());
+
+                        // Create a marker for each search result
+                        var position = new kakao.maps.Marker({
+                            position: latlng,
+                            title: item.title
+                        });
+
+                        positions.push(position);
+
+                        // Create HTML content for the destination list
+                        var destHtml = '<div id="destList">';
+                        destHtml += '<a href="/dest/info?contentid=' + item.contentid + '">' + item.title + '</a>';
+                        destHtml += '</div>';
+
+                        // Append HTML content to the destination list
+                        $(".dest").append(destHtml);
+                    });
+
+                    // Calculate average coordinates
+                    var averageLatitude = latitudes.reduce((a, b) => a + b, 0) / latitudes.length;
+                    var averageLongitude = longitudes.reduce((a, b) => a + b, 0) / longitudes.length;
+
+                    console.log("Average Latitude: " + averageLatitude);
+                    console.log("Average Longitude: " + averageLongitude);
+
+                    // Show markers on the map
+                    showMarkers();
+
+                    // Update the map center to the average coordinates
+                    var averageLatLon = new kakao.maps.LatLng(averageLatitude, averageLongitude);
+                    map.panTo(averageLatLon);
+                });
+            });
+
 
 
             kakao.maps.event.addListener(map, 'dragend', function() {
