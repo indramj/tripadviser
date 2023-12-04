@@ -1,5 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
+<th:block th:replace="~{layout/basic::setContent(~{this::content})}"></th:block>
+<th:block th:fragment="content"></th:block>
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
@@ -43,7 +45,7 @@
                     console.log(arr);
                     var str = "";
                     $.each(arr , function(i , review){
-                    reviews.append('<li>'+i+'번째 '+review.memberId+' '+review.review+'</li>');
+                    reviews.append('<li>'+i+'. '+review.name+' '+review.review+'</li>');
                     })
                     reviews.append(str);
                 })
@@ -193,6 +195,7 @@
             <div>
                 <button class="btn btn-primary" type = "button" data-bs-toggle="modal" data-bs-target="#registModal">등록</button>
             </div>
+
             <div class="review" id = "reviews">
             </div>
         </div>
@@ -368,7 +371,9 @@
         }
 
     .review{
-        background-color:white;
+        background-color:snow;
+        border-radius: 8px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
         }
 
 
