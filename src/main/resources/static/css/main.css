@@ -7,6 +7,16 @@
     padding-top:400px;
     }
 
+.content_bg:before{
+content'';
+background-color: linear-gradient(to right,white,transparent);
+position:absolute;
+left:0;
+height:100%
+width:50%
+}
+
+
 .date_button{
 background-color:white;
 }
