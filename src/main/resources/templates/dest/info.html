@@ -87,17 +87,18 @@
 
                 var mapx = parseFloat(item[0].mapx);
                 var mapy = parseFloat(item[0].mapy);
+                var title = item[0].title;
 
-                processMapData(mapx, mapy);
+                processMapData(mapx, mapy, title);
 
             }); //getJSON
 
-                function processMapData(mapx, mapy) {
+                function processMapData(mapx, mapy, title) {
 
                     // 이미지 지도에 표시할 마커입니다
                     var marker = {
                             position: new kakao.maps.LatLng(mapy, mapx),
-                            text: '예시'
+                            text: title
                             };
 
                     var staticMapContainer  = document.getElementById('staticMap'), // 이미지 지도를 표시할 div
