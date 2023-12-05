@@ -36,10 +36,10 @@
                     <span sec:authorize = "isAnonymous()">
                     <li class="header_button"><a class="header_a" th:href="@{/login}">Login</a></li>
                     </span>
+                    <li class="header_button"><a class="header_a" th:href="@{/member/list}">MemberLIST</a></li>
                     <span sec:authorize = "isAuthenticated()">
                         <li class="header_button"><a class="header_a" th:href="@{/logout}">Logout</a></li>
                     </span>
-                    <li class="header_button"><a class="header_a" th:href="@{/member/list}">MemberLIST</a></li>
                 </ul>
 
                 <style>
