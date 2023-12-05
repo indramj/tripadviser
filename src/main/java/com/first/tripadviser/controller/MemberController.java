@@ -32,9 +32,10 @@ public class MemberController {
     private final MemberService memberService;
 
     @PostMapping("/join")
-    public void joinConfirm(@RequestBody MemberDTO memberDTO){
+    public String joinConfirm(@RequestBody MemberDTO memberDTO){
         log.info("memberDTO : " + memberDTO);
         memberService.registMember(memberDTO);
+        return "redirect:/";
     }
 
     @PreAuthorize("hasRole('ROLE_ADMIN')")
