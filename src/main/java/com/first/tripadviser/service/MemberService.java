@@ -4,6 +4,7 @@ import com.first.tripadviser.dto.MemberDTO;
 import com.first.tripadviser.dto.PageRequestDTO;
 import com.first.tripadviser.dto.PageResultDTO;
 import com.first.tripadviser.entity.Member;
+import com.first.tripadviser.entity.MemberRole;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
@@ -19,6 +20,10 @@ public interface MemberService {
     public void deleteMemberById(String memberId);
 
     public void modifyMember(MemberDTO memberDTO);
+
+    public void addRole(String memberId);
+
+    public void changeActive(String memberId);
 
 
     List<Member> searchMembers(String keyword);
@@ -41,11 +46,21 @@ public interface MemberService {
     }
 
     default MemberDTO entityToDTO(Member member){
+        MemberRole lastRole = null;
+        if(member.getRoleSet().contains(MemberRole.ADMIN)){
+            lastRole = MemberRole.ADMIN;
+        }
+        else{
+            lastRole = MemberRole.MEMBER;
+        }
+
         MemberDTO memberDTO = MemberDTO.builder()
                 .memberId(member.getMemberId())
                 .memberName(member.getMemberName())
                 .memberEmail(member.getMemberEmail())
                 .memberPw(member.getMemberPw())
+                .memberRole(lastRole)
+                .active(member.isActive())
                 .regDate(member.getRegDate())
                 .updateDate(member.getUpdateDate())
                 .build();
