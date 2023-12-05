@@ -11,7 +11,6 @@
         <title>Trip Advisor</title>
 
 
-
         <!-- Bootstrap core CSS -->
         <!--        <link th:href="@{/vendor/bootstrap/css/bootstrap.min.css}" rel="stylesheet">-->
 
@@ -24,49 +23,56 @@
     </head>
 
     <body>
-    <header id="header" class="top-bar h-[50px]">
-        <div class="cont mx-auto">
-            <nav class="menu-box-1 h-[50px]" >
+    <header id="header">
+        <div class="header_box">
+            <nav class="header_nav">
                 <ul class="header_line">
                     <li class="header_button"><a class="header_a" th:href="@{/}"/><i class="fa-solid fa-house"></i></li>
-                    <li class="header_button"><a class="header_a" th:href="@{/join}"/>Join</li>
-                    <li class="header_button"><a class="header_a" th:href="@{/member/list}"/>MemberLIST</li>
-                    <li class="header_button"><a class="header_a" th:href="@{/mytrip}">MY Trip</a></li>
+                    <li class="header_button"><a class="header_a" th:href="@{/join}"/>회원가입</li>
+                    <li class="header_button"><a class="header_a" th:href="@{/member/list}"/>회원 목록</li>
+                    <li class="header_button"><a class="header_a" th:href="@{/mytrip}">내 여행</a></li>
                 </ul>
 
                 <style>
-                    .header_line{
-                    background-color:snow;
-                    height:100px;
-                    text-align: center;
-                    }
-.header_button{
-display:flex;
-float:left;
-margin-left:15px;
-}
-                    .header_a{
-                    color:black;
-                    text-align:center;
-                    font-size:26px;
-                    }
+                    @import url('https://fonts.googleapis.com/css2?family=Nanum+Pen+Script&family=Noto+Sans+KR&display=swap');
+
+                .header_line{
+                background-color:snow;
+                height:70px;
+                text-align: center;
+                list-style: none;
+                font-family: 'Noto Sans KR', sans-serif;
+                margin-bottom:-10px;
+                }
 
 
 
-                    .member_button{
-                    magin-left:50px;
-                    justify-content: flex-end;
-                    color:black;
-                    font-size:24px;
-                    }
+
+                .header_button{
+                float:left;
+                margin-left:15px;
+                padding-top:15px;
+                font-family: 'Noto Sans KR', sans-serif;
+                  }
+
+
+                .header_a{
+                color:#333333;
+                text-align:center;
+                font-size:18px;
+                font-family: 'Noto Sans KR', sans-serif;
+                padding-left:10px;
+                font-weight: 500;
+
+                }
+
+
+
+
 
 
 
                 </style>
-
-
-
-
             </nav>
         </div>
     </header>
