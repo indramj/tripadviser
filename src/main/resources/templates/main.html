@@ -107,7 +107,7 @@
 </div>
 
 </div>
-<div class="main_text2" id="link_main_text2">
+<div class="footer">
     <ul>
         <li><h1>CONTACT</h1></li>
         <li>CEO. 1조 디자인 <br>
@@ -116,8 +116,7 @@
             COPYRIGHT 2023. FIRST. ALL RIGHT RESERVED./li>
     </ul>
 </div>
-<div id="footer"></div>
-        </div>
+
 
 
 
@@ -164,7 +163,7 @@ opacity:1;
 
 
 
-    .fa-solid{
+    .fa-solid:not(:first-child){
     padding-left:10px;
     padding-right:10px;
     padding-top:25px;
@@ -271,24 +270,25 @@ font-family: 'Noto Sans KR', sans-serif;
 
 
 
-        .main_text2 {
+        .footer {
         width:100%;
         height:218px;
-        background-color:#1f1f1f;
+        background-color:#FAFAFA;
         }
 
-        .main_text2 > ul{
+        .footer > ul{
         display:flex;
         padding-top:80px;
         }
 
-        .main_text2 > ul >li {
+        .footer > ul >li {
         flex:1;
         text-align: center;
-        color:white;
+        color:#707070;
+        font-family: 'Noto Sans KR', sans-serif;
         }
 
-        .main_text2 > ul >li >h1 {
+        .footer > ul >li >h1 {
         font-size: 48px;
         font-weight:100px;
         }
