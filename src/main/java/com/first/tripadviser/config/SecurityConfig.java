@@ -1,5 +1,6 @@
 package com.first.tripadviser.config;
 
+import com.first.tripadviser.security.service.CustomUserDetailService;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
@@ -22,11 +23,19 @@ import javax.servlet.DispatcherType;
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SecurityConfig {
 
+    @Autowired
+    private CustomUserDetailService userDetailService;
+
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception{
         log.info("---------------security filter chain-----------------");
-        http.formLogin().loginPage("/login");
+        http.authorizeRequests()
+                        .antMatchers("/login").permitAll();
+        http.formLogin().loginPage("/login").and().logout().logoutUrl("/logout.do").logoutSuccessUrl("/");
         http.csrf().disable();
+        http.rememberMe().rememberMeParameter("remember").tokenValiditySeconds(7*24*60*604).userDetailsService(userDetailService);
+
+
         return http.build();
 
     }

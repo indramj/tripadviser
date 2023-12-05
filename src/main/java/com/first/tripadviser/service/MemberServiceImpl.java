@@ -37,10 +37,10 @@ public class MemberServiceImpl implements MemberService {
 
     public void registMember(MemberDTO memberDTO){
         String encodedPw = passwordEncoder.encode(memberDTO.getMemberPw());
-        memberDTO.setMemberPw(encodedPw);
         Member member = dtoToEntity(memberDTO);
+        member.changePw(encodedPw);
         member.addRole(MemberRole.MEMBER);
-        memberRepository.save(dtoToEntity(memberDTO));
+        memberRepository.save(member);
     }
 
     public List<MemberDTO> getMemberList() {
@@ -54,7 +54,7 @@ public class MemberServiceImpl implements MemberService {
 
     public MemberDTO getMemberById(String memberId){
         Optional<Member> entity = memberRepository.findById(memberId);
-        return entity.isPresent()? entityToDTO(entity.get()) : null;
+        return entity.map(this::entityToDTO).orElse(null);
 
     }
 

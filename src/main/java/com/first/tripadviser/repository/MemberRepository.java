@@ -23,8 +23,8 @@ public interface MemberRepository extends JpaRepository<Member, String> {
     @Query("select m from Member m where m.memberId like concat('%',:str, '%')")
     Page<Member> listMemberByStr(@Param("str") String str, Pageable pageable);
 
-    @EntityGraph(attributePaths = "role_set")
-    @Query("select m from Member m where m.memberId = :mid")
+    @EntityGraph(attributePaths = "roleSet")
+    @Query("select m from Member m where m.memberId=:mid")
     Optional<Member> getWithRoles(String mid);
 
 }
