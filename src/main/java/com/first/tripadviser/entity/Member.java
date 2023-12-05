@@ -20,6 +20,7 @@ public class Member extends BaseEntity{
     private String memberName;
     private String memberPw;
     private String memberEmail;
+    private boolean active;
     @ElementCollection(fetch = FetchType.LAZY)
     @Builder.Default
     private Set<MemberRole> roleSet = new HashSet<>();
@@ -39,6 +40,14 @@ public class Member extends BaseEntity{
     public void claerRole(){
         this.roleSet.clear();
     }
+    public void block(){
+        this.active = false;
+    }
+
+    public void active(){
+        this.active = true;
+    }
+
 
 }
 

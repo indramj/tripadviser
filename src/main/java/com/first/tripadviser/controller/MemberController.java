@@ -14,6 +14,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -36,13 +37,30 @@ public class MemberController {
         memberService.registMember(memberDTO);
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/list")
     public void getMemberList(Model  model , PageRequestDTO requestDTO){
         model.addAttribute("members" , memberService.getMemberListWithPaging(requestDTO));
 
     }
 
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PostMapping("/addRole/{memberId}")
+    public ResponseEntity<String> addRole(@PathVariable("memberId") String memberId){
+        memberService.addRole(memberId);
+        return new ResponseEntity<>("result" , HttpStatus.OK);
+    }
 
+    @PreAuthorize("isAuthenticated()")
+    @PostMapping("/changeActive/{memberId}")
+    public ResponseEntity<MemberDTO> changeActive(@PathVariable("memberId") String memberId){
+        memberService.changeActive(memberId);
+        MemberDTO dto = memberService.getMemberById(memberId);
+        return new ResponseEntity<MemberDTO>( dto, HttpStatus.OK);
+    }
+
+
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
     @PostMapping("/delete")
     public String deleteMember(@RequestParam(value = "checkList" , required=false) List<String> checkList  )
     {
@@ -55,6 +73,7 @@ public class MemberController {
         return "redirect:/member/list";
     }
 
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("/modify")
     public void modifyMemberInfo(@RequestParam String memberId , Model model)
     {
@@ -62,6 +81,7 @@ public class MemberController {
         model.addAttribute("member" , dto);
     }
 
+    @PreAuthorize("isAuthenticated()")
     @PostMapping("/modify")
     public ResponseEntity<String> confirmMemberModify(@RequestBody MemberDTO memberDTO){
         memberService.modifyMember(memberDTO);
@@ -96,9 +116,4 @@ public class MemberController {
         List<Member> searchResult = memberService.searchMembers(keyword);
         return ResponseEntity.ok(searchResult);
     }
-
-
-
-
-
 }

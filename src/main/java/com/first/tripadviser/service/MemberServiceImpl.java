@@ -10,7 +10,6 @@ import com.first.tripadviser.repository.ReviewRepository;
 import lombok.RequiredArgsConstructor;
 
 import lombok.extern.log4j.Log4j2;
-import org.hibernate.criterion.Order;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
@@ -40,6 +39,7 @@ public class MemberServiceImpl implements MemberService {
         Member member = dtoToEntity(memberDTO);
         member.changePw(encodedPw);
         member.addRole(MemberRole.MEMBER);
+        member.active();
         memberRepository.save(member);
     }
 
@@ -54,8 +54,12 @@ public class MemberServiceImpl implements MemberService {
 
     public MemberDTO getMemberById(String memberId){
         Optional<Member> entity = memberRepository.findById(memberId);
-        return entity.map(this::entityToDTO).orElse(null);
-
+        if(entity.isPresent()){
+            Member member = entity.get();
+            MemberDTO memberDTO = entityToDTO(member);
+            return memberDTO;
+        }
+        return null;
     }
 
     @Override
@@ -82,8 +86,29 @@ public class MemberServiceImpl implements MemberService {
             Member member = entity.get();
             member.changeEmail(memberDTO.getMemberEmail());
             if(!memberDTO.getMemberPw().isEmpty()) {
-                member.changePw(memberDTO.getMemberPw());
+                member.changePw(passwordEncoder.encode(memberDTO.getMemberPw()));
             }
+            memberRepository.save(member);
+        }
+    }
+
+    public void addRole(String memberId){
+        Optional<Member> entity = memberRepository.findById(memberId);
+        if(entity.isPresent()){
+            Member member = entity.get();
+            member.addRole(MemberRole.ADMIN);
+            memberRepository.save(member);
+        }
+    }
+
+    public void changeActive(String memberId){
+        Optional<Member> entity = memberRepository.findById(memberId);
+        if(entity.isPresent()){
+            Member member = entity.get();
+            if(member.isActive())
+                member.block();
+            else
+                member.active();
             memberRepository.save(member);
         }
     }
@@ -97,11 +122,8 @@ public class MemberServiceImpl implements MemberService {
     public boolean checkPassword(MemberDTO memberDTO){
         Optional<Member> entity = memberRepository.findById(memberDTO.getMemberId());
         Member member = entity.get();
-        if(member.getMemberPw().equals(memberDTO.getMemberPw())){
-            return true;
-        }
-        else
-            return false;
+
+        return passwordEncoder.matches(memberDTO.getMemberPw(), member.getMemberPw());
     }
 
     public PageResultDTO<MemberDTO, Member> findMemberByStr(String str, PageRequestDTO requestDTO) {

@@ -1,4 +1,6 @@
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security" xmlns="http://www.w3.org/1999/html">
+
 <th:block th:fragment="setContent(content)">
 
     <head>
@@ -29,15 +31,11 @@
             <nav class="header_nav">
                 <ul class="header_line">
                     <li class="header_button"><a class="header_a" th:href="@{/}"><i class="fa-solid fa-house"></i></a></li>
-                    <li class="header_button"><a class="header_a" th:href="@{/join}">회원가입</a></li>
-                    <li class="header_button"><a class="header_a" th:href="@{/mytrip}">내 여행</a></li>
-                    <span sec:authorize = "isAnonymous()">
-                    <li class="header_button"><a class="header_a" th:href="@{/login}">로그인</a></li>
-                    </span>
-                    <li class="header_button"><a class="header_a" th:href="@{/member/list}">회원목록</a></li>
-                    <span sec:authorize = "isAuthenticated()">
-                        <li class="header_button"><a class="header_a" th:href="@{/logout}">로그아웃</a></li>
-                    </span>
+                    <li sec:authorize = "isAnonymous()" class="header_button"><a class="header_a" th:href="@{/join}">Join</a></li>
+                    <li class="header_button"><a class="header_a" th:href="@{/mytrip}">MY Trip</a></li>
+                    <li sec:authorize = "isAnonymous()" class="header_button"><a class="header_a" th:href="@{/login}">Login</a></li>
+                    <li sec:authorize = "hasRole('ROLE_ADMIN')" class="header_button"><a class="header_a" th:href="@{/member/list}">MemberLIST</a></li>
+                    <li sec:authorize = "isAuthenticated()" class="header_button"><a class="header_a" th:href="@{/logout}">Logout</a></li>
                 </ul>
 
 

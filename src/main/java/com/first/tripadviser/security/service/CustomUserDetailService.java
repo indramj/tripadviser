@@ -29,15 +29,18 @@ public class CustomUserDetailService implements UserDetailsService {
         Optional<Member> result = memberRepository.findById(username);
         if (!result.isPresent())
             throw new UsernameNotFoundException("user not found");
-        Member member = result.get();
-        MemberSecurityDTO memberDTO = new MemberSecurityDTO(
+        else{
+            Member member = result.get();
+            if(!member.isActive())
+                throw new UsernameNotFoundException("your account is not active");
+            else {
+                MemberSecurityDTO memberDTO = new MemberSecurityDTO(
                 member.getMemberId() , member.getMemberPw() , member.getMemberEmail(),
                 member.getMemberName() , member.getRegDate() , member.getUpdateDate(),
                 member.getRoleSet().stream().map(memberRole ->
-                        new SimpleGrantedAuthority("ROLE_" + memberRole.name())).collect(Collectors.toList())
-        );
-        log.info(memberDTO);
-        return memberDTO;
+                        new SimpleGrantedAuthority("ROLE_" + memberRole.name())).collect(Collectors.toList()));
+                return memberDTO;
+            }
+        }
     }
-
 }
