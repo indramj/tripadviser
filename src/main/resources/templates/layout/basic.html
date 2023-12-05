@@ -29,37 +29,44 @@
             <nav class="header_nav">
                 <ul class="header_line">
                     <li class="header_button"><a class="header_a" th:href="@{/}"><i class="fa-solid fa-house"></i></a></li>
-                    <li class="header_button"><a class="header_a" th:href="@{/join}">Join</a></li>
-                    <li class="header_button"><a class="header_a" th:href="@{/mytrip}">MY Trip</a></li>
+                    <li class="header_button"><a class="header_a" th:href="@{/join}">회원가입</a></li>
+                    <li class="header_button"><a class="header_a" th:href="@{/mytrip}">내 여행</a></li>
                     <span sec:authorize = "isAnonymous()">
-                    <li class="header_button"><a class="header_a" th:href="@{/login}">Login</a></li>
+                    <li class="header_button"><a class="header_a" th:href="@{/login}">로그인</a></li>
                     </span>
-                    <li class="header_button"><a class="header_a" th:href="@{/member/list}">MemberLIST</a></li>
+                    <li class="header_button"><a class="header_a" th:href="@{/member/list}">회원목록</a></li>
                     <span sec:authorize = "isAuthenticated()">
-                        <li class="header_button"><a class="header_a" th:href="@{/logout}">Logout</a></li>
+                        <li class="header_button"><a class="header_a" th:href="@{/logout}">로그아웃</a></li>
                     </span>
                 </ul>
+
 
                 <style>
                     @import url('https://fonts.googleapis.com/css2?family=Nanum+Pen+Script&family=Noto+Sans+KR&display=swap');
 
                 .header_line{
-                background-color:snow;
+                background-color:#FAFAFA;
                 height:70px;
                 text-align: center;
                 list-style: none;
                 font-family: 'Noto Sans KR', sans-serif;
                 margin-bottom:-10px;
+                display:flex;
+                padding-left:38%;
+                }
+
+                .header_a:hover{
+                text-decoration:none;
+                color:#333333;
                 }
 
 
-
-
                 .header_button{
-                float:left;
+
                 margin-left:15px;
                 padding-top:15px;
                 font-family: 'Noto Sans KR', sans-serif;
+
                   }
 
 
@@ -72,7 +79,6 @@
                 font-weight: 500;
 
                 }
-
 
 
 
