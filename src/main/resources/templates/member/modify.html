@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html xmlns:th="thymeleaf.org" lang="en">
+<html xmlns:th="thymeleaf.org" lang="en"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security" xmlns="http://www.w3.org/1999/html">
 <head>
     <meta charset="UTF-8">
     <title>회원 정보 수정</title>
@@ -10,6 +11,23 @@
             var modifyForm = $("form");
             var memberId = $("input[name = memberId]").val();
             var pwConfirmed = false;
+
+
+            $("#add_role").on("click" , function(){
+                $.ajax({
+                    url : "/member/addRole/" + memberId,
+                    type : "post",
+                    data : memberId,
+                    contentType : 'application/json; charset=utf-8',
+                    success : function(){
+                        alert("권한이 부여되었습니다.");
+                    },
+                    error : function(){
+                        alert("실패하였습니다.");
+                    }
+                })
+
+            })
 
 
             $(".pwCheck").on("click" , function(){
@@ -78,9 +96,38 @@
           });
 
            $(".btnQuit").on("click" , function(){
-                modifyForm.attr("action" , "/member/deleteById");
+                modifyForm.attr("action" , "/member/changeActive");
                 modifyForm.attr("method" , "get");
                 modifyForm.submit();
+           })
+
+           function getRole(member){
+                var str = "";
+                if(member.active === false){
+                    $("#status").text("비활성화");
+                }
+                else{
+                    if(member.memberRole == 'ADMIN'){
+                        $("#status").text("관리자");
+                    }
+                    else{
+                        $("#status").text("회원");
+                    }
+                }
+           }
+
+           $(".btnActive").on("click" , function(){
+                $.ajax({
+                    url : "/member/changeActive/"+memberId,
+                    type : "post",
+                    data : memberId,
+                    contentType : 'application/json; charset=utf-8',
+                    success : function(data){
+                        console.log(data);
+                        getRole(data);
+                    }
+                })
+
            })
 
 
@@ -112,6 +159,12 @@
                     <label>
                         <input type="text" class="form-control" placeholder="아이디" name="memberId" th:value="${member.memberId}" readonly/>
                     </label>
+                     상태 :
+                     <span id = "status"></span>
+                     <button type = 'button' class = "btnActive active" >활성화</button>
+                     <button type = 'button' class = "btnActive block">비활성화</button>
+
+
                 </div>
             </li>
 </ul>
@@ -199,6 +252,9 @@
                 <div class="button_section">
                     <button type = "button" class = "btn btn-secondary" data-bs-toggle="modal" data-bs-target="#modifyModal">수정</button>
                     <button type = "button" class = "btn btn-secondary" data-bs-toggle="modal" data-bs-target="#exampleModal">회원 탈퇴</button>
+                    <span sec:authorize = "hasRole('ROLE_ADMIN')">
+                        <button type = "button" class = "btn btn-secondary" id = "add_role">관리자 권한 부여</button>
+                    </span>
                 </div>
             </ul>
         </div>
