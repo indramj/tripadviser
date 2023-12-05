@@ -1,5 +1,7 @@
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security" xmlns="http://www.w3.org/1999/html">>
 <th:block th:fragment="setContent(content)">
+
 
     <head>
 
@@ -28,10 +30,16 @@
         <div class="cont mx-auto">
             <nav class="menu-box-1 h-[50px]" >
                 <ul class="header_line">
-                    <li class="header_button"><a class="header_a" th:href="@{/}"/><i class="fa-solid fa-house"></i></li>
-                    <li class="header_button"><a class="header_a" th:href="@{/join}"/>Join</li>
-                    <li class="header_button"><a class="header_a" th:href="@{/member/list}"/>MemberLIST</li>
+                    <li class="header_button"><a class="header_a" th:href="@{/}"><i class="fa-solid fa-house"></i></a></li>
+                    <li class="header_button"><a class="header_a" th:href="@{/join}">Join</a></li>
                     <li class="header_button"><a class="header_a" th:href="@{/mytrip}">MY Trip</a></li>
+                    <span sec:authorize = "isAnonymous()">
+                    <li class="header_button"><a class="header_a" th:href="@{/login}">Login</a></li>
+                    </span>
+                    <span sec:authorize = "isAuthenticated()">
+                        <li class="header_button"><a class="header_a" th:href="@{/logout}">Logout</a></li>
+                    </span>
+                    <li class="header_button"><a class="header_a" th:href="@{/member/list}">MemberLIST</a></li>
                 </ul>
 
                 <style>
@@ -71,3 +79,4 @@ margin-left:15px;
         </div>
     </header>
     </body>
+</th:block>

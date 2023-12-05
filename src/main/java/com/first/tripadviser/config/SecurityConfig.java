@@ -27,6 +27,8 @@ public class SecurityConfig {
         log.info("---------------security filter chain-----------------");
         http.formLogin().loginPage("/login");
         http.csrf().disable();
+        http.logout();
+
         return http.build();
 
     }

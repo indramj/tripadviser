@@ -20,7 +20,7 @@ public class Member extends BaseEntity{
     private String memberName;
     private String memberPw;
     private String memberEmail;
-    @ElementCollection(fetch = FetchType.LAZY)
+    @ElementCollection(fetch = FetchType.EAGER)
     @Builder.Default
     private Set<MemberRole> roleSet = new HashSet<>();
 

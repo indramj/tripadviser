@@ -13,6 +13,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @SpringBootTest
 class TripadviserApplicationTests {
@@ -73,7 +74,7 @@ class TripadviserApplicationTests {
 
 	@Test
 	void createAccountWithPwEncoder(){
-		for ( int i = 0 ; i < 300; i++){
+		for ( int i = 300 ; i < 400; i++){
 			String mid = String.format("test%03d" , i);
 			String name = String.format("name%03d" , i);
 			String email = String.format("test%03d@test.com" , i );
@@ -84,7 +85,7 @@ class TripadviserApplicationTests {
 					.memberEmail(email)
 					.build();
 			member.addRole(MemberRole.MEMBER);
-			if( i <= 100){
+			if( i >= 390){
 				member.addRole(MemberRole.ADMIN);
 			}
 			memberRepository.save(member);
@@ -94,17 +95,16 @@ class TripadviserApplicationTests {
 
 	@Test
 	public void readTest(){
-		String mid = "member000";
+		String mid = "kmm";
 		Optional<Member> result = memberRepository.getWithRoles(mid);
 		if(result.isPresent()){
 			Member member = result.get();
+			System.out.println("-------------------------------------");
 			System.out.println(member);
 			System.out.println(member.getRoleSet());
+			System.out.println("-------------------------------------");
 
 		}
-
-
-
 	}
 
 
