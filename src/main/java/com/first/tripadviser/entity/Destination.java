@@ -18,6 +18,9 @@ public class Destination {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long destId;
     private String contentId;
+    private String destTitle;
+    private double mapX;
+    private double mapY;
     private LocalDateTime date;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "memberId")

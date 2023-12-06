@@ -16,7 +16,7 @@
 
     <script th:inline = "javascript">
         $(document).ready(function(){
-            var contentid = [[${contentid}]];
+            var contentid = [[${contentId}]];
             console.log(contentid);
             var item;
 
@@ -115,10 +115,17 @@
                 }
 
             $("#addDest").on("click" , function(){
+                 /*<![CDATA[*/
+                var isLoggedIn = /*[[${__SECURITY_PRINCIPAL__ != null}]]*/ false;
+                /*]]>*/
+
 
                 var dest = {
-                    date : $("#datepicker").val(),
-                    title : item[0].title
+                    contentId : item[0].contentid,
+                    destTitle : item[0].title,
+                    mapX : item[0].mapx,
+                    mapY : item[0].mapy,
+                    date : $("#datepicker").val()
                     }
                 console.log(dest);
                 var storagedDestinations = sessionStorage.getItem("destinations");
@@ -131,13 +138,19 @@
                         alreadyInput = true;
                         return false;
                     }
-
                 })
                 if(alreadyInput === true){
                     return false;
                 }
                 destinations.push(dest);
-                sessionStorage.setItem('destinations' , JSON.stringify(destinations) )
+                sessionStorage.setItem('destinations' , JSON.stringify(destinations) );
+                if(isLoggedIn){
+                    dest.memberId = $("#mid").val();
+                    console.log(dest);
+                }
+
+
+
             })
         })
 
