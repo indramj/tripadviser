@@ -9,9 +9,19 @@
     <script>
         $(document).ready(function(){
             var modifyForm = $("form");
-            var memberId = $("input[name = memberId]").val();
             var pwConfirmed = false;
+            var url = new URL(window.location.href);
 
+            var memberId = url.searchParams.get('memberId');
+
+            $.getJSON('/member/getMember/'+memberId , function(dto){
+                getRole(dto);
+                $("#memberId").text(dto.memberId); //memberId
+                $("input[name = memberName ]").val(dto.memberName); //memberName
+                $("input[name = memberEmail]").val(dto.memberEmail); //memberEmail
+
+
+            })
 
             $("#add_role").on("click" , function(){
                 $.ajax({
@@ -59,7 +69,6 @@
 
 
 
-
             $(".btnModify").on("click" , function(){
                 console.log(pwConfirmed);
                 if(!pwConfirmed){
@@ -84,7 +93,7 @@
 
             })//btnModify
 
-           $("#newPw , #newPwConfirm").change( function(){
+           $("#newPw , #newPwConfirm").on("input" , function(){
                 var newPw = $("input[name = newPw]").val();
                 var confirm = $("input[name = newPwConfirm]").val();
                 if( newPw != confirm){
@@ -96,9 +105,22 @@
           });
 
            $(".btnQuit").on("click" , function(){
-                modifyForm.attr("action" , "/member/changeActive");
-                modifyForm.attr("method" , "get");
-                modifyForm.submit();
+                 if(!pwConfirmed){
+                    alert("비밀번호를 확인해주세요")
+                    return;
+                }
+                $.ajax({
+                    url : "/member/changeActive/"+memberId,
+                    type : "post",
+                    data : memberId,
+                    contentType : 'application/json; charset=utf-8',
+                    success : function(){
+                        $("form").attr("action" , "/logout.do");
+                        $("form").submit();
+                    }
+                })
+
+
            })
 
            function getRole(member){
@@ -117,17 +139,15 @@
            }
 
            $(".btnActive").on("click" , function(){
-                $.ajax({
-                    url : "/member/changeActive/"+memberId,
-                    type : "post",
-                    data : memberId,
-                    contentType : 'application/json; charset=utf-8',
-                    success : function(data){
-                        console.log(data);
-                        getRole(data);
-                    }
-                })
-
+                 $.ajax({
+                        url : "/member/changeActive/"+memberId,
+                        type : "post",
+                        data : memberId,
+                        contentType : 'application/json; charset=utf-8',
+                        success : function(dto){
+                            getRole(dto);
+                        }
+                    })
            })
 
 
@@ -147,29 +167,24 @@
 <div class="box">
     <form action = "/member/modify" method = "post">
        <div class="form-group">
-<ul class="list">
-           <li>
-                <div class="form_section_title">
-                    <label>ID</label>
-                </div>
-           </li>
+           <ul class="list">
+               <li>
+                    <div class="form_section_title">
+                        <label for="memberId">ID : </label>
+                        <span id = "memberId"></span>
+                    </div>
+               </li>
 
-            <li>
-                 <div class="form_section_content">
-                    <label>
-                        <input type="text" class="form-control" placeholder="아이디" name="memberId" th:value="${member.memberId}" readonly/>
-                    </label>
-                     상태 :
-                     <span id = "status"></span>
-                     <button type = 'button' class = "btnActive active" >활성화</button>
-                     <button type = 'button' class = "btnActive block">비활성화</button>
-
-
-                </div>
-            </li>
-</ul>
+                <li sec:authorize = "hasRole('ROLE_ADMIN')">
+                    <div class = "form_section_content">
+                         상태 :
+                         <span id = "status"></span>
+                         <button type = 'button' class = "btnActive active" >활성화</button>
+                         <button type = 'button' class = "btnActive block">비활성화</button>
+                    </div>
+                </li>
+            </ul>
         </div>
-
         <div class="form-group">
             <ul class="list">
                 <li>
@@ -177,16 +192,13 @@
                         <label>Name</label>
                     </div>
                 </li>
-
                 <li>
                     <div class="form_section_content">
-                        <input type="text" class="form-control" placeholder="이름" name = "memberName" th:value="${member.memberName}" readonly/>
+                        <input type="text" class="form-control" placeholder="이름" name = "memberName" readonly/>
                     </div>
                 </li>
             </ul>
         </div>
-
-
         <div class="form-group">
             <ul class="list">
                 <li>
@@ -194,7 +206,6 @@
                         <label>Password</label>
                     </div>
                 </li>
-
                 <li>
                     <div class="form_section_content">
                         <input type="password" class="form-control" placeholder="비밀번호" name = "memberPw"/>
@@ -203,8 +214,6 @@
                 </li>
             </ul>
         </div>
-
-
         <div class="form-group">
             <ul class="list">
                 <li>
@@ -231,12 +240,10 @@
                     <div class="form_section_content">
                         <input type="password" class="form-control" placeholder="비밀번호 확인" name = "newPwConfirm" id = "newPwConfirm">
                         <span class = "confirm"></span>
+                    </div>
                 </li>
             </ul>
         </div>
-
-
-
         <div class="form-group">
             <ul class="list">
                 <li>
@@ -246,35 +253,37 @@
                 </li>
                 <li>
                     <div class="form_section_content">
-                        <input type="text" class="form-control" placeholder="E-mail" name = "memberEmail" th:value="${member.memberEmail}" />
+                        <input type="text" class="form-control" placeholder="E-mail" name = "memberEmail" />
                     </div>
                 </li>
-                <div class="button_section">
-                    <button type = "button" class = "btn btn-secondary" data-bs-toggle="modal" data-bs-target="#modifyModal">수정</button>
-                    <button type = "button" class = "btn btn-secondary" data-bs-toggle="modal" data-bs-target="#exampleModal">회원 탈퇴</button>
-                    <span sec:authorize = "hasRole('ROLE_ADMIN')">
-                        <button type = "button" class = "btn btn-secondary" id = "add_role">관리자 권한 부여</button>
-                    </span>
-                </div>
+                <li>
+                    <div class="button_section" sec:authorize = "isAuthenticated()">
+                        <button type = "button" class = "btn btn-secondary" data-bs-toggle="modal" data-bs-target="#modifyModal">수정</button>
+                        <button type = "button" class = "btn btn-secondary" data-bs-toggle="modal" data-bs-target="#exampleModal">회원 탈퇴</button>
+                        <span sec:authorize = "hasRole('ROLE_ADMIN')">
+                            <button type = "button" class = "btn btn-secondary" id = "add_role">관리자 권한 부여</button>
+                        </span>
+                    </div>
+                </li>
             </ul>
         </div>
-</div>
     </form>
 </div>
+
 
 <!--회원 탈퇴 모달-->
 <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">삭제하시겠습니까?</h5>
+                <h5 class="modal-title" id="exampleModalLabel">탈퇴</h5>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                삭제 후 변경사항이 저장됩니다.
+                탈퇴 하시겠습니까?
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-primary btnQuit">삭제</button>
+                <button type="button" class="btn btn-primary btnQuit">탈퇴</button>
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
             </div>
         </div>

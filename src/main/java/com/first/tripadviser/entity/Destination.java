@@ -19,7 +19,8 @@ public class Destination {
     private Long destId;
     private String contentId;
     private LocalDateTime date;
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "memberId")
     private Member member;
 
 

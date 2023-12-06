@@ -36,6 +36,7 @@
                     <li sec:authorize = "isAnonymous()" class="header_button"><a class="header_a" th:href="@{/login}">Login</a></li>
                     <li sec:authorize = "hasRole('ROLE_ADMIN')" class="header_button"><a class="header_a" th:href="@{/member/list}">MemberLIST</a></li>
                     <li sec:authorize = "isAuthenticated()" class="header_button"><a class="header_a" th:href="@{/logout}">Logout</a></li>
+                    <li sec:authorize = "isAuthenticated()" class="header_button"><a class="header_a" th:href="@{/member/modify(memberId =${#authentication.principal.username})}">MyInfo</a></li>
                 </ul>
 
 
