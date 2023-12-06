@@ -74,13 +74,19 @@ public class MemberController {
         return "redirect:/member/list";
     }
 
-    @PreAuthorize("isAuthenticated()")
+    @PreAuthorize("isAuthenticated() && #memberId == principal.username || hasRole('ROLE_ADMIN')")
     @GetMapping("/modify")
-    public void modifyMemberInfo(@RequestParam String memberId , Model model)
+    public void modifyMemberInfo(@RequestParam String memberId)
     {
-        MemberDTO dto = memberService.getMemberById(memberId);
-        model.addAttribute("member" , dto);
+
     }
+
+    @GetMapping("/getMember/{memberId}")
+    @ResponseBody
+    public ResponseEntity<MemberDTO> getMemberDTO(@PathVariable("memberId") String memberId){
+        return new ResponseEntity<>(memberService.getMemberById(memberId) , HttpStatus.OK);
+    }
+
 
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/modify")

@@ -24,16 +24,12 @@
             str += ''+dates.endDate+''
             $(".dates").html(str);
 
-            destinations.each(function(i , dest){
-
-            })
-
-
 
             str = "";
             str += "여행지 목록</br>";
             $.each(destinations , function(i , dest){
-                str += ''+dest+'';
+                str += ''+dest.title+'';
+                str += ''+dest.date+'';
                 str += '</br>';
             })
             $(".destination").html(str);
