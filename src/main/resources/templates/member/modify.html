@@ -88,7 +88,11 @@
                     url : "/member/modify",
                     type : "POST",
                     data : JSON.stringify(modified),
-                    contentType : 'application/json; charset=utf-8'
+                    contentType : 'application/json; charset=utf-8',
+                    success : function(){
+                        $("#modifyModal").modal('hide');
+                        window.location.replace("../");
+                    }
                 });
 
             })//btnModify
