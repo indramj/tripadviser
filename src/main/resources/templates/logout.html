@@ -4,13 +4,57 @@
 <th:block th:fragment="content"></th:block>
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>로그아웃</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+        }
+
+        .container {
+            margin-top: 50px;
+            max-width: 700px;
+        }
+
+        .title {
+            text-align: center;
+            margin-top: 30px;
+            padding-top: 50px;
+            padding-bottom: 20px;
+        }
+
+        // 이 아래부분은 일단은 뺐는데 필요한거 같으면 살리면 됩니다
+<!--        .box {-->
+<!--            background-color: #fff;-->
+<!--            margin-top: 10px;-->
+<!--            padding: 20px;-->
+<!--            border: 1px solid #ddd;-->
+<!--            border-radius: 8px;-->
+<!--            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);-->
+<!--        }-->
+
+        .logout_button {
+            text-align: center;
+            margin-top: 20px;
+        }
+    </style>
 </head>
+
 <body>
-    <form class = "logoutForm" action = "/logout.do" method = "post">
-        <H1> 로그아웃하시겠습니까?</H1>
-        <input type = "submit" id = "logout" value="로그아웃"/>
-    </form>
+<form class="logoutForm" action="/logout.do" method="post">
+    <div class="container">
+        <div class="title">
+            <h1>로그아웃하시겠습니까?</h1>
+        </div>
+        <div class="box">
+            <div class="logout_button">
+                <input type="submit" id="logout" value="로그아웃" class="btn btn-secondary btn-lg">
+            </div>
+        </div>
+    </div>
+</form>
 </body>
+
 </html>
