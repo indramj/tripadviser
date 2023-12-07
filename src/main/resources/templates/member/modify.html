@@ -213,7 +213,7 @@
                 <li>
                     <div class="form_section_content">
                         <input type="password" class="form-control" placeholder="비밀번호" name = "memberPw"/>
-                        <button type = "button" class = "btn btn-secondary pwCheck">비밀번호 확인</button>
+                        <button type = "button" class = "pwCheck">비밀번호 확인</button>
                     </div>
                 </li>
             </ul>
@@ -262,10 +262,10 @@
                 </li>
                 <li>
                     <div class="button_section" sec:authorize = "isAuthenticated()">
-                        <button type = "button" class = "btn btn-secondary" data-bs-toggle="modal" data-bs-target="#modifyModal">수정</button>
-                        <button type = "button" class = "btn btn-secondary" data-bs-toggle="modal" data-bs-target="#exampleModal">회원 탈퇴</button>
+                        <button type = "button" class = "button button-modify" data-bs-toggle="modal" data-bs-target="#modifyModal">수정</button>
+                        <button type = "button" class = "button button-delete" data-bs-toggle="modal" data-bs-target="#exampleModal">회원 탈퇴</button>
                         <span sec:authorize = "hasRole('ROLE_ADMIN')">
-                            <button type = "button" class = "btn btn-secondary" id = "add_role">관리자 권한 부여</button>
+                            <button type = "button" class = "button button-admin" id = "add_role">관리자 권한 부여</button>
                         </span>
                     </div>
                 </li>
@@ -316,7 +316,13 @@
 
 
 <style>
-    .form-group{
+    @import url('https://fonts.googleapis.com/css2?family=Nanum+Pen+Script&family=Noto+Sans+KR&display=swap');
+
+
+
+
+   .form-group{
+   font-family: 'Noto Sans KR', sans-serif;
 font-size:24px;
 width:800px;
 display:flex;
@@ -326,52 +332,128 @@ margin-top:5px;
 }
 
 
-    .title_name{
-    text-align:center;
-    margin-top:50px;
-    padding-top:50px;
-    padding-bottom:20px;
-    width:1000px;
-    margin: 0 auto;
-    }
+   .title_name{
+   font-family: 'Noto Sans KR', sans-serif;
+   text-align:center;
+   margin-top:50px;
+   padding-top:50px;
+   padding-bottom:20px;
+   width:1000px;
+   margin: 0 auto;
+   }
 
-    .box{
-    background-color:white;
-    margin-top:30px;
-    width:800px;
-    margin: 0 auto;
-    padding-top:10px;
-    padding-bottom:10px;
-    border: 1px solid black;
-    border-radius:20px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    }
+   .box{
+   font-family: 'Noto Sans KR', sans-serif;
+   background-color:white;
+   margin-top:30px;
+   width:800px;
+   margin: 0 auto;
+   padding-top:10px;
+   padding-bottom:10px;
+   border-radius:20px;
+   box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+   }
 
 .letf-side{
-    background-color:red;
-    float:left;
+   background-color:red;
+   float:left;
 
-    }
+   }
 
-    .button-section{
-   font-size:24px;
+   .button-section{
+  font-size:24px;
 width:800px;
 display:flex;
 margin: 0 auto;
 margin-top:10px;
+font-family: 'Noto Sans KR', sans-serif;
 
+   }
+
+   .list{
+   list-style-type: none;
+   }
+
+   .form_section_content{
+   font-family: 'Noto Sans KR', sans-serif;
+   width:500px;
+   font-size:24px;
+   }
+
+
+
+
+
+   .btnActive{
+    position: relative;
+   border: none;
+   display: inline-block;
+   padding: 1px 10px;
+   border-radius: 15px;
+   font-family: 'Noto Sans KR', sans-serif;
+   box-shadow: 0 15px 35px rgba(0, 0, 0, 0.05);
+   text-decoration: none;
+   font-weight: 600;
+   transition: 0.25s;
+   border: 3px solid aliceblue;
+   color: #1e6b7b;
+   width:100px;
+   height:40px;
+   font-size:16px;
+   }
+
+   .btnActive:hover{
+   color: #1e6b7b;
+   background: aliceblue;
+   }
+
+.pwCheck{
+   position: relative;
+   border: none;
+   display: inline-block;
+   padding: 1px 10px;
+   border-radius: 15px;
+   font-family: 'Noto Sans KR', sans-serif;
+   box-shadow: 0 15px 35px rgba(0, 0, 0, 0.05);
+   text-decoration: none;
+   font-weight: 600;
+   transition: 0.25s;
+   border: 3px solid aliceblue;
+   color: #1e6b7b;
+   width:150px;
+   height:40px;
+   font-size:16px;
     }
 
-    .list{
-    list-style-type: none;
+.pwCheck:hover{
+    color: #1e6b7b;
+   background: aliceblue;
     }
 
-    .form_section_content{
-    width:500px;
-    font-size:24px;
+.button{
+     position: relative;
+   border: none;
+   display: inline-block;
+   padding: 1px 10px;
+   padding-left:30px;
+   padding-right:30px;
+   border-radius: 15px;
+   font-family: 'Noto Sans KR', sans-serif;
+   box-shadow: 0 15px 35px rgba(0, 0, 0, 0.05);
+   text-decoration: none;
+   font-weight: 600;
+   transition: 0.25s;
+   border: 3px solid aliceblue;
+   color: #1e6b7b;
+   height:40px;
+   font-size:16px;
     }
 
 
+.button:hover{
+    color: #1e6b7b;
+   background: aliceblue;
+    }
 </style>
 
 

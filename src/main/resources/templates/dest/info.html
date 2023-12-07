@@ -162,7 +162,7 @@
 </div>
 <div class="container">
     <input id="datepicker" width="450" readonly autocomplete="off" />
-    <button type="button" class="btn btn-primary" id="addDest">일정추가</button>
+    <button type="button" class="button button-add" data-bs-toggle="modal" data-bs-target="#addModal">일정추가</button>
 </div>
 <div class="box">
 <ul>
@@ -232,6 +232,8 @@
             COPYRIGHT 2023. FIRST. ALL RIGHT RESERVED./li>
     </ul>
 </div>
+
+<!--댓글 등록 모달-->
 <div class="modal fade" id="registModal" tabindex="-1" aria-labelledby="registModalLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -249,6 +251,31 @@
         </div>
     </div>
 </div>
+
+<!--일정 등록 모달-->
+<div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="registModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addModalLabel">등록하시겠습니까?</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                일정을 등록합니다.
+            </div>
+            <div class="modal-footer">
+                <button type="button"  id="addDest"  class="btn btn-primary">등록</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
 
 
 <style>
@@ -431,6 +458,32 @@
         font-size: 48px;
         font-weight:100px;
         }
+
+.button{
+     position: relative;
+   border: none;
+   display: inline-block;
+   padding: 1px 10px;
+   padding-left:30px;
+   padding-right:30px;
+   border-radius: 15px;
+   font-family: 'Noto Sans KR', sans-serif;
+   box-shadow: 0 15px 35px rgba(0, 0, 0, 0.05);
+   text-decoration: none;
+   font-weight: 600;
+   transition: 0.25s;
+   border: 3px solid aliceblue;
+   color: #1e6b7b;
+   height:40px;
+   font-size:16px;
+    }
+
+
+.button:hover{
+    color: #1e6b7b;
+   background: aliceblue;
+    }
+
 
 
 
