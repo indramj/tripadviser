@@ -1,11 +1,14 @@
 <!DOCTYPE html>
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 <html xmlns:th="thymeleaf.org" lang="en">
+<th:block th:replace="~{layout/basic::setContent(~{this::content})}"></th:block>
+<th:block th:fragment="content"></th:block>
 <head>
     <meta charset="UTF-8">
     <!--<link th:href="@{/static/css/list.css?ver=1/}" rel="stylesheet">-->
     <link rel="stylesheet" type="text/css" href="/static/css/list.css"/>
     <!-- <link rel="stylesheet" type="text/css" href="/static/css/list.css"/>-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <title>member_list</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script>
