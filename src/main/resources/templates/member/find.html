@@ -39,7 +39,9 @@
         <tbody>
         <tr th:each="member : ${members.dtoList}">
             <td><input type="checkbox" name="checkList"></td>
-            <td th:text="${member.memberId}"></td>
+<!--            <td th:text="${member.memberId}"></td>-->
+            <td><a th:href="@{/member/modify(memberId=${member.memberId})}" th:text="${member.memberId}"/></td>
+            <a href="#"><td th:text="${member.memberName}"></td></a>
             <td th:text="${member.memberName}"></td>
             <td th:text="${member.memberEmail}"></td>
         </tr>
@@ -67,6 +69,10 @@
         font-size:13px;
         border-radius:5px;
         }
+
+    .table {
+        font-size: 24px;
+    }
 
 
 </Style>
