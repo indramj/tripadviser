@@ -46,7 +46,9 @@
                     console.log(arr);
                     var str = "";
                     $.each(arr , function(i , review){
-                    reviews.append('<li>'+i+'. '+review.memberId+' '+review.review+'</li>');
+                    reviews.append(
+                    '<li>'+review.memberId+' '+review.password+' '+review.review+'</li>'
+                    );
                     })
                 })
             } //readReviews
@@ -205,6 +207,9 @@
                 <div class="static_map" id="staticMap" style="width:400px;height:400px;"></div>
             </div>
         </div>
+        <div class="review" id = "reviews">
+
+        </div>
 <div class="comment_icon">
     <i class="fa-solid fa-pen"></i>
 </div>
@@ -225,8 +230,7 @@
                 <button class="btn btn-primary" type = "button" data-bs-toggle="modal" data-bs-target="#registModal">등록</button>
             </div>
 
-            <div class="review" id = "reviews">
-            </div>
+
         </div>
 
     </li>
@@ -441,6 +445,10 @@
         background-color:snow;
         border-radius: 8px;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        margin:0 auto;
+        width:400px;
+        text-align: center;
+        margin-top:30px;
         }
 
         .footer {
