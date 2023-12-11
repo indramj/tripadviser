@@ -160,8 +160,13 @@
                         }
                     })
                 } //addDest
+            })//#addDest
+
+            $("#btnLogin").on("click" , function(){
+                location.href = "../login";
             })
-        })
+
+        })//ready
 
     </script>
 </head>
@@ -213,10 +218,7 @@
                 <input class="form-control"  id = "mid" aria-label="Username" type = "text"  th:value = "${#authentication.principal.username}" readonly/>
                 <input class="form-control"  id = "mpw" placeholder="Password" aria-label="Server" type = "password" />
              </div>
-            <div sec:authorize = "isAnonymous()">
-                <input class="form-control" id = "name" placeholder="Username" aria-label="Username" type = "text" readonly/>
-                <input class="form-control" id = "password" placeholder="Password" aria-label="Server" type = "password" />
-            </div>
+
             <div class="input-group">
                 <span class="input-group-text">Comment</span>
                     <textarea class="form-control" aria-label="With textarea" id = "review"></textarea>
@@ -263,7 +265,7 @@
 
 <!--일정 등록 모달-->
 <div class="modal fade" id="addModal" tabindex="-1" aria-labelledby="registModalLabel" aria-hidden="true">
-    <div class="modal-dialog">
+    <div sec:authorize = "isAuthenticated()" class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="addModalLabel">등록하시겠습니까?</h5>
@@ -274,6 +276,20 @@
             </div>
             <div class="modal-footer">
                 <button type="button"  id="addDest"  class="btn btn-primary">등록</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
+            </div>
+        </div>
+    </div>
+    <div sec:authorize = "isAnonymous()" class = "modal-dialog">
+        <div class = "modal-content">
+            <div class = "modal-header">
+                <h5 class="modal-title">로그인이 필요한 기능입니다</h5>
+            </div>
+            <div class="modal-body">
+                로그인 하시겠습니까?
+            </div>
+            <div class="modal-footer">
+                <button type="button"  id="btnLogin"  class="btn btn-primary">로그인</button>
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">닫기</button>
             </div>
         </div>

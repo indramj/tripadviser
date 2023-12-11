@@ -12,7 +12,7 @@ public interface DestinationService {
 
     public void addDestList(List<DestDTO> dtoList);
 
-    public List<DestDTO> readDestList(String memberId);
+    public List<DestDTO> getDestList(String memberId);
 
 
     default Destination dtoToEntity(DestDTO destDTO){
@@ -34,6 +34,7 @@ public interface DestinationService {
                 .destTitle(dest.getDestTitle())
                 .mapX(dest.getMapX())
                 .mapY(dest.getMapY())
+                .date(dest.getDate())
                 .memberId(dest.getMember().getMemberId())
                 .build();
         return dto;

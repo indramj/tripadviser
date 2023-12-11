@@ -21,6 +21,15 @@ public class DestinationServiceImpl implements DestinationService{
         destRepository.save(dest);
 
     }
+    public List<DestDTO> getDestList(String memberId){
+        List<Destination> entityList = destRepository.findAllByMember_MemberId(memberId);
+        List<DestDTO> dtoList = new ArrayList<DestDTO>();
+        for (Destination destination : entityList){
+            DestDTO dto = entityToDTO(destination);
+            dtoList.add(dto);
+        }
+        return dtoList;
+    }
 
     public void addDestList(List<DestDTO> dtoList){
         for (DestDTO destDTO : dtoList) {

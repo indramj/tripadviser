@@ -1,18 +1,13 @@
 package com.first.tripadviser.controller;
 
 import com.first.tripadviser.dto.MemberDTO;
-import com.first.tripadviser.dto.MemberDestDTO;
 import com.first.tripadviser.dto.PageRequestDTO;
-import com.first.tripadviser.dto.PageResultDTO;
 import com.first.tripadviser.entity.Member;
 import com.first.tripadviser.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 
 
-import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
