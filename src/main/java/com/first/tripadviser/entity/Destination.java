@@ -1,10 +1,9 @@
 package com.first.tripadviser.entity;
 
 import lombok.*;
-import org.springframework.data.geo.Point;
 
 import javax.persistence.*;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Entity
 @Builder
@@ -19,9 +18,9 @@ public class Destination {
     private Long destId;
     private String contentId;
     private String destTitle;
-    private double mapX;
-    private double mapY;
-    private LocalDateTime date;
+    private String mapX;
+    private String mapY;
+    private LocalDate date;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "memberId")
     private Member member;

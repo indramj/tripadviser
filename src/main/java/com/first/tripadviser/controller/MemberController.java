@@ -10,11 +10,14 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 
 
+import org.apache.tomcat.util.net.openssl.ciphers.Authentication;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -122,5 +125,14 @@ public class MemberController {
     public ResponseEntity<List<Member>> searchMembers(@RequestParam String keyword) {
         List<Member> searchResult = memberService.searchMembers(keyword);
         return ResponseEntity.ok(searchResult);
+    }
+
+    @GetMapping("/isAuthenticated")
+    public ResponseEntity<String> isAuthtenticated(@AuthenticationPrincipal UserDetails userDetails){
+        if(userDetails == null){
+            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
+        }
+        String memberId = userDetails.getUsername();
+        return new ResponseEntity<>(memberId , HttpStatus.OK);
     }
 }

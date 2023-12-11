@@ -115,9 +115,11 @@
                 }
 
             $("#addDest").on("click" , function(){
-                 /*<![CDATA[*/
-                var isLoggedIn = /*[[${__SECURITY_PRINCIPAL__ != null}]]*/ false;
-                /*]]>*/
+                var jsDate = new Date($("#datepicker").val());
+                var year = jsDate.getFullYear();
+                var month = jsDate.getMonth() + 1; // JavaScript의 월은 0부터 시작하므로 1을 더합니다.
+                var day = jsDate.getDate();
+                var localDate= year + "-" + month + "-" + day;
 
 
                 var dest = {
@@ -125,7 +127,8 @@
                     destTitle : item[0].title,
                     mapX : item[0].mapx,
                     mapY : item[0].mapy,
-                    date : $("#datepicker").val()
+                    date : localDate,
+                    memberId : 'kmm'
                     }
                 console.log(dest);
                 var storagedDestinations = sessionStorage.getItem("destinations");
@@ -133,7 +136,7 @@
                 var alreadyInput = false;
 
                 $.each(destinations , function( i , destination){
-                    if(destination.date === $("#datepicker").val() && destination.title === item[0].title){
+                    if(destination.date === $("#datepicker").val() && destination.destTitle === item[0].title){
                         alert("이미 추가된 일정입니다.");
                         alreadyInput = true;
                         return false;
@@ -142,15 +145,21 @@
                 if(alreadyInput === true){
                     return false;
                 }
+                addDest(dest);
                 destinations.push(dest);
                 sessionStorage.setItem('destinations' , JSON.stringify(destinations) );
-                if(isLoggedIn){
-                    dest.memberId = $("#mid").val();
-                    console.log(dest);
-                }
 
-
-
+                function addDest(dest){
+                    $.ajax({
+                        url : '/dest/addDest',
+                        type : 'post',
+                        data : JSON.stringify(dest),
+                        contentType : 'application/json; charset=utf-8',
+                        success : function(){
+                            alert("add to DB");
+                        }
+                    })
+                } //addDest
             })
         })
 
