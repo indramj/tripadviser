@@ -22,6 +22,7 @@ public class DestinationController {
 
     private final DestinationService destService;
 
+
     @GetMapping("/info")
     public void showInfo(@RequestParam("contentId") Long contentId , Model model){
         model.addAttribute("contentId" , contentId);
@@ -40,10 +41,14 @@ public class DestinationController {
         return new ResponseEntity<>("result" , HttpStatus.OK);
     }
 
-//    @GetMapping("/read/{memberId}")
-//    public ResponseEntity<List<DestDTO>> readDest(@PathVariable("memberId") String memberId){
-//
-//    }
+
+    @GetMapping("/read")
+    public ResponseEntity<List<DestDTO>> getDestList(@AuthenticationPrincipal UserDetails userDetails){
+        String memberId = userDetails.getUsername();
+        List<DestDTO> dtoList = destService.getDestList(memberId);
+        return new ResponseEntity<>(dtoList , HttpStatus.OK);
+
+    }
 
 
 }
