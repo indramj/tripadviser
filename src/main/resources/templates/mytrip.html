@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security" xmlns="http://www.w3.org/1999/html">
 <th:block th:replace="~{layout/basic::setContent(~{this::content})}"></th:block>
 <th:block th:fragment="content"></th:block>
 <head>
@@ -9,13 +10,75 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script th:inline = "javascript">
         $(document).ready(function(){
+            var memberId = "";
+            var isAuthenticated = false;
+
+            function checkAuthentication() {
+                return new Promise(async (resolve, reject) => {
+                    try {
+                        const response = await $.ajax({
+                            url: '/member/isAuthenticated',
+                            type: 'GET',
+                            dataType: 'text',
+                        });
+                    const memberId = response;
+                    resolve({ isAuthenticated: true, memberId: memberId });
+                    } catch (error) {
+                        console.error('Error checking authentication:', error);
+                        // 오류가 발생했으므로 resolve 호출
+                        resolve({ isAuthenticated: false, memberId: null });
+                    }
+                });
+            }
+
             var storagedDestinations = sessionStorage.getItem('destinations');
             var storagedDates = sessionStorage.getItem('dates');
-
             var destinations = JSON.parse(storagedDestinations);
             var dates = JSON.parse(storagedDates);
-            console.log(destinations);
-            console.log(dates);
+
+            checkAuthentication()
+                .then(result => {
+                    const isAuthenticated = result.isAuthenticated;
+                    const memberId = result.memberId;
+                    if(isAuthenticated == true){
+                        currentDestList(memberId);
+                    }
+                });
+
+            function currentDestList(memberId){
+                var destList = [];
+
+                $.each(destinations , function( i , dest){
+                    if(memberId != "" ){
+                        dest.memberId = memberId;
+                    }
+                    dest.date = changeToLocalDate(dest.date);
+                    destList.push(dest);
+                })
+                console.log(destList);
+                $.ajax({
+                    url : '/dest/addList',
+                    type : 'POST',
+                    data : JSON.stringify(destList),
+                    contentType : 'application/json; charset=utf-8',
+                    dataType : 'text',
+                    success : function(result){
+                        alert("OK");
+                    }
+                }) //ajax
+            } //currentDestList
+
+            function changeToLocalDate(date){
+                var jsDate = new Date(date);
+                var year = jsDate.getFullYear();
+                var month = jsDate.getMonth() + 1; // JavaScript의 월은 0부터 시작하므로 1을 더합니다.
+                var day = jsDate.getDate();
+                var localDate= year + "-" + month + "-" + day;
+                return localDate;
+            }
+
+
+
 
             var str = "출발일 : ";
             str += ''+dates.startDate+''
@@ -25,20 +88,23 @@
             $(".dates").html(str);
 
 
+
             str = "";
             str += "여행지 목록</br>";
             $.each(destinations , function(i , dest){
-                str += ''+dest.title+'';
+                str += ''+dest.destTitle+'';
                 str += ''+dest.date+'';
                 str += '</br>';
+
             })
+
+
             $(".destination").html(str);
-
-
         })
     </script>
 </head>
 <body>
+
     <div class = "dates"></div>
     <div class = "destination"> </div>
 

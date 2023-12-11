@@ -4,9 +4,15 @@ import com.first.tripadviser.dto.DestDTO;
 import com.first.tripadviser.entity.Destination;
 import com.first.tripadviser.entity.Member;
 
+import java.util.List;
+
 public interface DestinationService {
 
     public void addDest(DestDTO destDTO);
+
+    public void addDestList(List<DestDTO> dtoList);
+
+    public List<DestDTO> readDestList(String memberId);
 
 
     default Destination dtoToEntity(DestDTO destDTO){

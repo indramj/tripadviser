@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 
@@ -26,11 +27,23 @@ public class DestinationController {
         model.addAttribute("contentId" , contentId);
 
     }
+    @PostMapping("/addList")
+    public ResponseEntity<String> addDestList(@RequestBody List<DestDTO> dtoList){
+
+        destService.addDestList(dtoList);
+        return new ResponseEntity<>("result" , HttpStatus.OK);
+    }
+
     @PostMapping("/addDest")
-    public ResponseEntity<String> addDest(@RequestBody() DestDTO destDTO){
+    public ResponseEntity<String> addDest(@RequestBody DestDTO destDTO){
         destService.addDest(destDTO);
         return new ResponseEntity<>("result" , HttpStatus.OK);
     }
+
+//    @GetMapping("/read/{memberId}")
+//    public ResponseEntity<List<DestDTO>> readDest(@PathVariable("memberId") String memberId){
+//
+//    }
 
 
 }
