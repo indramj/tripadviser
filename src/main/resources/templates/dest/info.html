@@ -156,7 +156,10 @@
                         data : JSON.stringify(dest),
                         contentType : 'application/json; charset=utf-8',
                         success : function(){
-                            alert("add to DB");
+                            // modal 숨기기
+                            $("#addModal").modal('hide');
+                            // alert 띄우기
+                            alert("일정이 등록되었습니다.");
                         }
                     })
                 } //addDest
@@ -270,6 +273,7 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
+                <div id="confirmationMessage"></div>
                 일정을 등록합니다.
             </div>
             <div class="modal-footer">
