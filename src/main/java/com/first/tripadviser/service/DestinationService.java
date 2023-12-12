@@ -3,7 +3,9 @@ package com.first.tripadviser.service;
 import com.first.tripadviser.dto.DestDTO;
 import com.first.tripadviser.entity.Destination;
 import com.first.tripadviser.entity.Member;
+import com.first.tripadviser.entity.Plan;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public interface DestinationService {
@@ -12,7 +14,12 @@ public interface DestinationService {
 
     public void addDestList(List<DestDTO> dtoList);
 
-    public List<DestDTO> getDestList(String memberId);
+    //public List<DestDTO> getDestList(String memberId);
+    public List<DestDTO> getDestinationsByPlanNo(Long planNo);
+
+    public List<DestDTO> getDestByPnoAndDate(Long planNo , LocalDate date);
+
+    public void deleteDest(Long destId);
 
 
     default Destination dtoToEntity(DestDTO destDTO){
@@ -22,7 +29,7 @@ public interface DestinationService {
                 .mapY(destDTO.getMapY())
                 .date(destDTO.getDate())
                 .contentId(destDTO.getContentId())
-                .member(Member.builder().memberId(destDTO.getMemberId()).build())
+                .plan(Plan.builder().planNo(destDTO.getPlanNo()).build())
                 .build();
         return dest;
     }
@@ -35,7 +42,7 @@ public interface DestinationService {
                 .mapX(dest.getMapX())
                 .mapY(dest.getMapY())
                 .date(dest.getDate())
-                .memberId(dest.getMember().getMemberId())
+                .planNo(dest.getPlan().getPlanNo())
                 .build();
         return dto;
     }

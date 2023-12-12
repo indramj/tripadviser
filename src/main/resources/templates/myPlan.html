@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security" xmlns="http://www.w3.org/1999/html">
+<th:block th:replace="~{layout/basic::setContent(~{this::content})}"></th:block>
+<th:block th:fragment="content"></th:block>
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script th:inline = "javascript">
+        $(document).ready(function(){
+            var plans = [[${plans}]];
+
+            $.each(plans , function(i , plan){
+                var planNo = plan.planNo;
+                var dateStr = "";
+
+                var eachDates = getEachDate(plan.startDate , plan.endDate);
+                $.each(eachDates , function( i , date){
+                    dateStr += '<td>'+date+'</td>';
+                    var titleStr = "";
+                    $.getJSON('/dest/getDestByDate/'+planNo+'/'+date , function(destinations){
+                        titleStr += '<td>';
+                        $.each(destinations , function(i , dest){
+                            titleStr += ''+dest.destTitle+'';
+                            titleStr += '</br>';
+                        })
+                        titleStr += '</td>';
+                        $(".planTable[data-pno = '"+ planNo +"'] .titleList").append(titleStr);
+                    })//getJSON
+                })
+                $(".planTable[data-pno = '"+ planNo +"'] .dateList").append(dateStr);
+
+
+            })//each
+
+            function getEachDate( startDate , endDate){
+                var endDate = new Date(endDate);
+                var curDate = new Date(startDate);
+                var allDate = [];
+                while(curDate <= endDate){
+                    var year = curDate.getFullYear();
+                    var month = curDate.getMonth() + 1; // JavaScript의 월은 0부터 시작하므로 1을 더합니다.
+                    var day = curDate.getDate();
+                    var localDate= year + "-" + month + "-" + day;
+                    allDate.push(localDate);
+                    curDate.setDate(curDate.getDate() + 1);
+                }
+                console.log(allDate);
+                return allDate;
+            }
+
+
+        }) //ready
+    </script>
+</head>
+<body>
+    <div th:each = "plan : ${plans}" >
+        출발일 :
+            <span th:text = "${plan.startDate}"></span></td>
+        종료일 :
+            <span th:text = "${plan.endDate}"></span></td>
+        <button type = "button" th:data-pno = "${plan.planNo}">일정 삭제</button></td>
+        <table class = "planTable"  th:data-pno = "${plan.planNo}">
+            <tr class = "dateList">
+
+            </tr>
+            <tr class = "titleList">
+            </tr>
+        </table>
+    </div>
+
+
+</body>
+</html>

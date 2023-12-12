@@ -22,8 +22,6 @@ public class Destination {
     private String mapY;
     private LocalDate date;
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "memberId")
-    private Member member;
-
-
+    @JoinColumn(name = "planNo")
+    private Plan plan;
 }

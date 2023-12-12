@@ -11,7 +11,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpSession;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 
 
@@ -28,6 +32,19 @@ public class DestinationController {
         model.addAttribute("contentId" , contentId);
 
     }
+
+    @GetMapping("/getDest/{planNo}")
+    public ResponseEntity<List<DestDTO>> getDestinations(@PathVariable("planNo") Long planNo){
+        List<DestDTO> destList = destService.getDestinationsByPlanNo(planNo);
+        return new ResponseEntity<>(destList , HttpStatus.OK);
+    }
+    @GetMapping("/getDestByDate/{planNo}/{date}")
+    public ResponseEntity<List<DestDTO>> getDestByPnoAndDate(@PathVariable Long planNo , @PathVariable String date){
+        LocalDate localDate = LocalDate.parse(date , DateTimeFormatter.ISO_LOCAL_DATE);
+        List<DestDTO> destList = destService.getDestByPnoAndDate(planNo , localDate);
+        return new ResponseEntity<>(destList , HttpStatus.OK);
+    }
+
     @PostMapping("/addList")
     public ResponseEntity<String> addDestList(@RequestBody List<DestDTO> dtoList){
 
@@ -36,18 +53,18 @@ public class DestinationController {
     }
 
     @PostMapping("/addDest")
-    public ResponseEntity<String> addDest(@RequestBody DestDTO destDTO){
+    public ResponseEntity<String> addDest(@RequestBody DestDTO destDTO , HttpSession session){
+        Long planNo = (Long)session.getAttribute("planNo");
+        destDTO.setPlanNo(planNo);
         destService.addDest(destDTO);
         return new ResponseEntity<>("result" , HttpStatus.OK);
     }
 
 
-    @GetMapping("/read")
-    public ResponseEntity<List<DestDTO>> getDestList(@AuthenticationPrincipal UserDetails userDetails){
-        String memberId = userDetails.getUsername();
-        List<DestDTO> dtoList = destService.getDestList(memberId);
-        return new ResponseEntity<>(dtoList , HttpStatus.OK);
-
+    @DeleteMapping("/delete/{destId}")
+    public ResponseEntity<String> deleteDest(@PathVariable("destId") Long destId){
+        destService.deleteDest(destId);
+        return new ResponseEntity<>("result" , HttpStatus.OK);
     }
 
 

@@ -16,5 +16,5 @@ public class DestDTO {
     private String mapX;
     private String mapY;
     private LocalDate date;
-    private String memberId;
+    private Long planNo;
 }
