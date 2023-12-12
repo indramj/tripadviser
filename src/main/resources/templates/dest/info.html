@@ -17,21 +17,20 @@
     <script th:inline = "javascript">
         $(document).ready(function(){
             var contentid = [[${contentId}]];
-            console.log(contentid);
             var item;
 
-            var storagedDates = sessionStorage.getItem("dates");
-            if(storagedDates !== null){
-                var dates = JSON.parse(storagedDates);
+            var storagedPlan = sessionStorage.getItem("plan");
+            if(storagedPlan !== null){
+                var plan = JSON.parse(storagedPlan);
             }
 
             $('#datepicker').datepicker({
-                minDate: dates.startDate,
+                minDate: plan.startDate,
                 dateFormat: 'yy-mm-dd',
-                maxDate: dates.endDate
+                maxDate: plan.endDate
 
             });
-            $('#datepicker').datepicker('setDate', dates.startDate);
+            $('#datepicker').datepicker('setDate', plan.startDate);
 
 
 
@@ -128,7 +127,6 @@
                     mapX : item[0].mapx,
                     mapY : item[0].mapy,
                     date : localDate,
-                    memberId : 'kmm'
                     }
                 console.log(dest);
                 var storagedDestinations = sessionStorage.getItem("destinations");

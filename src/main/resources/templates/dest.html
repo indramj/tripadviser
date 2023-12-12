@@ -17,17 +17,16 @@
 
     <script th:inline = "javascript">
         $(document).ready(function() {
-            var storagedDates = sessionStorage.getItem("dates");
-            if(storagedDates !== null){
-                var dates = JSON.parse(storagedDates);
+            var storagedPlan = sessionStorage.getItem("plan");
+            if(storagedPlan !== null){
+                var plan = JSON.parse(storagedPlan);
             }
             var str = "출발일 : ";
-            str += ''+dates.startDate+''
+            str += ''+plan.startDate+''
             str +=  '</br>';
             str += "종료일 : ";
-            str += ''+dates.endDate+''
+            str += ''+plan.endDate+''
             $(".dates").html(str);
-            console.log(dates);
 
 
             var mapContainer = document.getElementById('map');
