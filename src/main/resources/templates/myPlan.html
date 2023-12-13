@@ -64,7 +64,7 @@
 
     <div th:each = "plan : ${plans}" >
 
-        <div class="plan_date">
+        <div style="text-align:center;" class="plan_date">
         출발일 :
             <span style="margin-right:20px;"th:text = "${plan.startDate}"></span></td>
         종료일 :
@@ -78,7 +78,7 @@
 <div class="plan_box">
         <table style="margin-left:auto;margin-right:auto;" class = "planTable"  th:data-pno = "${plan.planNo}">
 
-            <tr style="margin-left:30px;"class = "dateList">
+            <tr style="margin-left:30px; margin-right:30px;" class = "dateList">
             </tr>
 
             <tr class = "titleList">
@@ -107,7 +107,7 @@
 
 
         .box{
-        width:800px;
+        width:80%;
         margin: 0 auto;
         margin-top:100px;
         margin-bottom:100px;
@@ -118,10 +118,14 @@
 
 .plan_box{
 margin:0 auto;
+
 }
         .planTable{
         margin-top:30px;
         text-align:center;
+        border-spacing: 40px;
+  border-collapse: separate;
+  padding-right:30px;
         }
 
 
