@@ -56,21 +56,130 @@
     </script>
 </head>
 <body>
-    <div th:each = "plan : ${plans}" >
-        출발일 :
-            <span th:text = "${plan.startDate}"></span></td>
-        종료일 :
-            <span th:text = "${plan.endDate}"></span></td>
-        <button type = "button" th:data-pno = "${plan.planNo}">일정 삭제</button></td>
-        <table class = "planTable"  th:data-pno = "${plan.planNo}">
-            <tr class = "dateList">
+<div class="title_name">
+    MY Plan
+</div>
 
+<div class="box">
+
+    <div th:each = "plan : ${plans}" >
+
+        <div class="plan_date">
+        출발일 :
+            <span style="margin-right:20px;"th:text = "${plan.startDate}"></span></td>
+        종료일 :
+            <span style="margin-right:20px;"th:text = "${plan.endDate}"></span></td>
+
+        <button class="delete_button" type = "button" th:data-pno = "${plan.planNo}">일정 삭제</button></td>
+
+        </div>
+
+
+<div class="plan_box">
+        <table style="margin-left:auto;margin-right:auto;" class = "planTable"  th:data-pno = "${plan.planNo}">
+
+            <tr style="margin-left:30px;"class = "dateList">
             </tr>
+
             <tr class = "titleList">
             </tr>
+
         </table>
+</div>
     </div>
 
 
+
+
+</div>
 </body>
+
+<style>
+    @import url('https://fonts.googleapis.com/css2?family=Nanum+Pen+Script&family=Noto+Sans+KR&display=swap');
+
+        .title_name{
+        margin-top:50px;
+        margin-bottom:30px;
+        font-size: 45px;
+        text-align:center;
+        }
+
+
+
+        .box{
+        width:800px;
+        margin: 0 auto;
+        margin-top:100px;
+        margin-bottom:100px;
+        font-family: 'Noto Sans KR', sans-serif;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        border-radius: 8px;
+        }
+
+.plan_box{
+margin:0 auto;
+}
+        .planTable{
+        margin-top:30px;
+        text-align:center;
+        }
+
+
+        .plan_date{
+        background-color:yellow;
+        margin-top:30px;
+        padding-left:130px;
+        padding-top:20px;
+        padding-bottom:20px;
+        font-size:22px;
+        }
+
+        .dateList{
+        margin-top:20px;
+        background-color:snow;
+        font-size:18px;
+        width:150px;
+        height:35px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+        border-radius: 8px;
+        }
+
+        .titleList{
+        background-color:white;
+        font-size:22px;
+
+        }
+
+        .delete_button{
+        position: relative;
+       border: none;
+       display: inline-block;
+       padding: 1px 10px;
+       border-radius: 15px;
+       font-family: 'Noto Sans KR', sans-serif;
+       box-shadow: 0 15px 35px rgba(0, 0, 0, 0.05);
+       text-decoration: none;
+       font-weight: 600;
+       transition: 0.25s;
+       border: 3px solid aliceblue;
+       color: #1e6b7b;
+       width:100px;
+       height:40px;
+       font-size:16px;
+       }
+
+       .delete_button:hover{
+       color: #1e6b7b;
+       background: aliceblue;
+       }
+
+     a{
+    color:black;
+    text-decoration:none;
+    }
+</style>
+
+
+
+
 </html>
