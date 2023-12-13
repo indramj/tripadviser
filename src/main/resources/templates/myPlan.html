@@ -12,28 +12,48 @@
         $(document).ready(function(){
             var plans = [[${plans}]];
 
-            $.each(plans , function(i , plan){
-                var planNo = plan.planNo;
-                var dateStr = "";
+            loadPlans(plans);
 
-                var eachDates = getEachDate(plan.startDate , plan.endDate);
-                $.each(eachDates , function( i , date){
-                    dateStr += '<td>'+date+'</td>';
-                    var titleStr = "";
-                    $.getJSON('/dest/getDestByDate/'+planNo+'/'+date , function(destinations){
-                        titleStr += '<td>';
-                        $.each(destinations , function(i , dest){
-                            titleStr += ''+dest.destTitle+'';
-                            titleStr += '</br>';
-                        })
-                        titleStr += '</td>';
-                        $(".planTable[data-pno = '"+ planNo +"'] .titleList").append(titleStr);
-                    })//getJSON
-                })
-                $(".planTable[data-pno = '"+ planNo +"'] .dateList").append(dateStr);
+            function loadPlans(plans){
 
 
-            })//each
+                $.each(plans , function(i , plan){
+                    var planNo = plan.planNo;
+                    var dateStr = "";
+
+                    var eachDates = getEachDate(plan.startDate , plan.endDate);
+                    $.each(eachDates , function( i , date){
+                        dateStr += '<td>'+date+'</td>';
+                        var titleStr = "";
+                        $.getJSON('/dest/getDestByDate/'+planNo+'/'+date , function(destinations){
+                            titleStr += '<td>';
+                            $.each(destinations , function(i , dest){
+                                titleStr += ''+dest.destTitle+'';
+                                titleStr += '</br>';
+                            }) //each
+
+                            titleStr += '</td>';
+                            $(".planTable[data-pno = '"+ planNo +"'] .titleList").append(titleStr);
+
+                        })//getJSON
+                    })//each
+                    $(".planTable[data-pno = '"+ planNo +"'] .dateList").append(dateStr);
+                });//each
+            }
+
+
+            $(".delete_button").on("click" , function(){
+                var pno = $(this).data('pno');
+                $.ajax({
+                   url : '/plan/delete/' + pno,
+                   type : 'delete',
+                   success : function(){
+                        alert("일정이 삭제되었습니다.");
+                        location.reload();
+                   }
+                });
+            })
+
 
             function getEachDate( startDate , endDate){
                 var endDate = new Date(endDate);
@@ -50,8 +70,6 @@
                 console.log(allDate);
                 return allDate;
             }
-
-
         }) //ready
     </script>
 </head>
@@ -62,30 +80,27 @@
 
 <div class="box">
 
-    <div th:each = "plan : ${plans}" >
+    <div  th:each = "plan : ${plans}" >
 
         <div class="plan_date">
-        출발일 :
+            출발일 :
             <span style="margin-right:20px;"th:text = "${plan.startDate}"></span></td>
-        종료일 :
+            종료일 :
             <span style="margin-right:20px;"th:text = "${plan.endDate}"></span></td>
 
-        <button class="delete_button" type = "button" th:data-pno = "${plan.planNo}">일정 삭제</button></td>
-
+            <button class="delete_button" type = "button" th:data-pno = "${plan.planNo}">일정 삭제</button></td>
         </div>
+        <div class="plan_box">
+            <table style="margin-left:auto;margin-right:auto;" class = "planTable"  th:data-pno = "${plan.planNo}">
 
+                <tr style="margin-left:30px;"class = "dateList">
+                </tr>
 
-<div class="plan_box">
-        <table style="margin-left:auto;margin-right:auto;" class = "planTable"  th:data-pno = "${plan.planNo}">
+                <tr class = "titleList">
+                </tr>
 
-            <tr style="margin-left:30px;"class = "dateList">
-            </tr>
-
-            <tr class = "titleList">
-            </tr>
-
-        </table>
-</div>
+            </table>
+        </div>
     </div>
 
 

@@ -4,6 +4,8 @@ import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Builder
@@ -17,6 +19,9 @@ public class Plan {
     private Long planNo;
     private LocalDate startDate;
     private LocalDate endDate;
+
+    @OneToMany(mappedBy = "plan" , cascade = CascadeType.ALL ,orphanRemoval = true)
+    private List<Destination> destList;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "memberId")
