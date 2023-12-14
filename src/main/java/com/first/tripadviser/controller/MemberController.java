@@ -82,9 +82,16 @@ public class MemberController {
 
     @GetMapping("/getMember/{memberId}")
     @ResponseBody
-    public ResponseEntity<MemberDTO> getMemberDTO(@PathVariable("memberId") String memberId){
-        return new ResponseEntity<>(memberService.getMemberById(memberId) , HttpStatus.OK);
+    public ResponseEntity<MemberDTO> getMemberDTO(@PathVariable("memberId") String memberId) {
+        MemberDTO memberDTO = memberService.getMemberById(memberId);
+        if(memberDTO != null){
+            return new ResponseEntity<>(memberDTO , HttpStatus.OK);
+        }
+        else
+            return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
     }
+
+
 
 
     @PreAuthorize("isAuthenticated()")
