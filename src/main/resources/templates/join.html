@@ -117,11 +117,11 @@
         <div class="box">
             <div class="form-group">
                 <ul>
-                    <label for="inputId">ID</label>
-                    <input type="text" class="form-control" id="inputId" autofocus name="userId" maxlength=12 size=30 placeholder="아이디(4~12글자 이내)" required>
-                    <span id = "idStatus"></span>
-                    <button type = "button" id = "btnCheckId">중복 확인</button>
+                       <label for="inputId">ID</label>
+                        <input type="text" class="form-control" id="inputId" autofocus name="userId" maxlength=12 size=30 placeholder="아이디(4~12글자 이내)" required>
                 </ul>
+                <span id = "idStatus"></span>
+                <button type = "button" class="confirm_id" id = "btnCheckId">중복 확인</button>
             </div>
 
             <div class="form-group">
@@ -219,6 +219,38 @@ font-size:34px;
     margin: 0 auto;
 
     }
+
+    ul{
+    list-style:none;
+    }
+
+    .confirm_id{
+        position: relative;
+       border: none;
+       display: inline-block;
+       padding: 1px 10px;
+       border-radius: 15px;
+       font-family: 'Noto Sans KR', sans-serif;
+       box-shadow: 0 15px 35px rgba(0, 0, 0, 0.05);
+       text-decoration: none;
+       font-weight: 600;
+       transition: 0.25s;
+       border: 3px solid aliceblue;
+       color: #1e6b7b;
+       width:100px;
+       height:40px;
+       font-size:16px;
+       margin-top:28px;
+        width:120px;
+        margin-left:10px;
+       }
+
+       .confirm_id:hover{
+       color: #1e6b7b;
+       background: aliceblue;
+       }
+
+
 </style>
 
 

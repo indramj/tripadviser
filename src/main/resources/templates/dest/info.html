@@ -48,10 +48,11 @@
                         str += '<table>';
                         str += '<tr>';
                         str += '<td><span>' +review.memberId+ '</span></td>'
-                        str += '<td rowspan = "2"><textarea class="form-control" aria-label="With textarea" readonly>'+review.review+'</textarea></td>';
+                        str += '<td rowspan = "2"><textarea class="form-control" style="width:310px; margin-left:15px;" aria-label="With textarea" readonly>'+review.review+'</textarea></td>';
+                        str += '<td><button type="button" style="background:none; border: none;" class="delete_button"><i class="fa-solid fa-xmark"></i></button></td>'
                         str += '</tr>';
                         str += '<tr>';
-                        str += '<td><input class = "form-control" type = "password" name = "reviewPw" size = "12" placeholder = "password"/></td>'
+                        str += '<td><input class = "form-control" style="margin-left:10px; width:130px; height:30px; font-size:18px;" type = "password" name = "reviewPw" size = "12" placeholder = "password"/></td>'
                     })
                     reviews.append(str);
                 })
@@ -251,7 +252,7 @@
         <li>CEO. 1조 디자인 <br>
             Addr.서울특별시 무슨구 무슨2로 111-011 우림엘레베이터 아파트 5차 103동 1210호<br>
             Tel.010-1111-2222<br>
-            COPYRIGHT 2023. FIRST. ALL RIGHT RESERVED./li>
+            COPYRIGHT 2023. FIRST. ALL RIGHT RESERVED.
     </ul>
 </div>
 
