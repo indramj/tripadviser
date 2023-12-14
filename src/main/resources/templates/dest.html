@@ -117,6 +117,8 @@
 
                     // Update the map center to the average coordinates
                     var averageLatLon = new kakao.maps.LatLng(averageLatitude, averageLongitude);
+                    map.setLevel(12);
+
                     map.panTo(averageLatLon);
                 });
             });
