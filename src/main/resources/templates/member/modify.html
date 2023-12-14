@@ -10,6 +10,7 @@
         $(document).ready(function(){
             var modifyForm = $("form");
             var pwConfirmed = false;
+            var pwChecked = false;
             var url = new URL(window.location.href);
 
             var memberId = url.searchParams.get('memberId');
@@ -70,12 +71,7 @@
 
 
             $(".btnModify").on("click" , function(){
-                console.log(pwConfirmed);
-                if(!pwConfirmed){
-                    alert("비밀번호를 확인해주세요")
-                    return;
-                }
-                console.log(typeof(memberId));
+
                 var modified = {
                     memberId : memberId,
                     memberPw :  $("input[name = newPw]").val(),
@@ -98,13 +94,19 @@
             })//btnModify
 
            $("#newPw , #newPwConfirm").on("input" , function(){
+                pwChecked = false;
                 var newPw = $("input[name = newPw]").val();
                 var confirm = $("input[name = newPwConfirm]").val();
+                if(newPw.length < 4 || newPw.length > 12){
+                    $(".confirm").text("비밀번호는 4~12 글자 이내여야 합니다.");
+                    return;
+                }
                 if( newPw != confirm){
                     $(".confirm").text("비밀번호가 일치하지 않습니다");
                 }
                 else{
                     $(".confirm").text("비밀번호가 일치 합니다.");
+                    pwChecked = true;
                 }
           });
 
@@ -125,6 +127,18 @@
                 })
 
 
+           })
+
+           $(".button-modify").on("click" , function(){
+                if(pwConfirmed == false){
+                    alert("비밀번호를 확인해주세요");
+                    return;
+                }
+                if(pwChecked == false){
+                    alert("바꿀 비밀번호의 형식이 잘못되었습니다.");
+                    return;
+                }
+                $("#modifyModal").modal("show");
            })
 
            function getRole(member){
@@ -262,7 +276,7 @@
                 </li>
                 <li>
                     <div class="button_section" sec:authorize = "isAuthenticated()">
-                        <button type = "button" class = "button button-modify" data-bs-toggle="modal" data-bs-target="#modifyModal">수정</button>
+                        <button type = "button" class = "button button-modify" data-bs-toggle="modal" data-bs-target>수정</button>
                         <button type = "button" class = "button button-delete" data-bs-toggle="modal" data-bs-target="#exampleModal">회원 탈퇴</button>
                         <span sec:authorize = "hasRole('ROLE_ADMIN')">
                             <button type = "button" class = "button button-admin" id = "add_role">관리자 권한 부여</button>

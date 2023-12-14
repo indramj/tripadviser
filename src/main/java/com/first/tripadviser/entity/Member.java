@@ -27,6 +27,7 @@ public class Member extends BaseEntity{
 
 
 
+
     public void changeEmail(String email){
         memberEmail = email;
     }

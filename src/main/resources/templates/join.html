@@ -13,8 +13,74 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <script>
         $(document).ready(function() {
+            var isAlreadyUsed = true;
+            var checkLength = false;
+            var pwCheck = false;
+
+            var userIdCheck = idStatus.NOT_CHECKED;
+
+            $("#inputId").on("input" , function(){
+                var inputId = $("#inputId").val();
+                if(inputId.length < 4 || inputId.length > 12){
+                    $("#idStatus").text("아이디는 4~12글자 이내여야 합니다.");
+                    checkLength = false;
+                }
+                else{
+                    $("#idStatus").text("");
+                    checkLength = true;
+                }
+            })
+
+
+            $("#btnCheckId").on("click" , function(){
+                isAlreadyUsed = true;
+                if( checkLength == false){
+                    return;
+                }
+
+                var inputId = $("#inputId").val();
+
+                $.ajax({
+                    url : '/member/getMember/' + inputId,
+                    type : 'get',
+                    success : function(data){
+                        isAlreadyUsed = true;
+                        alert ("이미 존재하는 아이디 입니다.");
+                    },
+                    error : function(data){
+                        isAlreadyUsed = false;
+                        alert("사용 가능한 아이디 입니다.");
+                    }
+                })
+            })
+
+           $("#inputPw , #inputPwCfm").on("input" , function(){
+                pwCheck = false;
+                var newPw = $("#inputPw").val();
+                var confirm = $("#inputPwCfm").val();
+                if(newPw.length < 4 || newPw.length > 12){
+                    $("#pwStatus").text("비밀번호는 4~12글자 이내여야 합니다.");
+                    pwCheck = false;
+                    return;
+                }
+                if( newPw != confirm){
+                    $("#pwStatus").text("비밀번호가 일치하지 않습니다");
+                }
+                else{
+                    $("#pwStatus").text("비밀번호가 일치 합니다.");
+                    pwCheck = true;
+                }
+          });
 
             $("#btnJoinComp").on("click" , function() {
+                if( isAlreadyUsed == true ){
+                    alert("아이디 중복 확인이 필요합니다.");
+                    return;
+                }
+                if(pwCheck != true){
+                    alert("비밀번호를 확인해 주세요");
+                    return;
+                }
                 var memberId = $("#inputId").val();
                 var memberName = $("#inputName").val();
                 var memberEmail = $("#inputEmail").val();
@@ -53,8 +119,10 @@
         <div class="box">
             <div class="form-group">
                 <ul>
-                <label for="inputId">ID</label>
-                <input type="text" class="form-control" id="inputId" autofocus name="userId" maxlength=8 size=30 placeholder="아이디" required>
+                    <label for="inputId">ID</label>
+                    <input type="text" class="form-control" id="inputId" autofocus name="userId" maxlength=12 size=30 placeholder="아이디(4~12글자 이내)" required>
+                    <span id = "idStatus"></span>
+                    <button type = "button" id = "btnCheckId">중복 확인</button>
                 </ul>
             </div>
 
@@ -74,15 +142,16 @@
 
             <div class="form-group">
                 <ul>
-                <label for="inputPw">Password</label>
-                <input type="password" class="form-control" id="inputPw" name="userPw" size=30 placeholder="비밀번호" required>
+                    <label for="inputPw">Password</label>
+                    <input type="password" class="form-control" id="inputPw" name="userPw" maxlength=12 size=30 placeholder="비밀번호(4~12글자 이내)" required>
+                    <span id = "pwStatus"></span>
                 </ul>
             </div>
 
             <div class="form-group">
                 <ul>
                 <label for="inputPwCfm">Password Confirm</label>
-                <input type="password" class="form-control" id="inputPwCfm" name="userPw" size=30 placeholder="비밀번호 확인" required>
+                <input type="password" class="form-control" id="inputPwCfm" name="userPwConfirm" size=30 placeholder="비밀번호 확인" required>
                 </ul>
             </div>
             <div class="join_button">
