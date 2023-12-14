@@ -10,4 +10,5 @@ public interface DestinationRepository extends JpaRepository<Destination , Long>
 
     List<Destination> findAllByPlan_PlanNo(Long planNo);
     List<Destination> findAllByPlan_PlanNoAndDate(Long planNo , LocalDate date);
+
 }

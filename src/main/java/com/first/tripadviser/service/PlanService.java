@@ -12,6 +12,8 @@ public interface PlanService {
 
     public List<PlanDTO> readPlansbyId(String memberId);
 
+    public void deletePlan(Long planNo);
+
     default PlanDTO entityToDTO(Plan plan){
         PlanDTO planDTO = PlanDTO.builder()
                 .planNo(plan.getPlanNo())

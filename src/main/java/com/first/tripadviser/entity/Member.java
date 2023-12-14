@@ -25,6 +25,11 @@ public class Member extends BaseEntity{
     @Builder.Default
     private Set<MemberRole> roleSet = new HashSet<>();
 
+    @OneToMany(mappedBy = "member" , cascade = CascadeType.ALL , orphanRemoval = true)
+    private List<Plan> planList;
+
+    @OneToMany(mappedBy = "member" , cascade = CascadeType.ALL , orphanRemoval = true)
+    private List<Review> reviewList;
 
 
 

@@ -26,4 +26,13 @@ public class PlanController {
         session.setAttribute("planNo" , planNo);
     }
 
+    @DeleteMapping("/delete/{planNo}")
+    public void deletePlan(@PathVariable String planNo ){
+        Long planNumber = Long.parseLong(planNo);
+        planService.deletePlan(planNumber);
+
+    }
+
+
+
 }
