@@ -37,6 +37,11 @@ public class MemberController {
         return "redirect:/";
     }
 
+    @GetMapping("/idCheck/{memberId}")
+    public Boolean idCheck(@PathVariable String memberId){
+        return memberService.getMemberById(memberId) != null;
+    }
+
     @PreAuthorize("hasRole('ROLE_ADMIN')")
     @GetMapping("/list")
     public void getMemberList(Model  model , PageRequestDTO requestDTO){
