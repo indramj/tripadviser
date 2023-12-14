@@ -45,10 +45,15 @@
                     console.log(arr);
                     var str = "";
                     $.each(arr , function(i , review){
-                    reviews.append(
-                    '<li>'+review.memberId+' '+review.password+' '+review.review+'</li>'
-                    );
+                        str += '<table>';
+                        str += '<tr>';
+                        str += '<td><span>' +review.memberId+ '</span></td>'
+                        str += '<td rowspan = "2"><textarea class="form-control" aria-label="With textarea" readonly>'+review.review+'</textarea></td>';
+                        str += '</tr>';
+                        str += '<tr>';
+                        str += '<td><input class = "form-control" type = "password" name = "reviewPw" size = "12" placeholder = "password"/></td>'
                     })
+                    reviews.append(str);
                 })
             } //readReviews
 
@@ -210,10 +215,11 @@
         </div>
         <div class="map_part">
             <div class="map_api">
-                <div class="static_map" id="staticMap" style="width:400px;height:400px;"></div>
+                <div class="static_map" id="staticMap" style="width:500px;height:500px;"></div>
             </div>
         </div>
         <div class="review" id = "reviews">
+
 
         </div>
 <div class="comment_icon">
@@ -333,8 +339,8 @@
     height:100px;
     }
     .map_api{
-    width:400px;
-    height:400px;
+    width:500px;
+    height:500px;
       display : flex;
       justify-content: center;
       align-items : center;
@@ -403,7 +409,7 @@
 
 
     .left-side{
-    margin-right:30px;
+    margin-right:10px;
     }
 
     .right-side{
@@ -464,7 +470,7 @@
         border-radius: 8px;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
         margin:0 auto;
-        width:400px;
+        width:500px;
         text-align: center;
         margin-top:30px;
         }
@@ -518,6 +524,7 @@
     color: #1e6b7b;
    background: aliceblue;
     }
+
 
 
 

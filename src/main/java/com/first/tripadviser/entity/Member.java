@@ -32,6 +32,7 @@ public class Member extends BaseEntity{
     private List<Review> reviewList;
 
 
+
     public void changeEmail(String email){
         memberEmail = email;
     }
