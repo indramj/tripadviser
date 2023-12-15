@@ -47,8 +47,8 @@ public class ReviewController {
         return new ResponseEntity<>("result" , HttpStatus.OK);
     }
 
-    @DeleteMapping("/delete")
-    public ResponseEntity<String> deleteReview(@RequestParam("reviewNum") Long reviewNum) {
+    @DeleteMapping("/delete/{reviewNum}")
+    public ResponseEntity<String> deleteReview(@PathVariable Long reviewNum) {
         log.info("delete Review");
         reviewService.deleteReview(reviewNum);
         return new ResponseEntity<>("result", HttpStatus.OK);
