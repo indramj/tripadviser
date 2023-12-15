@@ -53,7 +53,7 @@
                         str += '<td style="width:60%;"><textarea class="form-control" rows = "3" style="width:310px; margin-left:15px; resize:none;" aria-label="With textarea" readonly>'+review.review+'</textarea></td>';
                         str += '<td style = "width:5%;">';
                         if(loginedUser.memberId == review.memberId || loginedUser.memberRole == 'ADMIN'){
-                            str += '<button type="button" style="background:none; border: none;" class="delete_button"><i class="fa-solid fa-xmark"></i></button>';
+                            str += '<button type="button" style="background:none; border: none;" class="delete_button" data-rno = "'+review.reviewNum+'"><i class="fa-solid fa-xmark"></i></button>';
                         }
 
                         str += '</td></tr></table>';
@@ -61,6 +61,22 @@
                     reviews.append(str);
                 })
             } //readReviews
+
+            $(".review ").on("click" , ".delete_button" , function(){
+                var reviewNum = $(this).data('rno');
+                $.ajax({
+                    url : '/review/delete/' + reviewNum,
+                    type : 'delete',
+                    success : function(){
+                        alert("리뷰가 삭제되었습니다.");
+                        readReviews();
+                    },
+                    error : function(){
+                    }
+                })
+
+            })
+
 
             //registReview
             $("#regist").on("click" , function(){
