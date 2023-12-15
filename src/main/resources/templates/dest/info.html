@@ -19,6 +19,7 @@
             var contentid = [[${contentId}]];
             var item;
 
+
             var storagedPlan = sessionStorage.getItem("plan");
             if(storagedPlan !== null){
                 var plan = JSON.parse(storagedPlan);
@@ -38,21 +39,24 @@
             //readReviews
             readReviews();
 
+
+
             function readReviews(){
                 reviews.empty();
-
+                var loginedUser = [[${logineduser}]];
                 $.getJSON('/review/read?contentId='+ contentid , function(arr){
-                    console.log(arr);
                     var str = "";
                     $.each(arr , function(i , review){
                         str += '<table>';
                         str += '<tr>';
-                        str += '<td><span>' +review.memberId+ '</span></td>'
-                        str += '<td rowspan = "2"><textarea class="form-control" style="width:310px; margin-left:15px;" aria-label="With textarea" readonly>'+review.review+'</textarea></td>';
-                        str += '<td><button type="button" style="background:none; border: none;" class="delete_button"><i class="fa-solid fa-xmark"></i></button></td>'
-                        str += '</tr>';
-                        str += '<tr>';
-                        str += '<td><input class = "form-control" style="margin-left:10px; width:130px; height:30px; font-size:18px;" type = "password" name = "reviewPw" size = "12" placeholder = "password"/></td>'
+                        str += '<td style="width:35%;"><span>' +review.memberId+ '</span></td>'
+                        str += '<td style="width:60%;"><textarea class="form-control" rows = "3" style="width:310px; margin-left:15px; resize:none;" aria-label="With textarea" readonly>'+review.review+'</textarea></td>';
+                        str += '<td style = "width:5%;">';
+                        if(loginedUser.memberId == review.memberId || loginedUser.memberRole == 'ADMIN'){
+                            str += '<button type="button" style="background:none; border: none;" class="delete_button"><i class="fa-solid fa-xmark"></i></button>';
+                        }
+
+                        str += '</td></tr></table>';
                     })
                     reviews.append(str);
                 })
@@ -126,7 +130,12 @@
                 var year = jsDate.getFullYear();
                 var month = jsDate.getMonth() + 1; // JavaScript의 월은 0부터 시작하므로 1을 더합니다.
                 var day = jsDate.getDate();
-                var localDate= year + "-" + month + "-" + day;
+                var formattedMonth = String(month).padStart(2, '0');
+                var formattedDay = String(day).padStart(2, '0');
+                var localDate= year + "-" + formattedMonth + "-" + formattedDay;
+                console.log(localDate);
+
+
 
 
                 var dest = {
@@ -229,7 +238,6 @@
         <div class="comment">
             <div sec:authorize = "isAuthenticated()">
                 <input class="form-control"  id = "mid" aria-label="Username" type = "text"  th:value = "${#authentication.principal.username}" readonly/>
-                <input class="form-control"  id = "mpw" placeholder="Password" aria-label="Server" type = "password" />
              </div>
 
             <div class="input-group">
@@ -327,8 +335,12 @@
         }
 
     .comment{
+    display : flex;
+    flex-direction: column;
     width:500px;
-    margin:20px auto 30px auto;
+    margin-left: 50px;
+    margin-right : 50px;
+    margin-tb : 20px;
     }
 
     .form-control:not(last-child){
@@ -349,8 +361,8 @@
 
     .map_part{
      display : flex;
-      justify-content: center;
-      align-items : center;
+     margin-left: 50px;
+
     }
 
 
@@ -467,11 +479,14 @@
         }
 
     .review{
+        display : flex;
+        flex-direction: column;
+        width : 500px;
+        margin : 50px;
         background-color:snow;
         border-radius: 8px;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-        margin:0 auto;
-        width:500px;
+
         text-align: center;
         margin-top:30px;
         }

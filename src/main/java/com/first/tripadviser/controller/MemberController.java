@@ -18,6 +18,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 
+import javax.servlet.http.HttpSession;
 import java.util.List;
 import java.util.Optional;
 
@@ -135,12 +136,5 @@ public class MemberController {
         return ResponseEntity.ok(searchResult);
     }
 
-    @GetMapping("/isAuthenticated")
-    public ResponseEntity<String> isAuthtenticated(@AuthenticationPrincipal UserDetails userDetails){
-        if(userDetails == null){
-            return new ResponseEntity<>(HttpStatus.UNAUTHORIZED);
-        }
-        String memberId = userDetails.getUsername();
-        return new ResponseEntity<>(memberId , HttpStatus.OK);
-    }
+
 }

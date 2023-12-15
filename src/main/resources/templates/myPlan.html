@@ -23,9 +23,11 @@
 
                     var eachDates = getEachDate(plan.startDate , plan.endDate);
                     $.each(eachDates , function( i , date){
+                        var localDate = stringToLocalDate(date)
+
                         dateStr += '<td>'+date+'</td>';
                         var titleStr = "";
-                        $.getJSON('/dest/getDestByDate/'+planNo+'/'+date , function(destinations){
+                        $.getJSON('/dest/getDestByDate/'+planNo+'/'+localDate , function(destinations){
                             titleStr += '<td>';
                             $.each(destinations , function(i , dest){
                                 titleStr += ''+dest.destTitle+'';
@@ -70,6 +72,17 @@
                 console.log(allDate);
                 return allDate;
             }
+
+            function stringToLocalDate(str){
+                    var jsDate = new Date(str);
+                    var year = jsDate.getFullYear();
+                    var month = jsDate.getMonth() + 1; // JavaScript의 월은 0부터 시작하므로 1을 더합니다.
+                    var day = jsDate.getDate();
+                    var formattedMonth = String(month).padStart(2, '0');
+                    var formattedDay = String(day).padStart(2, '0');
+                    var localDate= year + "-" + formattedMonth + "-" + formattedDay;
+                    return localDate;
+                }
         }) //ready
     </script>
 </head>
@@ -80,7 +93,7 @@
 
 <div class="box">
 
-    <div  th:each = "plan : ${plans}" >
+    <div  class = "plan_parent" th:each = "plan : ${plans}" >
 
         <div class="plan_date">
             출발일 :
@@ -122,29 +135,46 @@
 
 
         .box{
-        width:800px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width:90%;
         margin: 0 auto;
-        margin-top:100px;
-        margin-bottom:100px;
+        margin-top:50px;
+        margin-bottom:50px;
         font-family: 'Noto Sans KR', sans-serif;
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
         border-radius: 8px;
         }
+        .plan_parent{
+           display: flex;
+           flex-direction: column;
+           justify-content: center;
+           align-items: center;
+           margin-top : 30px;
+           width : 100%;
+        }
 
-.plan_box{
-margin:0 auto;
-}
+        .plan_box{
+        margin:0 auto;
+        width : 95%;
+
+        }
         .planTable{
         margin-top:30px;
         text-align:center;
+        width : 100%;
+        table-layout : fixed;
+        }
+
+        .planTable td{
+            width : 20% ;
+            padding : 10px;
+            overflow-wrap: break-word;
         }
 
 
         .plan_date{
-        margin-top:30px;
-        padding-left:130px;
-        padding-top:20px;
-        padding-bottom:20px;
         font-size:22px;
         }
 
