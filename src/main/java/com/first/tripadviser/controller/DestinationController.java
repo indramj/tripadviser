@@ -1,7 +1,9 @@
 package com.first.tripadviser.controller;
 
 import com.first.tripadviser.dto.DestDTO;
+import com.first.tripadviser.dto.MemberDTO;
 import com.first.tripadviser.service.DestinationService;
+import com.first.tripadviser.service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,11 +27,16 @@ import java.util.Optional;
 public class DestinationController {
 
     private final DestinationService destService;
+    private final MemberService memberService;
 
 
     @GetMapping("/info")
-    public void showInfo(@RequestParam("contentId") Long contentId , Model model){
+    public void showInfo(@RequestParam("contentId") Long contentId , Model model , HttpSession session){
         model.addAttribute("contentId" , contentId);
+        String logineduser = (String)session.getAttribute("memberId");
+        MemberDTO memberDTO = memberService.getMemberById(logineduser);
+
+        model.addAttribute("logineduser" , memberDTO);
 
     }
 
