@@ -57,6 +57,13 @@ public class MemberController {
         return new ResponseEntity<>("result" , HttpStatus.OK);
     }
 
+    @PutMapping("/delAdmin/{memberId}")
+    @ResponseBody
+    public ResponseEntity<String> delRole(@PathVariable("memberId") String memberId){
+        memberService.delRole(memberId);
+        return new ResponseEntity<>("result" , HttpStatus.OK);
+    }
+
     @PreAuthorize("isAuthenticated()")
     @PostMapping("/changeActive/{memberId}")
     public ResponseEntity<MemberDTO> changeActive(@PathVariable("memberId") String memberId){
@@ -81,9 +88,10 @@ public class MemberController {
 
     @PreAuthorize("isAuthenticated() && #memberId == principal.username || hasRole('ROLE_ADMIN')")
     @GetMapping("/modify")
-    public void modifyMemberInfo(@RequestParam String memberId)
+    public void modifyMemberInfo(@RequestParam String memberId , HttpSession session, Model model)
     {
-
+        boolean isMe = memberId.equals(session.getAttribute("memberId"));
+        model.addAttribute("isMe" , isMe);
     }
 
     @GetMapping("/getMember/{memberId}")
@@ -96,6 +104,7 @@ public class MemberController {
         else
             return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
     }
+
 
 
 

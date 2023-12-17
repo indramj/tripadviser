@@ -8,6 +8,7 @@
     <title>Title</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
     <script th:inline = "javascript">
         $(document).ready(function(){
             var plans = [[${plans}]];
@@ -17,27 +18,40 @@
             function loadPlans(plans){
                 $.each(plans , function(i , plan){
                     var planNo = plan.planNo;
-                    var dateStr = "";
 
                     var eachDates = getEachDate(plan.startDate , plan.endDate);
+                    console.log(eachDates);
+                    var dateStr = "";
+                    for ( var i = 0; i < eachDates.length; i++){
+                        var localDate = stringToLocalDate(eachDates[i])
+                        dateStr += '<li><div class = "parent_dest" data-date = '+localDate+'>';
+                        dateStr += '<span>'+localDate+'</span></li>';
+                    }
+
+                    $(".plan_box[data-pno = '"+ planNo +"'] ul").append(dateStr);
+
+
+
                     $.each(eachDates , function( i , date){
-                        var localDate = stringToLocalDate(date)
+                        var localDate = stringToLocalDate(date);
 
-                        dateStr += '<td>'+date+'</td>';
-                        var titleStr = "";
                         $.getJSON('/dest/getDestByDate/'+planNo+'/'+localDate , function(destinations){
-                            titleStr += '<td>';
+                            var str = "";
                             $.each(destinations , function(i , dest){
-                                if(i > 0) titleStr += '</br>';
-                                titleStr += ''+dest.destTitle+'';
+                                str = "";
+                                str += '<div class = "dest">';
+                                str += '<span>'+dest.destTitle+'</span>';
+                                str += '<button type="button" style="background:none; border: none;" class="delete_dest" data-did = "'+dest.destId+'"><i class="fa-solid fa-xmark"></i></button></br>';
+                                str += '<span>'+dest.startTime+'</span></br>';
+                                str += '<span>'+dest.endTime+'</span></br>';
+                                str += '</div>';
+
+                               $(".plan_box div[data-date = '"+localDate+"']").append(str);
+
                             }) //each
-
-                            titleStr += '</td>';
-                            $(".planTable[data-pno = '"+ planNo +"'] .titleList").append(titleStr);
-
                         })//getJSON
                     })//each
-                    $(".planTable[data-pno = '"+ planNo +"'] .dateList").append(dateStr);
+
                 });//each
             }
 
@@ -48,10 +62,22 @@
                    url : '/plan/delete/' + pno,
                    type : 'delete',
                    success : function(){
-                        alert("일정이 삭제되었습니다.");
+                        alert("계획이 삭제되었습니다.");
                         location.reload();
                    }
                 });
+            })
+
+            $(".plan_box").on("click" ,".delete_dest" ,function(){
+                var destId = $(this).data('did');
+                $.ajax({
+                    url : '/dest/delete/' + destId,
+                    type : 'delete',
+                    success : function(){
+                        alert("일정이 삭제되었습니다.");
+                        location.reload();
+                    }
+                })
             })
 
 
@@ -67,7 +93,6 @@
                     allDate.push(localDate);
                     curDate.setDate(curDate.getDate() + 1);
                 }
-                console.log(allDate);
                 return allDate;
             }
 
@@ -95,23 +120,19 @@
 
         <div class="plan_date">
             출발일 :
-            <span style="margin-right:20px;"th:text = "${plan.startDate}"></span></td>
+            <span style="margin-right:20px;" th:text = "${plan.startDate}"></span></td>
             종료일 :
-            <span style="margin-right:20px;"th:text = "${plan.endDate}"></span></td>
+            <span style="margin-right:20px;" th:text = "${plan.endDate}"></span></td>
 
             <button class="delete_button" type = "button" th:data-pno = "${plan.planNo}">일정 삭제</button></td>
+            <div class="plan_box" th:data-pno = "${plan.planNo}">
+                <ul>
+
+                </ul>
+
+            </div>
         </div>
-        <div class="plan_box">
-            <table style="margin-left:auto;margin-right:auto;" class = "planTable"  th:data-pno = "${plan.planNo}">
 
-                <tr style="margin-left:30px;"class = "dateList">
-                </tr>
-
-                <tr class = "titleList">
-                </tr>
-
-            </table>
-        </div>
     </div>
 
 
@@ -144,71 +165,50 @@
         box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
         border-radius: 8px;
         }
-        .plan_parent{
-           display: flex;
-           flex-direction: column;
-           justify-content: center;
-           align-items: center;
-           margin-top : 30px;
-           width : 100%;
+
+
+
+        .plan_box ul{
+            display : flex;
+            justify-content: space-between;
+            list-style: none;
+            padding: 0;
+        }
+        .plan_box ul li{
+            width : 20%;
+            flex: 1 1 auto;
+            display: inline-block; /* 가로로 배치 */
+            margin-right: 20px; /* 각 리스트 아이템 간격 조절 */
+            text-align: center;
         }
 
-        .plan_box{
-        margin:0 auto;
-        width : 95%;
 
-        }
-        .planTable{
-        margin-top:30px;
-        text-align:center;
-        width : 100%;
-        table-layout : fixed;
+        .dest{
+            border: 1px solid #000;
+            padding : 5px;
+            margin-bottom : 20px;
+            font-size : 14px;
         }
 
-        .planTable td{
-            width : 20% ;
-            padding : 10px;
-            overflow-wrap: break-word;
-        }
+
 
 
         .plan_date{
         font-size:22px;
         }
 
-        .dateList{
-        margin-top:20px;
-        background-color:snow;
-        font-size:18px;
-        width:150px;
-        height:35px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
-        border-radius: 8px;
-        }
 
-        .titleList{
-        background-color:white;
-        font-size:22px;
 
-        }
 
-        .delete_button{
-        position: relative;
-       border: none;
-       display: inline-block;
-       padding: 1px 10px;
-       border-radius: 15px;
-       font-family: 'Noto Sans KR', sans-serif;
-       box-shadow: 0 15px 35px rgba(0, 0, 0, 0.05);
-       text-decoration: none;
-       font-weight: 600;
-       transition: 0.25s;
-       border: 3px solid aliceblue;
-       color: #1e6b7b;
-       width:100px;
-       height:40px;
-       font-size:16px;
-       }
+   .delete_dest {
+    background: none;
+    border: none;
+    cursor: pointer; /* 마우스 커서 모양 변경 */
+    }
+
+    .delete_dest i {
+    font-size: 10px; /* 아이콘 크기 조절 */
+    }
 
        .delete_button:hover{
        color: #1e6b7b;
@@ -219,6 +219,9 @@
     color:black;
     text-decoration:none;
     }
+
+
+
 
 
 </style>

@@ -27,6 +27,8 @@ public class Plan {
     @JoinColumn(name = "memberId")
     private Member member;
 
+
+
     public void changeStartDate(LocalDate startDate){
         this.startDate = startDate;
     }

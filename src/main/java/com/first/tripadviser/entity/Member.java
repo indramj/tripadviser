@@ -43,6 +43,11 @@ public class Member extends BaseEntity{
     public void addRole(MemberRole memberRole){
         this.roleSet.add(memberRole);
     }
+
+    public void delAdmin(){
+        this.roleSet.clear();
+        this.roleSet.add(MemberRole.MEMBER);
+    }
     public void claerRole(){
         this.roleSet.clear();
     }
