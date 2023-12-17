@@ -23,6 +23,8 @@ public interface MemberService {
 
     public void addRole(String memberId);
 
+    public void delRole(String memberId);
+
     public void changeActive(String memberId);
 
 

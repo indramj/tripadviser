@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html xmlns:th="thymeleaf.org" lang="en"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security" xmlns="http://www.w3.org/1999/html">
+<th:block th:replace="~{layout/basic::setContent(~{this::content})}"></th:block>
+<th:block th:fragment="content"></th:block>
 <head>
     <meta charset="UTF-8">
     <title>회원 정보 수정</title>
@@ -31,7 +33,7 @@
                     data : memberId,
                     contentType : 'application/json; charset=utf-8',
                     success : function(){
-                        alert("권한이 부여되었습니다.");
+                        alert("권한이 부여 되었습니다.");
                         location.reload();
                     },
                     error : function(){
@@ -39,6 +41,19 @@
                     }
                 })
 
+            })
+
+            $("#del_admin").on("click" , function(){
+                $.ajax({
+                    url : "/member/delAdmin/" + memberId,
+                    type : "put",
+                    data : memberId,
+                    contentType : 'application/json; charset=utf-8',
+                    success : function(){
+                        alert("권한이 제거 되었습니다.");
+                        location.reload();
+                    }
+                })
             })
 
 
@@ -198,8 +213,8 @@
                     <div class = "form_section_content">
                          상태 :
                          <span id = "status"></span>
-                         <button type = 'button' class = "btnActive active" >활성화</button>
-                         <button type = 'button' class = "btnActive block">비활성화</button>
+                         <button th:unless="${isMe}" type = 'button' class = "btnActive active" >활성화</button>
+                         <button th:unless="${isMe}" type = 'button' class = "btnActive block">비활성화</button>
                     </div>
                 </li>
             </ul>
@@ -278,10 +293,13 @@
                 <li>
                     <div class="button_section" sec:authorize = "isAuthenticated()">
                         <button type = "button" class = "button button-modify" data-bs-toggle="modal" data-bs-target>수정</button>
-                        <button type = "button" class = "button button-delete" data-bs-toggle="modal" data-bs-target="#exampleModal">회원 탈퇴</button>
+
+                        <button th:if="${isMe}" type = "button" class = "button button-delete" data-bs-toggle="modal" data-bs-target="#exampleModal">회원 탈퇴</button>
                         <span sec:authorize = "hasRole('ROLE_ADMIN')">
-                            <button type = "button" class = "button button-admin" id = "add_role">관리자 권한 부여</button>
+                            <button th:unless="${isMe}" type = "button" class = "button button-admin" id = "add_role">관리자 권한 부여</button>
+                            <button th:unless="${isMe}" type = "button" class = "button button-admin" id = "del_admin">관리자 권한 제거</button>
                         </span>
+
                     </div>
                 </li>
             </ul>

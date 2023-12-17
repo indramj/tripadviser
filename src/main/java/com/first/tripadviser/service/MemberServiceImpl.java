@@ -101,6 +101,15 @@ public class MemberServiceImpl implements MemberService {
         }
     }
 
+    public void delRole(String memberId){
+        Optional<Member> entity = memberRepository.findById(memberId);
+        if(entity.isPresent()){
+            Member member = entity.get();
+            member.delAdmin();
+            memberRepository.save(member);
+        }
+    }
+
     public void changeActive(String memberId){
         Optional<Member> entity = memberRepository.findById(memberId);
         if(entity.isPresent()){

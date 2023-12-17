@@ -4,7 +4,9 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 
+import java.time.Duration;
 import java.time.LocalDate;
+import java.time.LocalTime;
 
 @Data
 @AllArgsConstructor
@@ -16,5 +18,8 @@ public class DestDTO {
     private String mapX;
     private String mapY;
     private LocalDate date;
+    private LocalTime startTime;
+    private LocalTime endTime;
+    private Duration stayTime;
     private Long planNo;
 }

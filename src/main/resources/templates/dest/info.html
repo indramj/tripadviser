@@ -12,10 +12,13 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
     <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
     <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=46af6e8836cba1d901d65e50cffe28a5"></script>
 
     <script th:inline = "javascript">
         $(document).ready(function(){
+
+            initialize();
             var contentid = [[${contentId}]];
             var item;
 
@@ -49,11 +52,11 @@
                     $.each(arr , function(i , review){
                         str += '<table>';
                         str += '<tr>';
-                        str += '<td style="width:35%;"><span>' +review.memberId+ '</span></td>'
-                        str += '<td style="width:60%;"><textarea class="form-control" rows = "3" style="width:310px; margin-left:15px; resize:none;" aria-label="With textarea" readonly>'+review.review+'</textarea></td>';
-                        str += '<td style = "width:5%;">';
+                        str += '<td style="width:20%;"><span>' +review.memberId+ '</span></td>'
+                        str += '<td style="width:70%;"><textarea class="form-control" rows = "3" style="width:310px; margin-left:15px; resize:none;" aria-label="With textarea" readonly>'+review.review+'</textarea></td>';
+                        str += '<td style="width:10%;">';
                         if(loginedUser.memberId == review.memberId || loginedUser.memberRole == 'ADMIN'){
-                            str += '<button type="button" style="background:none; border: none;" class="delete_button" data-rno = "'+review.reviewNum+'"><i class="fa-solid fa-xmark"></i></button>';
+                            str += '<button type="button" style="background:none; border: none; width : 100%" class="delete_button" data-rno = "'+review.reviewNum+'"><i class="fa-solid fa-xmark"></i></button>';
                         }
 
                         str += '</td></tr></table>';
@@ -143,15 +146,34 @@
 
             $("#addDest").on("click" , function(){
                 var jsDate = new Date($("#datepicker").val());
-                var year = jsDate.getFullYear();
-                var month = jsDate.getMonth() + 1; // JavaScript의 월은 0부터 시작하므로 1을 더합니다.
-                var day = jsDate.getDate();
-                var formattedMonth = String(month).padStart(2, '0');
-                var formattedDay = String(day).padStart(2, '0');
-                var localDate= year + "-" + formattedMonth + "-" + formattedDay;
+
+                var localDate = getLocalDate(jsDate);
                 console.log(localDate);
 
+                var arrivalHour = $("#arrivalHour").val();
+                var arrivalMinute = $("#arrivalMinute").val();
+                if($("#ampmSelect").val() === 'PM'){
+                    arrivalHour = (arrivalHour % 12) + 12;
+                }
+                console.log("arrivalHour : " + arrivalHour);
+                var arrivalTime = moment({
+                    hours : arrivalHour,
+                    minutes :  arrivalMinute
+                });
 
+                var stayHour = $("#stayHour").val();
+                var stayMinute = $("#stayMinute").val();
+
+                var duration = moment.duration({
+                    hours : stayHour,
+                    minutes : stayMinute
+                })
+                var endTime = (moment(arrivalTime).add(duration)).format("HH:mm");
+                var startTime = arrivalTime.format("HH:mm");
+
+
+                console.log(startTime);
+                console.log(endTime);
 
 
                 var dest = {
@@ -160,6 +182,9 @@
                     mapX : item[0].mapx,
                     mapY : item[0].mapy,
                     date : localDate,
+                    startTime : startTime,
+                    endTime : endTime,
+                    stayTime : duration
                     }
                 console.log(dest);
                 var storagedDestinations = sessionStorage.getItem("destinations");
@@ -200,6 +225,43 @@
                 location.href = "../login";
             })
 
+
+        function createOption(selectId , start , end){
+            var select = document.getElementById(selectId);
+            for ( var i = start; i <= end; i++){
+                var option = document.createElement("option");
+                option.value = i < 10 ? "0" + i : ""+i;
+                option.text = option.value;
+                select.appendChild(option);
+            }
+        }
+
+        function initialize(){
+            createOption("arrivalHour" , 0 , 12);
+            createOption("arrivalMinute" , 0 , 59);
+            createOption("stayHour" , 0 , 12);
+            createOption("stayMinute" , 0 , 59);
+        }
+
+        function getLocalDate(jsDate){
+                var year = jsDate.getFullYear();
+                var month = jsDate.getMonth() + 1; // JavaScript의 월은 0부터 시작하므로 1을 더합니다.
+                var day = jsDate.getDate();
+                var formattedMonth = String(month).padStart(2, '0');
+                var formattedDay = String(day).padStart(2, '0');
+                var localDate= year + "-" + formattedMonth + "-" + formattedDay;
+            return localDate;
+        }
+
+
+
+
+
+
+
+
+
+
         })//ready
 
     </script>
@@ -210,6 +272,17 @@
 </div>
 <div class="container">
     <input id="datepicker" width="450" readonly autocomplete="off" />
+    <span>도착 시간 :</span>
+    <select id="ampmSelect" name="ampm">
+        <option value="AM">오전</option>
+        <option value="PM">오후</option>
+    </select>
+    <select id="arrivalHour" name="arrivalHour"></select><span>시:</span>
+    <select id="arrivalMinute" name="arrivalMinute"></select><span>분</span>
+    <span>&emsp;머물 시간: </span>
+    <select id="stayHour" name="stayHour"></select><span>시간</span>
+    <select id="stayMinute" name="stayMinute"></select><span>분</span>
+
     <button type="button" class="button button-add" data-bs-toggle="modal" data-bs-target="#addModal">일정추가</button>
 </div>
 <div class="box">
@@ -343,7 +416,7 @@
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Nanum+Pen+Script&family=Noto+Sans+KR&display=swap');
         .title_page{
-            margin:100px auto 30px auto;
+            margin:50px auto 30px auto;
             font-size:45px;
             width:85%;
             margin-left:300px;
@@ -393,7 +466,7 @@
         text-align:center;
         }
     .fa-solid{
-    margin-right:10px;
+    margin-right:5px;
     }
 
     .dest_name{
@@ -537,8 +610,8 @@
    border: none;
    display: inline-block;
    padding: 1px 10px;
-   padding-left:30px;
-   padding-right:30px;
+   padding-left:10px;
+   padding-right:10px;
    border-radius: 15px;
    font-family: 'Noto Sans KR', sans-serif;
    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.05);

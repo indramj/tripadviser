@@ -14,7 +14,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import java.time.Duration;
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Locale;
@@ -63,6 +65,9 @@ public class DestinationController {
     public ResponseEntity<String> addDest(@RequestBody DestDTO destDTO , HttpSession session){
         Long planNo = (Long)session.getAttribute("planNo");
         destDTO.setPlanNo(planNo);
+        LocalTime startTime = destDTO.getStartTime();
+        Duration stayTime = destDTO.getStayTime();
+        destDTO.setEndTime(startTime.plus(stayTime));
         destService.addDest(destDTO);
         return new ResponseEntity<>("result" , HttpStatus.OK);
     }

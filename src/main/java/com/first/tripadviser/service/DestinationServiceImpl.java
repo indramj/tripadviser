@@ -4,6 +4,7 @@ import com.first.tripadviser.dto.DestDTO;
 import com.first.tripadviser.entity.Destination;
 import com.first.tripadviser.repository.DestinationRepository;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -24,7 +25,10 @@ public class DestinationServiceImpl implements DestinationService {
     }
 
     public List<DestDTO> getDestByPnoAndDate(Long planNo , LocalDate date){
-        List<Destination> entityList = destRepository.findAllByPlan_PlanNoAndDate(planNo , date);
+        Sort sort = Sort.by(Sort.Order.desc("date"));
+
+
+        List<Destination> entityList = destRepository.findAllByPlan_PlanNoAndDate(planNo , date , sort);
         List<DestDTO> dtoList = new ArrayList<>();
         for (Destination dest : entityList){
             DestDTO dto = DestDTO.builder()
@@ -35,6 +39,9 @@ public class DestinationServiceImpl implements DestinationService {
                     .mapY(dest.getMapY())
                     .contentId(dest.getContentId())
                     .destTitle(dest.getDestTitle())
+                    .startTime(dest.getStartTime())
+                    .endTime(dest.getEndTime())
+                    .stayTime(dest.getStayTime())
                     .build();
             dtoList.add(dto);
         }
@@ -53,6 +60,9 @@ public class DestinationServiceImpl implements DestinationService {
                     .mapY(dest.getMapY())
                     .contentId(dest.getContentId())
                     .destTitle(dest.getDestTitle())
+                    .startTime(dest.getStartTime())
+                    .endTime(dest.getEndTime())
+                    .stayTime(dest.getStayTime())
                     .build();
             dtoList.add(dto);
         }

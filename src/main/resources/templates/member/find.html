@@ -12,6 +12,12 @@
     <title>member_list</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script>
+        $(document).ready(function(){
+            var memberForm = $("#memberForm");
+            $(".btnDelete").on("click" , function(){
+                memberForm.submit();
+            });//btnDelete
+        })//ready
 
 
     </script>
@@ -20,11 +26,12 @@
 <body>
 
 <div class="container">
+    <form id = "memberForm" action = "/member/delete" method = "post">
     <table border="1" class="table">
         <h1>member list</h1>
 
         <div class="admin-button">
-            <button type="button" class="btn btn-secondary">회원 삭제</button>
+            <button type="button" class="btn btn-secondary btnDelete">회원 삭제</button>
         </div>
 
 
@@ -38,7 +45,7 @@
         </thead>
         <tbody>
         <tr th:each="member : ${members.dtoList}">
-            <td><input type="checkbox" name="checkList"></td>
+            <td><input type="checkbox" name="checkList" th:value = "${member.memberId}"></td>
 <!--            <td th:text="${member.memberId}"></td>-->
             <td><a th:href="@{/member/modify(memberId=${member.memberId})}" th:text="${member.memberId}"/></td>
             <a href="#"><td th:text="${member.memberName}"></td></a>
@@ -60,7 +67,7 @@
             <a class="page-link" th:href="@{/member/find(IdPart = ${IdPart}, page=${members.end+1})}">Next</a>
         </li>
     </ul>
-
+    </form>
 </div>
 
 <Style>

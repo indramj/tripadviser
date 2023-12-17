@@ -29,6 +29,9 @@ public interface DestinationService {
                 .mapY(destDTO.getMapY())
                 .date(destDTO.getDate())
                 .contentId(destDTO.getContentId())
+                .startTime(destDTO.getStartTime())
+                .endTime(destDTO.getEndTime())
+                .stayTime(destDTO.getStayTime())
                 .plan(Plan.builder().planNo(destDTO.getPlanNo()).build())
                 .build();
         return dest;
@@ -42,6 +45,9 @@ public interface DestinationService {
                 .mapX(dest.getMapX())
                 .mapY(dest.getMapY())
                 .date(dest.getDate())
+                .startTime(dest.getStartTime())
+                .endTime(dest.getEndTime())
+                .stayTime(dest.getStayTime())
                 .planNo(dest.getPlan().getPlanNo())
                 .build();
         return dto;
