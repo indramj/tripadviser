@@ -19,6 +19,8 @@ public interface DestinationService {
 
     public List<DestDTO> getDestByPnoAndDate(Long planNo , LocalDate date);
 
+    public Boolean isAlreadyInputTime(DestDTO destDTO);
+
     public void deleteDest(Long destId);
 
 

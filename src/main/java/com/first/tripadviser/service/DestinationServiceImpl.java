@@ -8,6 +8,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -22,6 +23,21 @@ public class DestinationServiceImpl implements DestinationService {
         Destination dest = dtoToEntity(destDTO);
         destRepository.save(dest);
 
+    }
+
+    public Boolean isAlreadyInputTime(DestDTO destDTO){
+        Sort sort = Sort.by(Sort.Order.desc("date"));
+        List<Destination> destList = destRepository.findAllByPlan_PlanNoAndDate(destDTO.getPlanNo() , destDTO.getDate() , sort);
+        for (Destination destination : destList){
+            LocalTime startTime = destination.getStartTime();
+            LocalTime endTime = destination.getEndTime();
+            LocalTime destEnd = destDTO.getEndTime();
+            LocalTime destStart = destDTO.getStartTime();
+            if (destStart.isBefore(endTime) && destEnd.isAfter(startTime)){
+                return true;
+            }
+        }
+        return false;
     }
 
     public List<DestDTO> getDestByPnoAndDate(Long planNo , LocalDate date){

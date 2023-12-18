@@ -36,8 +36,9 @@ public class DestinationController {
     public void showInfo(@RequestParam("contentId") Long contentId , Model model , HttpSession session){
         model.addAttribute("contentId" , contentId);
         String logineduser = (String)session.getAttribute("memberId");
+        Long planNo = (Long)session.getAttribute("planNo");
         MemberDTO memberDTO = memberService.getMemberById(logineduser);
-
+        model.addAttribute("planNo" , planNo);
         model.addAttribute("logineduser" , memberDTO);
 
     }
@@ -63,11 +64,7 @@ public class DestinationController {
 
     @PostMapping("/addDest")
     public ResponseEntity<String> addDest(@RequestBody DestDTO destDTO , HttpSession session){
-        Long planNo = (Long)session.getAttribute("planNo");
-        destDTO.setPlanNo(planNo);
-        LocalTime startTime = destDTO.getStartTime();
-        Duration stayTime = destDTO.getStayTime();
-        destDTO.setEndTime(startTime.plus(stayTime));
+
         destService.addDest(destDTO);
         return new ResponseEntity<>("result" , HttpStatus.OK);
     }
@@ -78,6 +75,13 @@ public class DestinationController {
         destService.deleteDest(destId);
         return new ResponseEntity<>("result" , HttpStatus.OK);
     }
+
+    @PostMapping("/isAlreadyInput")
+    public ResponseEntity<Boolean> isAlreadyInput(@RequestBody DestDTO destDTO){
+        return new ResponseEntity<>(destService.isAlreadyInputTime(destDTO) , HttpStatus.OK);
+
+    }
+
 
 
 }

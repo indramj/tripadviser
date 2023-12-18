@@ -46,7 +46,7 @@
                                 str += '<span>'+dest.endTime+'</span></br>';
                                 str += '</div>';
 
-                               $(".plan_box div[data-date = '"+localDate+"']").append(str);
+                               $(".plan_box[data-pno ='"+planNo+"'] div[data-date = '"+localDate+"']").append(str);
 
                             }) //each
                         })//getJSON
