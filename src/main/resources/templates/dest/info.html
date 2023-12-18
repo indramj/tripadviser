@@ -21,6 +21,8 @@
             initialize();
             var contentid = [[${contentId}]];
             var item;
+            var planNo = [[${planNo}]];
+
 
 
             var storagedPlan = sessionStorage.getItem("plan");
@@ -177,6 +179,7 @@
 
 
                 var dest = {
+                    planNo : planNo,
                     contentId : item[0].contentid,
                     destTitle : item[0].title,
                     mapX : item[0].mapx,
@@ -187,23 +190,26 @@
                     stayTime : duration
                     }
                 console.log(dest);
-                var storagedDestinations = sessionStorage.getItem("destinations");
-                var destinations = JSON.parse(storagedDestinations);
-                var alreadyInput = false;
 
-                $.each(destinations , function( i , destination){
-                    if(destination.date === $("#datepicker").val() && destination.destTitle === item[0].title){
-                        alert("이미 추가된 일정입니다.");
-                        alreadyInput = true;
-                        return false;
+                $.ajax({
+                    url : '/dest/isAlreadyInput',
+                    type : 'post',
+                    data : JSON.stringify(dest),
+                    contentType : 'application/json; charset=utf-8',
+                    success : function(result){
+                        if(result == false){
+                            addDest(dest);
+                            destinations.push(dest);
+                            sessionStorage.setItem('destinations' , JSON.stringify(destinations) );
+                        }
+                        else{
+                            alert("일정이 중복됩니다.");
+                            return;
+                        }
                     }
                 })
-                if(alreadyInput === true){
-                    return false;
-                }
-                addDest(dest);
-                destinations.push(dest);
-                sessionStorage.setItem('destinations' , JSON.stringify(destinations) );
+
+
 
                 function addDest(dest){
                     $.ajax({

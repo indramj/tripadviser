@@ -21,6 +21,7 @@
             $("#btnSearch").on("click" , function() {
                 sessionStorage.removeItem('destinations');
                 sessionStorage.removeItem('dates');
+                sessionStorage.removeItem('planNo');
 
                 var start = $('#startDate').val();
                 var end = $('#endDate').val();
@@ -35,7 +36,11 @@
                     url : '/plan/add',
                     type : 'POST',
                     data : JSON.stringify(plan),
-                    contentType : 'application/json; charset=utf-8'
+                    contentType : 'application/json; charset=utf-8',
+                    success : function(planNo){
+
+                        sessionStorage.setItem('planNo' ,planNo );
+                    }
                 })
 
 
